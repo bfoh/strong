@@ -13,7 +13,7 @@ export default function HouseEditor({ initial }: { initial: HouseSettings }) {
     try {
       const response = await fetch('/api/admin/house-settings', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(value) });
       const result = await response.json(); if (!response.ok) throw Error(result.error);
-      setFeedback('Saved. Reload the house preview to see your changes.');
+      setFeedback('Saved. Reload the homepage to see your changes.');
     } catch (error) { setFeedback(error instanceof Error ? error.message : 'Settings could not be saved.'); }
     finally { setBusy(false); }
   }
@@ -24,13 +24,13 @@ export default function HouseEditor({ initial }: { initial: HouseSettings }) {
       const response = await fetch('/api/admin/house-images', { method: 'POST', body });
       const result = await response.json(); if (!response.ok) throw Error(result.error);
       setValue(current => ({ ...current, images: { ...current.images, [key]: result.url } }));
-      setFeedback('Image uploaded. Save homepage settings to use it in the draft.');
+      setFeedback('Image uploaded. Save homepage settings to use it on the homepage.');
     } catch (error) { setFeedback(error instanceof Error ? error.message : 'The image could not be uploaded.'); }
     finally { setBusy(false); }
   }
   return <details className="admin-panel house-editor" style={{ marginTop: 32 }}>
     <summary style={{ cursor: 'pointer', fontSize: 22 }}>House homepage · content, images & motion</summary>
-    <p>Changes apply to the private local homepage. <a href={HOUSE_BASE} target="_blank" rel="noreferrer">Open homepage ↗</a></p>
+    <p>Changes apply to the homepage. <a href={HOUSE_BASE} target="_blank" rel="noreferrer">Open homepage ↗</a></p>
     <form onSubmit={save} aria-busy={busy}>
       <fieldset><legend>Editable content</legend>{text('headline', 'Exterior headline')}{text('introduction', 'Business introduction', true)}{text('listingTitle', 'Listings heading')}{text('teamTitle', 'Team heading')}{text('teamDescription', 'Team biography', true)}{text('contactTitle', 'Contact heading')}
         {(['listings', 'team', 'contact'] as const).map(key => <label key={key}>{names[key]} door label<input value={value.labels[key]} maxLength={30} onChange={event => setValue({ ...value, labels: { ...value.labels, [key]: event.target.value } })}/></label>)}
@@ -50,7 +50,7 @@ export default function HouseEditor({ initial }: { initial: HouseSettings }) {
         {([['scrollScreens', 'Desktop scroll travel (screen heights)', 1.5, 4, .1], ['roomDuration', 'Desktop doorway transition (ms)', 600, 1500, 50], ['mobileDuration', 'Phone tap transition (ms)', 200, 450, 25], ['arrivalZoom', 'Arrival zoom strength', 1, 1.65, .05]] as const).map(([key,label,min,max,step]) => <label key={key}>{label}<input type="number" value={value.motion[key]} min={min} max={max} step={step} required onChange={event => setValue({ ...value, motion: { ...value.motion, [key]: event.target.valueAsNumber } })}/></label>)}
         <p>Phones use taps and normal scrolling. Reduced-motion preferences always override animation.</p>
       </fieldset>
-      <fieldset><legend>Search metadata</legend>{text('seoTitle', 'Page title')}{text('seoDescription', 'Meta description', true)}<p>The draft stays noindex. Its canonical URL will be set only after the publication domain is verified.</p></fieldset>
+      <fieldset><legend>Search metadata</legend>{text('seoTitle', 'Page title')}{text('seoDescription', 'Meta description', true)}<p>The canonical URL uses the configured publication domain. Indexing requires a verified site URL and configured backend; the private preview stays noindex.</p></fieldset>
       <button className="gold-btn" type="submit" disabled={busy}>{busy ? 'Saving…' : 'Save homepage settings'}</button><p role="status">{feedback}</p>
     </form>
     <style>{`.house-editor{font-size:14px}.house-editor summary{margin-bottom:20px}.house-editor a{text-decoration:underline}.house-editor fieldset{border:1px solid #ccc0ae;padding:24px;margin:25px 0}.house-editor legend{font-size:17px;padding:0 10px}.house-editor label{display:grid;gap:8px;margin:17px 0;font-size:13px}.house-editor input,.house-editor select,.house-editor textarea{width:100%;min-height:44px;border:1px solid #c9baa5;padding:10px;background:#fff;font-size:16px;color:#30261f}.house-editor-images{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:25px}.house-editor-images img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}.house-editor h3{font-size:25px;margin-bottom:15px}.house-editor .house-editor-check{display:flex;align-items:center;gap:12px}.house-editor-check input{width:20px;min-height:20px}`}</style>

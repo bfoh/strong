@@ -1,11 +1,12 @@
-# Strong House Experience — version 1.0.1
+# Strong House Experience — version 1.0.2
 
-Delivered 16 October 2026 in the existing Strong Properties Next.js application. After the user requested to proceed, the house experience was assigned to the local `/` homepage, with the previous preview URL retained. It remains loopback-only and noindex. The user selected [bfoh/strong](https://github.com/bfoh/strong) for the source push. No connected hosted Site, deployment configuration or verified public origin was found; pushing source does not deploy the website. No public website deployment has occurred. The previous homepage source is preserved in `production/house-v1/previous-homepage.tsx.txt`.
+Delivered in the existing Strong Properties Next.js application and maintained in [bfoh/strong](https://github.com/bfoh/strong). Production URL: [strong-eta.vercel.app](https://strong-eta.vercel.app/). Version 1.0.2 fixes the deployed 404: the shared page had inherited a loopback-only preview restriction. `/` now renders on deployed hosts without a preview flag. The restriction applies only to the separate `/preview/house` route. Public enquiry and scene-image endpoints retain their validation, private-storage and staff authorization boundaries. The previous homepage source is preserved in `production/house-v1/previous-homepage.tsx.txt`.
 
 ## Open and edit
 
 - [Walk through the local homepage](http://127.0.0.1:3000/)
-- [Retained preview alias](http://127.0.0.1:3000/preview/house)
+- [Production homepage](https://strong-eta.vercel.app/)
+- [Optional local-only preview](http://127.0.0.1:3000/preview/house)
 - [Staff dashboard and homepage editor](http://127.0.0.1:3000/admin): sign in with an existing authorized staff account, then expand **House homepage · content, images & motion**.
 - [Private enquiries](http://127.0.0.1:3000/admin/enquiries): general submissions appear under **Homepage conversations**. Property-specific enquiries retain the existing table; viewing requests retain the existing appointments workflow.
 - [Approved concept and project brief](concepts/interactive-homepage-v1/storyboard.md)
@@ -54,7 +55,7 @@ Quota objects expire logically after their window but are not automatically dele
 
 ## Components, dependencies and maintenance
 
-**Component:** Strong House Experience, `HOUSE_VERSION = 1.0.1`. This uses the existing platform's React components and staff dashboard; it is not a WordPress plugin or a whole-page HTML embed. No new package dependency was installed.
+**Component:** Strong House Experience, `HOUSE_VERSION = 1.0.2`. This uses the existing platform's React components and staff dashboard; it is not a WordPress plugin or a whole-page HTML embed. No new package dependency was installed.
 
 - Node.js 22 or newer; existing Next.js 15, React 19, Supabase client, Zod, Sharp, Lucide and locally hosted Cormorant Garamond/Manrope fonts.
 - `components/house/HouseExperience.tsx`: native sections, navigation, gallery, state, focus and history.
@@ -77,16 +78,18 @@ npm ci
 # One-time private bucket setup; already completed for the configured project.
 node --env-file=.env.local scripts/house/setup-storage.mjs
 npm run build
-STRONG_HOUSE_LOCAL_PREVIEW=1 npm run start -- --hostname 127.0.0.1 --port 3000
+npm run start -- --hostname 127.0.0.1 --port 3000
 ```
 
-Do not copy `.env.local` into a source archive or public upload. The preview's production guard requires the explicit local flag and a loopback Host. It is intended to run on loopback, not behind a public proxy. New uploaded scene images are also preview-gated. A public launch requires a deliberate route/configuration change and the current project's publication authorization.
+Do not copy `.env.local` into a source archive or public upload. The public `/` page, approved scene-image delivery and enquiry endpoint work without `STRONG_HOUSE_LOCAL_PREVIEW`. Only `/preview/house` requires that flag plus a loopback Host in production mode. Staff editor/upload endpoints still require authorized authentication. Configure real Supabase server credentials on the host for settings, uploaded images and enquiry storage; absent credentials leave the illustrative homepage visible and enquiry storage fails honestly.
 
 ## Verification and evidence
 
 The final production build passed compilation, lint and TypeScript checks. All 28 unit tests passed, including existing business regressions and new origin/validation/quota/idempotency/portal tests. Unit storage and property-handler cases use controlled mocks; they are distinct from the real-service check below.
 
 Version 1.0.1 assigns the same shared server page to `/` and the retained `/preview/house` alias. The build and 28 unit tests were repeated for that change. Dedicated desktop and phone checks cover one header/footer, direct contact, hallway/listings return paths, browser Back, the preview alias, noindex, remote-Host rejection and the native acknowledgement's homepage return URL. The broader journey, live-storage and performance reports below were recorded before this routing-only change, on the shared experience at `/preview/house`.
+
+That 1.0.1 remote-Host rejection was the cause of the reported Vercel 404. Version 1.0.2 changes the expected public-root result to 200 and adds production regression checks without the local-preview flag. These cover deployed-host HTML and exterior asset delivery, private preview rejection, same-origin enquiry validation and protected staff settings. Homepage metadata now uses only the configured real site URL, rather than a hardcoded loopback social origin.
 
 Two bounded browser phases used installed Google Chrome through Playwright because no enabled interactive browser surface was available. [Checkpoint 1](visual-verification/house-v1/checkpoint1/) captured the first arrival/room transition, exact reverse, phone first screen and direct actions, with fixes applied before expanding the journey. [Checkpoint 2](visual-verification/house-v1/checkpoint2/) covers the completed journey, six angles, return paths, browser Back, keyboard, interruption, retained form values, simulated server failure, 320×568 and 844×390 layouts, enlarged text, reduced motion, failed imagery, initial HTML, no-JavaScript navigation, indexing directives and protected editing. Captured frames were visually inspected, including quarter/midpoint/three-quarter arrival and in-motion doorway views.
 
@@ -125,10 +128,10 @@ Phone startup requests its 82,046-byte portrait exterior and 30,794-byte thumbna
 
 Meaningful business copy, headings, listings, form and actions exist in the initial server response, without completing the journey. The editor exposes accurate page title and description. Social metadata uses the conceptual exterior. Organization JSON-LD contains only Strong Properties, Kumasi and the verified offering; there are no invented addresses, ratings, offers or credentials. Rooms/hashes remain states of one homepage, not independent indexable pages.
 
-The draft returns `noindex, nofollow, noarchive`, has no canonical to an unverified domain, and is absent from the sitemap. The site's existing crawler restriction remains because no publication origin is configured. No site-wide indexing setting was removed. Rich Results Test, Search Console/URL Inspection, public-origin canonical/robots/sitemap checks, physical-device testing and real-user performance remain unperformed. After an authorized launch and verified domain, set the true canonical/social origin and deliberately verify the public status, crawl directives and sitemap through the existing system. No ranking, indexing or rich-result result is promised.
+The private preview returns `noindex, nofollow, noarchive`, has no canonical and is absent from the sitemap. The public homepage derives its canonical/social origin only from `NEXT_PUBLIC_SITE_URL`; it permits indexing when that origin and backend credentials are configured, matching the existing robots rules. Without that configuration it stays noindex and does not invent a production domain. Rich Results Test, Search Console/URL Inspection, physical-device testing and real-user performance remain unperformed. No ranking, indexing or rich-result result is promised.
 
 Implementation references reviewed: [Search Essentials](https://developers.google.com/search/docs/essentials), [mobile-first indexing](https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing), [JavaScript SEO](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics), [structured-data policies](https://developers.google.com/search/docs/appearance/structured-data/sd-policies), [Organization](https://developers.google.com/search/docs/appearance/structured-data/organization), [Core Web Vitals](https://developers.google.com/search/docs/appearance/core-web-vitals), [WCAG 2.2](https://www.w3.org/TR/WCAG22/), [accessible motion](https://web.dev/learn/accessibility/motion).
 
 ## Remaining publication decisions
 
-The local homepage is installed and ready for review. Public deployment is waiting on an identified hosting project/domain. Genuine team identity, recognition, property media, business contacts and approved privacy/terms remain pending content; email notifications can be configured if wanted. Existing property-specific lead security requirements still apply. The image-based camera's soft close approaches and conceptual exterior-angle continuity are documented above. No public deployment has occurred.
+Vercel deploys this repository's main branch. Genuine team identity, recognition, property media, business contacts and approved privacy/terms remain pending content; email notifications can be configured if wanted. Existing property-specific lead security requirements still apply. The image-based camera's soft close approaches and conceptual exterior-angle continuity are documented above.

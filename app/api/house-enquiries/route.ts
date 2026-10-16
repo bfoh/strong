@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import { houseEnquiryHandler } from '@/lib/house/enquiries';
-import { isHousePreviewRequest } from '@/lib/house/preview';
 import { boundedBody } from '@/lib/request-body';
 export async function POST(req: Request) {
-  if (!await isHousePreviewRequest()) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
   if (req.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded')) {
     let result: Response;
     try {

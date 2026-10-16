@@ -1,26 +1,26 @@
 import type { Metadata } from 'next';
 import { randomUUID } from 'node:crypto';
-import { notFound } from 'next/navigation';
 import { featuredProperties, property } from '@/lib/server';
 import { formatPrice } from '@/lib/data';
+import { databaseConfigured, siteUrl } from '@/lib/config';
 import { houseSettings } from '@/lib/house/storage';
-import { isHousePreviewRequest } from '@/lib/house/preview';
 import { conceptListing, type HouseListing } from '@/lib/house/config';
 import HouseExperience from '@/components/house/HouseExperience';
 import '@/app/preview/house/house.css';
-export async function houseMetadata(): Promise<Metadata> {
+export async function houseMetadata({ preview = false }: { preview?: boolean } = {}): Promise<Metadata> {
  const settings = await houseSettings();
+ const base = siteUrl();
+ const searchable = !preview && Boolean(base) && databaseConfigured();
  return {
-  metadataBase: new URL('http://127.0.0.1:3000'),
+  ...(base ? { metadataBase: new URL(base) } : {}),
   title: { absolute: settings.seoTitle },
   description: settings.seoDescription,
-  robots: { index: false, follow: false, noarchive: true },
-  alternates: { canonical: null },
-  openGraph: { title: settings.seoTitle, description: settings.seoDescription, images: [{ url: '/images/house-v1/social.jpg', width: 1200, height: 630, alt: 'Conceptual contemporary residence for Strong Properties' }] },
+  robots: searchable ? { index: true, follow: true } : { index: false, follow: false, noarchive: true },
+  alternates: { canonical: !preview && base ? base + '/' : null },
+  openGraph: { title: settings.seoTitle, description: settings.seoDescription, ...(base ? { images: [{ url: base + '/images/house-v1/social.jpg', width: 1200, height: 630, alt: 'Conceptual contemporary residence for Strong Properties' }] } : {}) },
  };
 }
 export default async function HousePage() {
-  if (!await isHousePreviewRequest()) notFound();
   const [settings, recent] = await Promise.all([houseSettings(), featuredProperties(6).catch(() => [])]);
   const live = await Promise.all(recent.filter(item => !item.preview).map(async (p): Promise<HouseListing> => {
     const detail = await property(p.slug).catch(() => undefined);

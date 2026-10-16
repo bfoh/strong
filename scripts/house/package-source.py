@@ -13,6 +13,7 @@ EXACT = [
     "tests/browser/house.spec.ts", "tests/browser/house-complete.spec.ts",
     "tests/browser/house-performance.spec.ts", "tests/browser/house-live.spec.ts",
     "tests/browser/house-homepage.spec.ts", "production/house-v1/previous-homepage.tsx.txt",
+    "tests/browser/house-deployment.spec.ts",
     "docs/HOUSE_HOMEPAGE_HANDOFF.md",
     "docs/concepts/interactive-homepage-v1/storyboard.md",
     "docs/concepts/interactive-homepage-v1/generation-prompts.json",
@@ -49,8 +50,8 @@ for file in files:
         raise RuntimeError(f"Private package input: {relative}")
 
 manifest = {
-    "component": "Strong House Experience", "version": "1.0.1",
-    "date": "2026-10-16", "status": "installed local draft; unpublished",
+    "component": "Strong House Experience", "version": "1.0.2",
+    "date": "2026-10-16", "status": "public homepage; separate private local preview",
     "platform": "Existing Strong Properties Next.js application",
     "preview": "http://127.0.0.1:3000/",
     "standaloneApplication": False, "credentialsIncluded": False,

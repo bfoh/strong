@@ -1,11 +1,9 @@
 import sharp from 'sharp';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { isHousePreviewRequest } from '@/lib/house/preview';
 import { privateHouseStorage } from '@/lib/house/storage';
 export const runtime = 'nodejs';
 export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
-  if (!await isHousePreviewRequest()) return new NextResponse(null, { status: 404 });
   const id = z.string().uuid().safeParse((await context.params).id);
   if (!id.success) return new NextResponse(null, { status: 404 });
   try {

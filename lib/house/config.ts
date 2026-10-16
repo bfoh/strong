@@ -1,5 +1,5 @@
 import { z } from 'zod';
-export const HOUSE_VERSION = '1.0.1';
+export const HOUSE_VERSION = '1.0.2';
 export const HOUSE_BASE = '/';
 export const ASSET_BASE = '/images/house-v1';
 export const imageOptions = ['exterior', 'hallway', 'listings', 'team', 'contact'] as const;

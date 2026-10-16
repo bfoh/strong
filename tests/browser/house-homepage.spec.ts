@@ -8,7 +8,6 @@ test('house homepage has one site shell and keeps direct and return navigation',
   await expect(page.locator('footer')).toHaveCount(1);
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('h1')).toHaveText('A place for what’s next.');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow, noarchive');
   await page.locator('.house-actions a[href="#contact"]').click();
   await expect(page).toHaveURL(/\/#contact$/);
   await expect(page.locator('#view-contact')).toBeFocused();
@@ -18,15 +17,14 @@ test('house homepage has one site shell and keeps direct and return navigation',
   await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'listings');
   await page.goBack();
   await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'hallway');
-  await page.goto('/preview/house');
-  await expect(page.locator('header')).toHaveCount(1);
-  await expect(page.locator('h1')).toHaveText('A place for what’s next.');
-
   if (info.project.name === 'desktop') {
-    const blocked = await request.get('/', { headers: { Host: 'strong-properties.invalid' } });
-    expect(blocked.status()).toBe(404);
+    const homepage = await request.get('/', { headers: { Host: 'strong-properties.invalid' } });
+    expect(homepage.status()).toBe(200);
+    const preview = await request.get('/preview/house', { headers: { Host: 'strong-properties.invalid' } });
+    expect(preview.status()).toBe(404);
+    const origin = new URL(process.env.TEST_BASE_URL || 'http://127.0.0.1:3000').origin;
     const acknowledgement = await request.post('/api/house-enquiries', {
-      headers: { Origin: 'http://127.0.0.1:3000' },
+      headers: { Origin: origin },
       form: { requestId: randomUUID(), name: '', phone: '' },
     });
     expect(acknowledgement.status()).toBe(400);

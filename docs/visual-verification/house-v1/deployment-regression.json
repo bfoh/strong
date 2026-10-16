@@ -1,0 +1,39 @@
+{
+  "version": "1.0.2",
+  "productionUrl": "https://strong-eta.vercel.app/",
+  "cause": "The shared homepage inherited the local-only preview guard.",
+  "beforeFix": {
+    "publicHomepageStatus": 404,
+    "customNotFoundPageObserved": true
+  },
+  "verificationScope": "Local next start production server without STRONG_HOUSE_LOCAL_PREVIEW and without configured backend credentials",
+  "checks": {
+    "externalHostHomepage": 200,
+    "externalHostPreview": 404,
+    "exteriorAsset": 200,
+    "invalidSameOriginEnquiry": 400,
+    "crossOriginEnquiry": 403,
+    "unauthenticatedSettingsMutation": 403,
+    "desktopAndPhoneNavigation": true,
+    "oneHeaderAndFooter": true
+  },
+  "build": {
+    "passed": true,
+    "includes": [
+      "production compilation",
+      "TypeScript",
+      "ESLint"
+    ]
+  },
+  "unitTests": {
+    "passed": 28,
+    "failed": 0
+  },
+  "productionBrowserTests": {
+    "passed": 4,
+    "failed": 0,
+    "duplicateProjectSkips": 2
+  },
+  "enquiryFixturesStored": false,
+  "notificationsSent": false
+}

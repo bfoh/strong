@@ -1,8 +1,8 @@
 {
   "component": "Strong House Experience",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "date": "2026-10-16",
-  "status": "installed local homepage; no public deployment",
+  "status": "public homepage routing corrected; separate local-only preview",
   "preview": "http://127.0.0.1:3000/",
   "build": {
     "passed": true,
@@ -64,23 +64,20 @@
   ],
   "additionalDesktopDiagnosticCasesPassed": 1,
   "homepageRoutingChecks": {
-    "passed": 2,
+    "scope": "local production without preview flag",
+    "passed": 4,
     "failed": 0,
-    "viewports": [
-      "1440x900",
-      "390x844"
-    ],
-    "previewAliasPreserved": true,
-    "singleHeaderAndFooter": true,
-    "nativeFormReturnToHomepage": true,
-    "remoteHostDenied": true
+    "remoteHostDenied": false,
+    "publicRootExternalHostStatus": 200,
+    "privatePreviewExternalHostStatus": 404,
+    "oneHeaderAndFooter": true,
+    "nativeFormReturnToHomepage": true
   },
   "priorExperienceReportsVersion": "1.0.0",
   "deployment": {
-    "connectedHostedSiteFound": false,
-    "hostingConfigurationFound": false,
-    "verifiedPublicOriginConfigured": false,
-    "targetRequested": true,
-    "deployed": false
+    "provider": "Vercel",
+    "productionUrl": "https://strong-eta.vercel.app/",
+    "beforeFixStatus": 404,
+    "regressionReport": "deployment-regression.json"
   }
 }

@@ -1,8 +1,8 @@
 {
   "component": "Strong House Experience",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "date": "2026-10-16",
-  "status": "installed local draft; unpublished",
+  "status": "public homepage; separate private local preview",
   "platform": "Existing Strong Properties Next.js application",
   "preview": "http://127.0.0.1:3000/",
   "standaloneApplication": false,
@@ -24,8 +24,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 17060,
-      "sha256": "c4dcdbe5a5378f03a1032ff33be6fde2eb510f1b44c6c5a0071fec8af92dbbea"
+      "bytes": 17046,
+      "sha256": "736db7fe4b7b5fd3fce440453fa0ea1101e3fbf6ef283eaae50e526ac5a8274b"
     },
     {
       "path": "app/admin/enquiries/page.tsx",
@@ -49,13 +49,13 @@
     },
     {
       "path": "app/api/house-enquiries/route.ts",
-      "bytes": 2037,
-      "sha256": "232cc242035b0936b3dd8b8b53f638c49b0f7011e1491707082036ff46c15c66"
+      "bytes": 1870,
+      "sha256": "5162fceaf137af447dfd572d010e3ca1eeaaf75cf4ee42b4451edc33d9a8a3c4"
     },
     {
       "path": "app/api/house-images/[id]/route.ts",
-      "bytes": 1348,
-      "sha256": "9b860c4fe80143ae76d4f8f5524e899f58daed0b5578860f458339b68b37127b"
+      "bytes": 1201,
+      "sha256": "d8f1d1c9bbf2bd6c51f463c02b3e24f15240cbef1d3d566d84fd34fde1947fd0"
     },
     {
       "path": "app/layout.tsx",
@@ -64,8 +64,8 @@
     },
     {
       "path": "app/page.tsx",
-      "bytes": 186,
-      "sha256": "ec11faf381c17d669300b8b3d11213eb7eac8fc2f3c5a1d2bba481ae127aaa34"
+      "bytes": 208,
+      "sha256": "d79e39415e0d61c9152f9b753c828629fe43bb632220618e6a5e90febc61e967"
     },
     {
       "path": "app/preview/house/house.css",
@@ -74,8 +74,8 @@
     },
     {
       "path": "app/preview/house/page.tsx",
-      "bytes": 186,
-      "sha256": "ec11faf381c17d669300b8b3d11213eb7eac8fc2f3c5a1d2bba481ae127aaa34"
+      "bytes": 426,
+      "sha256": "3e1a24a5310e831dc285b9da6489b8b88f2b7dfbda180522cfaba44e87cf71f2"
     },
     {
       "path": "components/house/GeneralEnquiryInbox.tsx",
@@ -89,8 +89,8 @@
     },
     {
       "path": "components/house/HouseEditor.tsx",
-      "bytes": 7042,
-      "sha256": "3e0050ab9e7d9b6e2b3c1628ae36a2f9b42acaf88a533313c4fda2212863eb89"
+      "bytes": 7079,
+      "sha256": "512455915acbbb32ec367ed186a17350ff30f179c14ad8ec713f245575a3ea93"
     },
     {
       "path": "components/house/HouseEnquiryForm.tsx",
@@ -104,8 +104,8 @@
     },
     {
       "path": "components/house/HousePage.tsx",
-      "bytes": 3195,
-      "sha256": "ffd6aaac46b666bbe578098c7817364e01e38555c5bf53fa600c5aba8e5bd582"
+      "bytes": 3350,
+      "sha256": "7203ea3fbe9c1dbb7110a2ad4248d33616d1c080de330211515fcf618211ef9d"
     },
     {
       "path": "components/house/VisualStage.tsx",
@@ -119,8 +119,8 @@
     },
     {
       "path": "docs/HOUSE_HOMEPAGE_HANDOFF.md",
-      "bytes": 20600,
-      "sha256": "dfd962cac46ac25768d1ee6349b2af92b7b6e102bade27a97e5101d9465641c1"
+      "bytes": 21077,
+      "sha256": "9e138becca08ff866b68ae1a5ea5c84e97dfc5ed42f9921920ef2fd488888019"
     },
     {
       "path": "docs/concepts/interactive-homepage-v1/asset-manifest.json",
@@ -188,6 +188,11 @@
       "sha256": "8deee7e15dc0375279c536337d2f7faf36629d1bb126dfd4ffa4d8f964ff4fa6"
     },
     {
+      "path": "docs/visual-verification/house-v1/deployment-regression.json",
+      "bytes": 1026,
+      "sha256": "7aedd43f1ac97f00f603fa3e85d00a39f1bfed4214bbd5ecb79920951b44f171"
+    },
+    {
       "path": "docs/visual-verification/house-v1/live-integration.json",
       "bytes": 448,
       "sha256": "e8cae8e148ff8a421c0f3cc4ed2acc6d313c92e69b373946718db24670544eb0"
@@ -214,13 +219,13 @@
     },
     {
       "path": "docs/visual-verification/house-v1/verification-summary.json",
-      "bytes": 2149,
-      "sha256": "0e29ebd6f1fad8b8cf99880cde6b8e0c26cc6f84572698c359f3ea9239140da0"
+      "bytes": 2195,
+      "sha256": "8ecc863cb7a66aeea6c28e7b6c5a9c86e8b2403c7c9c17b15610f3f8c6edfd1f"
     },
     {
       "path": "lib/house/config.ts",
       "bytes": 4960,
-      "sha256": "8b92dd65e2946d14377a712d19decc8b0d01d99427986447dc32627da66fb38e"
+      "sha256": "0f2ace7c775eb4b740b57ebcc2de5cedbde47df2b08f0281950790d658ec24e9"
     },
     {
       "path": "lib/house/enquiries.ts",
@@ -469,8 +474,8 @@
     },
     {
       "path": "scripts/house/package-source.py",
-      "bytes": 4366,
-      "sha256": "4f7d3f383f41d0fbb5d0925f63a7184b5eb455f10edd8114c30ee9ad5886020b"
+      "bytes": 4425,
+      "sha256": "96d314f8f4ebdd42d7845dc7859948b9ee46a53e4d2dce0e17b0d4a04de2b2bb"
     },
     {
       "path": "scripts/house/prepare-assets.mjs",
@@ -488,9 +493,14 @@
       "sha256": "9c42a5e8217880881866c96da9439bea6201f5686e82bb856e464d3eb4b7d05c"
     },
     {
+      "path": "tests/browser/house-deployment.spec.ts",
+      "bytes": 1909,
+      "sha256": "c45f7d221d578d7fd9799a3de063edfa2a81382933bd3b18e6b79ba772a4f3ea"
+    },
+    {
       "path": "tests/browser/house-homepage.spec.ts",
-      "bytes": 1926,
-      "sha256": "cc2300b904a9ec36ffb1812c486fa963c1bd89ade8a757a0d6b1626e1a3bba53"
+      "bytes": 1867,
+      "sha256": "381b6e362db7342fb4b8211a218ee27bdee7132bf23dbcc546d7e9f3cd28a6df"
     },
     {
       "path": "tests/browser/house-live.spec.ts",
