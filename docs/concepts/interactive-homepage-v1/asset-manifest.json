@@ -1,0 +1,56 @@
+{
+  "method": "Built-in image_gen; sharp responsive encoding",
+  "conceptual": true,
+  "records": [
+    {
+      "name": "exterior",
+      "desktopBytes": 345838,
+      "mobileBytes": 82046
+    },
+    {
+      "name": "hallway",
+      "desktopBytes": 240190,
+      "mobileBytes": 84790
+    },
+    {
+      "name": "listings",
+      "desktopBytes": 246868,
+      "mobileBytes": 85858
+    },
+    {
+      "name": "team",
+      "desktopBytes": 235960,
+      "mobileBytes": 88556
+    },
+    {
+      "name": "contact",
+      "desktopBytes": 217136,
+      "mobileBytes": 85420
+    },
+    {
+      "name": "rear",
+      "desktopBytes": 407836,
+      "mobileBytes": 141486
+    },
+    {
+      "name": "front-left",
+      "desktopBytes": 415434,
+      "mobileBytes": 147246
+    },
+    {
+      "name": "left",
+      "desktopBytes": 418784,
+      "mobileBytes": 150112
+    },
+    {
+      "name": "right",
+      "desktopBytes": 426014,
+      "mobileBytes": 153530
+    },
+    {
+      "name": "front-right",
+      "desktopBytes": 397090,
+      "mobileBytes": 139578
+    }
+  ]
+}

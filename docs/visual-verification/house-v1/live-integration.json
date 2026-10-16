@@ -1,0 +1,16 @@
+{
+  "liveSupabase": true,
+  "notificationsSent": false,
+  "accountCreated": false,
+  "passwordLoginTested": false,
+  "formStored": true,
+  "retryIdempotent": true,
+  "anonymousReadDenied": true,
+  "enquiryCannotBeServedAsImage": true,
+  "noJavaScriptSubmissionStored": true,
+  "editorTextMetadataAndMotionPersisted": true,
+  "visualImageUploadAndSave": true,
+  "staffPrivateInbox": true,
+  "ownedFixturesRemoved": true,
+  "settingsRestored": true
+}

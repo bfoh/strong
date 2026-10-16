@@ -1,0 +1,2 @@
+import Button from '@/components/ui/Button';
+export default function NotFound() { return <main id="main-content" className="error-state"><span className="eyebrow">404 / A DIFFERENT DIRECTION</span><h1>This space<br/><em>couldn’t be found.</em></h1><p>The page may have moved, or this property is no longer published. Explore the current collection.</p><Button href="/properties">Explore properties</Button></main>; }

@@ -1,0 +1,77 @@
+{
+  "assets": [
+    {
+      "name": "hero",
+      "source": "public/images/cinematic-v2/hero-source.png",
+      "target": "public/images/cinematic-v2/hero.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 196540,
+      "provenance": "Original built-in ImageGen conceptual brand artwork; not listing or geographic photography"
+    },
+    {
+      "name": "closing",
+      "source": "public/images/cinematic-v2/closing-source.png",
+      "target": "public/images/cinematic-v2/closing.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 204740,
+      "provenance": "Original built-in ImageGen conceptual brand artwork; not listing or geographic photography"
+    },
+    {
+      "name": "land",
+      "source": "public/images/cinematic-v2/land-source.png",
+      "target": "public/images/cinematic-v2/land.webp",
+      "width": 1000,
+      "height": 1500,
+      "bytes": 405098,
+      "provenance": "Original built-in ImageGen conceptual brand artwork; not listing or geographic photography"
+    },
+    {
+      "name": "residential",
+      "source": "public/images/cinematic-v2/residential-source.png",
+      "target": "public/images/cinematic-v2/residential.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 409492,
+      "provenance": "Original built-in ImageGen conceptual brand artwork; not listing or geographic photography"
+    },
+    {
+      "name": "commercial",
+      "source": "public/images/cinematic-v2/commercial-source.png",
+      "target": "public/images/cinematic-v2/commercial.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 340422,
+      "provenance": "Original built-in ImageGen conceptual brand artwork; not listing or geographic photography"
+    },
+    {
+      "name": "philosophy",
+      "source": "public/images/cinematic-v2/philosophy-source.png",
+      "target": "public/images/cinematic-v2/philosophy.webp",
+      "width": 1122,
+      "height": 1402,
+      "bytes": 179938,
+      "provenance": "Original built-in ImageGen conceptual brand artwork; not listing or geographic photography"
+    }
+  ],
+  "geography": {
+    "path": "public/data/ghana-kumasi.json",
+    "license": "Natural Earth public domain",
+    "cityCoordinates": [
+      -1.63196,
+      6.691937
+    ],
+    "propertyMarkers": 0
+  },
+  "intentionalReuse": [
+    "Hero repeated only in matching social metadata.",
+    "Philosophy artwork reused on About for the same brand philosophy."
+  ],
+  "promptFiles": [
+    "cinematic-v2-prompts-hero.md",
+    "cinematic-v2-prompts-categories.md",
+    "cinematic-v2-prompts-philosophy.md"
+  ],
+  "note": "Final WebP derivatives retain native resolution without upscaling; these measurements supersede earlier derivative dimensions in generation notes."
+}

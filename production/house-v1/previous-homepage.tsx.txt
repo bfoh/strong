@@ -1,0 +1,40 @@
+import type { Metadata } from 'next';
+import CinematicHero from '@/components/landing/CinematicHero';
+import BrandIntro from '@/components/landing/BrandIntro';
+import CategoryShowcase from '@/components/landing/CategoryShowcase';
+import FeaturedCollection from '@/components/landing/FeaturedCollection';
+import LandSpotlight from '@/components/landing/LandSpotlight';
+import Approach from '@/components/landing/Approach';
+import KumasiPlace from '@/components/landing/KumasiPlace';
+import ViewingInvitation from '@/components/landing/ViewingInvitation';
+import RevealObserver from '@/components/landing/RevealObserver';
+import { featuredProperties, propertyLocations } from '@/lib/server';
+import { databaseConfigured, site, siteUrl } from '@/lib/config';
+
+export const dynamic = 'force-dynamic';
+const description = 'Discover land, residences and commercial property opportunities in Kumasi, Ghana with Strong Properties. Explore published listings and book a viewing.';
+const ogImage = { url: '/cinematic/hero/og.jpg', width: 1200, height: 630, alt: 'Conceptual architectural visualisation of a contemporary villa at golden hour' };
+export const metadata: Metadata = {
+  title: { absolute: 'Strong Properties | Land, Homes & Commercial Property in Kumasi' },
+  description,
+  alternates: siteUrl() ? { canonical: '/' } : undefined,
+  openGraph: { type: 'website', siteName: 'Strong Properties', locale: 'en_GH', title: 'Strong Properties — Spaces Worth Living For', description, ...(siteUrl() ? { images: [ogImage] } : {}) },
+  twitter: { card: 'summary_large_image', title: 'Strong Properties — Spaces Worth Living For', description, ...(siteUrl() ? { images: [ogImage.url] } : {}) },
+};
+
+export default async function Home() {
+  const [items, locations] = await Promise.all([featuredProperties(5), propertyLocations()]);
+  const base = siteUrl();
+  return <main id="main-content" className="landing">
+    <CinematicHero/>
+    <BrandIntro/>
+    <CategoryShowcase/>
+    <FeaturedCollection items={items} preview={!databaseConfigured()}/>
+    <LandSpotlight/>
+    <Approach/>
+    <KumasiPlace locations={locations}/>
+    <ViewingInvitation/>
+    <RevealObserver/>
+    {base && databaseConfigured() && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'RealEstateAgent', name: site.name, url: base, areaServed: { '@type': 'City', name: 'Kumasi' }, ...(site.phone ? { telephone: site.phone } : {}), ...(site.email ? { email: site.email } : {}), ...(site.social.length ? { sameAs: site.social.map(s => s.url) } : {}) }).replace(/</g, '\\u003c') }}/>}
+  </main>;
+}

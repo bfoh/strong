@@ -1,0 +1,16 @@
+.next
+node_modules
+.env*
+!.env.example
+*.tsbuildinfo
+
+playwright-report/
+test-results/
+
+production/cinematic/source/
+__pycache__/
+
+.DS_Store
+hero video/
+docs/video-reference/
+production/house-v1/*.zip

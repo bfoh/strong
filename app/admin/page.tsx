@@ -1,0 +1,8 @@
+import HouseEditor from '@/components/house/HouseEditor';
+import {houseSettings} from '@/lib/house/storage';
+import {requireStaff,canManageLeads,canEditProperties} from '@/lib/admin-auth';import AdminShell from '@/components/AdminShell';import {db} from '@/lib/server';import Link from 'next/link';
+export const dynamic='force-dynamic';
+export default async function Admin(){const person=await requireStaff();const client=db()!;const settings=canEditProperties(person)?await houseSettings():null;
+ const tables:('properties'|'enquiries'|'appointments')[]=canManageLeads(person)?['properties','enquiries','appointments']:['properties'];
+ const results=await Promise.all(tables.map(t=>client.from(t).select('id',{count:'exact',head:true})));
+ return <AdminShell person={person}><span className="eyebrow">BUSINESS OVERVIEW</span><h1>Dashboard</h1><p className="note">Your property operations, in one place.</p><div className="admin-stats">{tables.map((t,i)=><div className="admin-stat" key={t}><span>{t==='properties'?'Properties':t==='enquiries'?'Enquiries':'Viewing requests'}</span><strong>{results[i].count??'—'}</strong></div>)}</div><div className="admin-panel"><h2>Quick actions</h2><p>Keep the Strong Properties catalogue and client requests up to date.</p><div className="admin-actions"><Link className="gold-btn" href="/admin/properties">Manage properties</Link>{canManageLeads(person)&&<><Link href="/admin/enquiries" className="admin-outline">Review enquiries</Link><Link href="/admin/appointments" className="admin-outline">View appointments</Link></>}</div></div>{settings&&<HouseEditor initial={settings}/>}</AdminShell>}

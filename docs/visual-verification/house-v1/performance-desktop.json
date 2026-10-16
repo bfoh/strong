@@ -1,0 +1,280 @@
+{
+  "kind": "Local production lab only; no physical-device tests, field p75 or measured INP certification",
+  "conditions": {
+    "viewport": "1440x900",
+    "dpr": 1,
+    "cpuThrottle": 1,
+    "latencyMs": 20,
+    "downloadBytesPerSecond": 1250000,
+    "cacheDisabled": true
+  },
+  "median": {
+    "lcpMs": 296,
+    "cls": 0.006255566339270405,
+    "initialImageBytes": 1412294,
+    "navigationCompleteMs": 402.2623219999996
+  },
+  "samples": [
+    {
+      "lcp": 996,
+      "cls": 0,
+      "longTasks": [],
+      "eventDurations": [
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        88,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "documentTiming": {
+        "firstByteMs": 152.19999999925494,
+        "responseEndMs": 163.09999999776483,
+        "domContentLoadedMs": 238.19999999925494
+      },
+      "imageTransferBytes": 1285992,
+      "imageRequests": [
+        {
+          "path": "/images/house-v1/exterior-desktop.webp",
+          "bytes": 345838,
+          "startMs": 164,
+          "responseEndMs": 1336.8999999985099
+        },
+        {
+          "path": "/images/house-v1/hallway-desktop.webp",
+          "bytes": 240190,
+          "startMs": 522.8999999985099,
+          "responseEndMs": 1454.2999999970198
+        },
+        {
+          "path": "/images/house-v1/listings-desktop.webp",
+          "bytes": 246868,
+          "startMs": 523,
+          "responseEndMs": 1460.3999999985099
+        },
+        {
+          "path": "/images/house-v1/team-desktop.webp",
+          "bytes": 235960,
+          "startMs": 523.0999999977648,
+          "responseEndMs": 1448.2999999970198
+        },
+        {
+          "path": "/images/house-v1/contact-desktop.webp",
+          "bytes": 217136,
+          "startMs": 523.1999999992549,
+          "responseEndMs": 1405.199999999255
+        }
+      ],
+      "totalTransferBytes": 1563442,
+      "navigationCompleteMs": 402.2623219999996,
+      "maxLongTaskMs": 0
+    },
+    {
+      "lcp": 296,
+      "cls": 0.006255566339270405,
+      "longTasks": [],
+      "eventDurations": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "documentTiming": {
+        "firstByteMs": 91.19999999925494,
+        "responseEndMs": 102.19999999925494,
+        "domContentLoadedMs": 229.19999999925494
+      },
+      "imageTransferBytes": 1412294,
+      "imageRequests": [
+        {
+          "path": "/images/house-v1/exterior-desktop.webp",
+          "bytes": 345838,
+          "startMs": 102.39999999850988,
+          "responseEndMs": 1449.699999999255
+        },
+        {
+          "path": "/images/house-v1/exterior-gallery.webp",
+          "bytes": 126302,
+          "startMs": 226.19999999925494,
+          "responseEndMs": 872.5
+        },
+        {
+          "path": "/images/house-v1/hallway-desktop.webp",
+          "bytes": 240190,
+          "startMs": 473.5,
+          "responseEndMs": 1487.7999999970198
+        },
+        {
+          "path": "/images/house-v1/listings-desktop.webp",
+          "bytes": 246868,
+          "startMs": 473.5999999977648,
+          "responseEndMs": 1494.0999999977648
+        },
+        {
+          "path": "/images/house-v1/team-desktop.webp",
+          "bytes": 235960,
+          "startMs": 473.69999999925494,
+          "responseEndMs": 1482
+        },
+        {
+          "path": "/images/house-v1/contact-desktop.webp",
+          "bytes": 217136,
+          "startMs": 473.79999999701977,
+          "responseEndMs": 1435.2999999970198
+        }
+      ],
+      "totalTransferBytes": 1690044,
+      "navigationCompleteMs": 395.1137979999994,
+      "maxLongTaskMs": 0
+    },
+    {
+      "lcp": 284,
+      "cls": 0.006255566339270405,
+      "longTasks": [
+        165
+      ],
+      "eventDurations": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "documentTiming": {
+        "firstByteMs": 83.89999999850988,
+        "responseEndMs": 94.10000000149012,
+        "domContentLoadedMs": 210.10000000149012
+      },
+      "imageTransferBytes": 1412294,
+      "imageRequests": [
+        {
+          "path": "/images/house-v1/exterior-desktop.webp",
+          "bytes": 345838,
+          "startMs": 99.69999999925494,
+          "responseEndMs": 1402.5
+        },
+        {
+          "path": "/images/house-v1/exterior-gallery.webp",
+          "bytes": 126302,
+          "startMs": 207.19999999925494,
+          "responseEndMs": 864.8000000007451
+        },
+        {
+          "path": "/images/house-v1/hallway-desktop.webp",
+          "bytes": 240190,
+          "startMs": 478.80000000074506,
+          "responseEndMs": 1480.3999999985099
+        },
+        {
+          "path": "/images/house-v1/listings-desktop.webp",
+          "bytes": 246868,
+          "startMs": 478.8999999985099,
+          "responseEndMs": 1486.6000000014901
+        },
+        {
+          "path": "/images/house-v1/team-desktop.webp",
+          "bytes": 235960,
+          "startMs": 479,
+          "responseEndMs": 1474.3999999985099
+        },
+        {
+          "path": "/images/house-v1/contact-desktop.webp",
+          "bytes": 217136,
+          "startMs": 479.19999999925494,
+          "responseEndMs": 1431.1000000014901
+        }
+      ],
+      "totalTransferBytes": 1690044,
+      "navigationCompleteMs": 406.9027449999994,
+      "maxLongTaskMs": 165
+    }
+  ]
+}

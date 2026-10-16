@@ -1,0 +1,10 @@
+{
+  "viewport": "390x844",
+  "during": {
+    "opacity": 0.887372,
+    "duration": "0.3s",
+    "busy": "true"
+  },
+  "arrived": "hallway",
+  "physicalDevice": false
+}

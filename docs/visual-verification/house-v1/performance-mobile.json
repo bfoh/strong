@@ -1,0 +1,176 @@
+{
+  "kind": "Local production lab only; no physical-device tests, field p75 or measured INP certification",
+  "conditions": {
+    "viewport": "390x844",
+    "dpr": 1,
+    "cpuThrottle": 4,
+    "latencyMs": 150,
+    "downloadBytesPerSecond": 200000,
+    "cacheDisabled": true
+  },
+  "median": {
+    "lcpMs": 884,
+    "cls": 0.0000033682966666839444,
+    "initialImageBytes": 112840,
+    "navigationCompleteMs": 403.37787299999945
+  },
+  "samples": [
+    {
+      "lcp": 924,
+      "cls": 0.0000033682966666839444,
+      "longTasks": [
+        202,
+        218
+      ],
+      "eventDurations": [
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "imageTransferBytes": 112840,
+      "imageRequests": [
+        {
+          "path": "/images/house-v1/exterior-mobile.webp",
+          "bytes": 82046
+        },
+        {
+          "path": "/images/house-v1/exterior-thumb.webp",
+          "bytes": 30794
+        }
+      ],
+      "totalTransferBytes": 396704,
+      "navigationCompleteMs": 411.5437830000001,
+      "maxLongTaskMs": 218
+    },
+    {
+      "lcp": 884,
+      "cls": 0.0000033682966666839444,
+      "longTasks": [
+        201
+      ],
+      "eventDurations": [
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "imageTransferBytes": 112840,
+      "imageRequests": [
+        {
+          "path": "/images/house-v1/exterior-mobile.webp",
+          "bytes": 82046
+        },
+        {
+          "path": "/images/house-v1/exterior-thumb.webp",
+          "bytes": 30794
+        }
+      ],
+      "totalTransferBytes": 396704,
+      "navigationCompleteMs": 403.37787299999945,
+      "maxLongTaskMs": 201
+    },
+    {
+      "lcp": 852,
+      "cls": 0.0000033682966666839444,
+      "longTasks": [
+        202
+      ],
+      "eventDurations": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        112,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "imageTransferBytes": 112840,
+      "imageRequests": [
+        {
+          "path": "/images/house-v1/exterior-mobile.webp",
+          "bytes": 82046
+        },
+        {
+          "path": "/images/house-v1/exterior-thumb.webp",
+          "bytes": 30794
+        }
+      ],
+      "totalTransferBytes": 396704,
+      "navigationCompleteMs": 403.0410030000003,
+      "maxLongTaskMs": 202
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+import { test, expect } from '@playwright/test';
+import { mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+const path = 'docs/visual-verification/house-v1/checkpoint1';
+test('house checkpoint one: desktop doorway entry and reversible arrival', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop');
+  await mkdir(path, { recursive: true });
+  await page.goto('/preview/house', { waitUntil: 'networkidle' });
+  await expect(page.locator('.house-canvas')).toHaveClass(/is-ready/);
+  await page.screenshot({ path: path + '/desktop-exterior.png' });
+  const travel = await page.locator('.house-arrival').evaluate(el => el.clientHeight - innerHeight);
+  expect(travel).toBeCloseTo(2160, -1);
+  let earlier = '';
+  for (const p of [0.25, 0.5, 0.75, 1]) {
+    await page.evaluate(y => scrollTo(0, y), travel * p);
+    await expect(page.locator('.house-canvas')).toHaveAttribute('data-progress', p.toFixed(4));
+    await page.screenshot({ path: path + '/desktop-' + Math.round(p * 100) + '.png' });
+    if (p === .5) earlier = createHash('sha256').update(await page.locator('canvas').screenshot()).digest('hex');
+  }
+  await page.evaluate(y => scrollTo(0, y), travel * .5);
+  await expect(page.locator('.house-canvas')).toHaveAttribute('data-progress', '0.5000');
+  expect(createHash('sha256').update(await page.locator('canvas').screenshot()).digest('hex')).toBe(earlier);
+  await page.evaluate(y => scrollTo(0, y), travel);
+  await expect(page.locator('#door-listings')).toBeVisible();
+  await page.locator('#door-listings').click();
+  await expect(page.locator('.house-home')).toHaveAttribute('data-transition', 'true');
+  await expect(page.locator('#listings')).toBeHidden();
+  await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'listings');
+  await expect(page.locator('#view-listings')).toBeFocused();
+  await page.screenshot({ path: path + '/desktop-listings.png' });
+  await page.locator('#listings .house-back').click();
+  await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'hallway');
+  await expect(page.locator('#door-listings')).toBeFocused();
+});
+test('house checkpoint one: mobile direct contact and optional tap entry', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile');
+  await mkdir(path, { recursive: true });
+  const requests: string[] = [];
+  page.on('request', req => { if (req.resourceType() === 'image') requests.push(req.url()); });
+  await page.goto('/preview/house', { waitUntil: 'networkidle' });
+  await expect(page.locator('.house-home')).toHaveAttribute('data-motion', 'compact');
+  await expect(page.locator('.house-actions a[href="#listings"]')).toBeInViewport();
+  await expect(page.locator('.house-actions a[href="#contact"]')).toBeInViewport();
+  expect(await page.locator('.house-arrival').evaluate(el => el.clientHeight)).toBeLessThanOrEqual(845);
+  expect(requests.filter(url => url.includes('house-v1') && url.includes('-desktop.webp'))).toHaveLength(0);
+  await page.screenshot({ path: path + '/mobile-exterior.png' });
+  await page.locator('.house-actions a[href="#contact"]').click();
+  await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'contact');
+  await expect(page.getByLabel('Your name', { exact: true })).toBeVisible();
+  await page.screenshot({ path: path + '/mobile-contact.png' });
+  await page.locator('#contact .house-back').click();
+  await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'hallway');
+  await page.locator('#door-listings').click();
+  await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'listings');
+  await expect(page.locator('#view-listings')).toBeVisible();
+  await page.screenshot({ path: path + '/mobile-listings.png' });
+});

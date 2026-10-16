@@ -1,0 +1,86 @@
+{
+  "component": "Strong House Experience",
+  "version": "1.0.1",
+  "date": "2026-10-16",
+  "status": "installed local homepage; no public deployment",
+  "preview": "http://127.0.0.1:3000/",
+  "build": {
+    "passed": true,
+    "includes": [
+      "TypeScript",
+      "ESLint",
+      "production compilation"
+    ]
+  },
+  "unitTests": {
+    "passed": 28,
+    "failed": 0,
+    "backendCases": "isolated mocks"
+  },
+  "finalBrowserSuite": {
+    "passed": 9,
+    "failed": 0,
+    "projectSkips": 3,
+    "tool": "Playwright / installed Chrome",
+    "physicalDevice": false
+  },
+  "contactStateAxe": {
+    "desktopViolations": 0,
+    "mobileViolations": 0,
+    "fullAudit": false
+  },
+  "liveIntegrationReport": "live-integration.json",
+  "performance": {
+    "desktop": {
+      "median": {
+        "lcpMs": 296,
+        "cls": 0.006255566339270405,
+        "initialImageBytes": 1412294,
+        "navigationCompleteMs": 402.2623219999996
+      },
+      "maxStartupLongTaskMs": 165,
+      "earlierOutlierReport": "performance-desktop-outlier.json",
+      "earlierOutlierLcpMs": 7088,
+      "completeVisualStageReadinessMeasured": false,
+      "outlierCauseIsolated": false
+    },
+    "mobile": {
+      "median": {
+        "lcpMs": 884,
+        "cls": 3.3682966666839444e-06,
+        "initialImageBytes": 112840,
+        "navigationCompleteMs": 403.37787299999945
+      },
+      "maxStartupLongTaskMs": 218
+    }
+  },
+  "fieldINPMeasured": false,
+  "notificationsConfigured": false,
+  "illustrative": [
+    "architecture",
+    "demonstration inventory",
+    "team portrait",
+    "trophy props"
+  ],
+  "additionalDesktopDiagnosticCasesPassed": 1,
+  "homepageRoutingChecks": {
+    "passed": 2,
+    "failed": 0,
+    "viewports": [
+      "1440x900",
+      "390x844"
+    ],
+    "previewAliasPreserved": true,
+    "singleHeaderAndFooter": true,
+    "nativeFormReturnToHomepage": true,
+    "remoteHostDenied": true
+  },
+  "priorExperienceReportsVersion": "1.0.0",
+  "deployment": {
+    "connectedHostedSiteFound": false,
+    "hostingConfigurationFound": false,
+    "verifiedPublicOriginConfigured": false,
+    "targetRequested": true,
+    "deployed": false
+  }
+}

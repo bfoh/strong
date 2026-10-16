@@ -1,0 +1,516 @@
+{
+  "component": "Strong House Experience",
+  "version": "1.0.1",
+  "date": "2026-10-16",
+  "status": "installed local draft; unpublished",
+  "platform": "Existing Strong Properties Next.js application",
+  "preview": "http://127.0.0.1:3000/",
+  "standaloneApplication": false,
+  "credentialsIncluded": false,
+  "requiredExistingModules": [
+    "staff authentication/roles",
+    "property data and administration",
+    "server Supabase client",
+    "public lead handlers and validation",
+    "origin/body/rate-limit helpers",
+    "safe media processing",
+    "existing fonts, global layout styles and project configuration"
+  ],
+  "notes": [
+    "Merge modified layout and admin files intentionally into the existing app.",
+    "Original PNG sources and complete browser captures remain in workspace docs.",
+    "No environment files, customer records, tokens, auth traces or build output are included."
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 17060,
+      "sha256": "c4dcdbe5a5378f03a1032ff33be6fde2eb510f1b44c6c5a0071fec8af92dbbea"
+    },
+    {
+      "path": "app/admin/enquiries/page.tsx",
+      "bytes": 1503,
+      "sha256": "f456f1a1d869fb5b4709dfc807fa54e9ca497e4b1ce2cef0ba7c6023c388dd9b"
+    },
+    {
+      "path": "app/admin/page.tsx",
+      "bytes": 1636,
+      "sha256": "f49c884c05d86c5e702d1c6098165dbb3a08396d8703762b76c3fc9477d32776"
+    },
+    {
+      "path": "app/api/admin/house-images/route.ts",
+      "bytes": 1991,
+      "sha256": "b53b7ef588dcee3bebc6f9a35db9f97925a6f06fae0a48b2e9f3e433f888b9bd"
+    },
+    {
+      "path": "app/api/admin/house-settings/route.ts",
+      "bytes": 1249,
+      "sha256": "ee804996c1a509952760d75d20bb3eac1ae78b3b92975eaa70e6eb6ce13eb363"
+    },
+    {
+      "path": "app/api/house-enquiries/route.ts",
+      "bytes": 2037,
+      "sha256": "232cc242035b0936b3dd8b8b53f638c49b0f7011e1491707082036ff46c15c66"
+    },
+    {
+      "path": "app/api/house-images/[id]/route.ts",
+      "bytes": 1348,
+      "sha256": "9b860c4fe80143ae76d4f8f5524e899f58daed0b5578860f458339b68b37127b"
+    },
+    {
+      "path": "app/layout.tsx",
+      "bytes": 1768,
+      "sha256": "0b46a03ee63b709d95128d638b498de71470117781544ec0f9c4e3dacbf788a5"
+    },
+    {
+      "path": "app/page.tsx",
+      "bytes": 186,
+      "sha256": "ec11faf381c17d669300b8b3d11213eb7eac8fc2f3c5a1d2bba481ae127aaa34"
+    },
+    {
+      "path": "app/preview/house/house.css",
+      "bytes": 27973,
+      "sha256": "15ae1579508c591cdfe71e79f1ea14844a5c2dd00fa87bc0199031d722f3ecea"
+    },
+    {
+      "path": "app/preview/house/page.tsx",
+      "bytes": 186,
+      "sha256": "ec11faf381c17d669300b8b3d11213eb7eac8fc2f3c5a1d2bba481ae127aaa34"
+    },
+    {
+      "path": "components/house/GeneralEnquiryInbox.tsx",
+      "bytes": 1006,
+      "sha256": "ca3f9fe3b30ea0629347b752c25d24146db4b544110941634deec261ac15bf3c"
+    },
+    {
+      "path": "components/house/HouseBrand.tsx",
+      "bytes": 672,
+      "sha256": "cfc2f25a8e0e9e22579c2d7d4f6cbb4930916b230b8fb0073bf037dc6c32e1b3"
+    },
+    {
+      "path": "components/house/HouseEditor.tsx",
+      "bytes": 7042,
+      "sha256": "3e0050ab9e7d9b6e2b3c1628ae36a2f9b42acaf88a533313c4fda2212863eb89"
+    },
+    {
+      "path": "components/house/HouseEnquiryForm.tsx",
+      "bytes": 5581,
+      "sha256": "97a094f97236b08fc66c0cc46735e5535cdfc3970a439a4ce0362761cc67e154"
+    },
+    {
+      "path": "components/house/HouseExperience.tsx",
+      "bytes": 24628,
+      "sha256": "1514fa92c83bd0c873de12a4f3528474aa87265e28a37b6c5af138caf68a419c"
+    },
+    {
+      "path": "components/house/HousePage.tsx",
+      "bytes": 3195,
+      "sha256": "ffd6aaac46b666bbe578098c7817364e01e38555c5bf53fa600c5aba8e5bd582"
+    },
+    {
+      "path": "components/house/VisualStage.tsx",
+      "bytes": 6916,
+      "sha256": "f81876d17feddf9810dc9205a3ac51fbc9d17c9b1e069407a526e54e2f671e1f"
+    },
+    {
+      "path": "components/layout/SiteChrome.tsx",
+      "bytes": 382,
+      "sha256": "34b5aa881a3530a0778425273737ad5f2c0310e8c19299c6246d2fb838c6fd29"
+    },
+    {
+      "path": "docs/HOUSE_HOMEPAGE_HANDOFF.md",
+      "bytes": 20600,
+      "sha256": "dfd962cac46ac25768d1ee6349b2af92b7b6e102bade27a97e5101d9465641c1"
+    },
+    {
+      "path": "docs/concepts/interactive-homepage-v1/asset-manifest.json",
+      "bytes": 1057,
+      "sha256": "3881bce3ebde153b229cd4befe7ec3c6aba939173a488da1e31ef46962465eba"
+    },
+    {
+      "path": "docs/concepts/interactive-homepage-v1/generation-prompts.json",
+      "bytes": 10121,
+      "sha256": "37e30ea353596373ec2eac416b06b2f25ecb0858aff7bba832af9f840d4d8eb3"
+    },
+    {
+      "path": "docs/concepts/interactive-homepage-v1/production-prompts.json",
+      "bytes": 4265,
+      "sha256": "b1a28030ba2e5c4ee4c6dfc5d3b602b6c9eead9d7e73a1401520755834b330a7"
+    },
+    {
+      "path": "docs/concepts/interactive-homepage-v1/storyboard.md",
+      "bytes": 10181,
+      "sha256": "fb3a35a0cd6dc622e986f4179d63c02b1276f1a01c84d6cda7694e8499544944"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint1/desktop-50.png",
+      "bytes": 1458391,
+      "sha256": "515171edcae943ac04a40f77d64cb64f2b1b33147506d70d0774a2c66b8ef595"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint1/mobile-exterior.png",
+      "bytes": 399859,
+      "sha256": "3a7980c724c66856aa8a70b75e2ca1629e69c45a91195048f269ac7c4fdc2a41"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint2/desktop-accessibility.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint2/desktop-contact.png",
+      "bytes": 993766,
+      "sha256": "013a718fcffc5fd34d8ec82a3516c485a36d79fcfbb3058cb5d8ccd9145a6ba9"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint2/desktop-hallway.png",
+      "bytes": 1611709,
+      "sha256": "8e8d95ff8c20144f5f914d96f59f04c336547f03f19b951e9f16512459b02289"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint2/desktop-team.png",
+      "bytes": 1228194,
+      "sha256": "ad4d9d8eabcf037dc095a301263ac505d197f5b223a5fc05852483b08359ae6d"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint2/mobile-accessibility.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint2/mobile-entry-in-motion.png",
+      "bytes": 315213,
+      "sha256": "633d38ff65968616182935fd1b60376c9ab8e5ca57e1c116481f8cb4301122c7"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/checkpoint2/mobile-gallery.png",
+      "bytes": 210452,
+      "sha256": "8deee7e15dc0375279c536337d2f7faf36629d1bb126dfd4ffa4d8f964ff4fa6"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/live-integration.json",
+      "bytes": 448,
+      "sha256": "e8cae8e148ff8a421c0f3cc4ed2acc6d313c92e69b373946718db24670544eb0"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/mobile-fade.json",
+      "bytes": 165,
+      "sha256": "c06c7e6f575dd89ecbaac1326c64b7c08b546f777906f47eacdead6ce4fabf6b"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/performance-desktop-outlier.json",
+      "bytes": 4592,
+      "sha256": "b742f6e025e059ffdf885c92c758042483b275704a2db211002c85de11aa805e"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/performance-desktop.json",
+      "bytes": 6304,
+      "sha256": "f8d6f122f46007ae9876381a5e693eda9d3fe8a9572889f3e25d7646fa4649ef"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/performance-mobile.json",
+      "bytes": 3170,
+      "sha256": "671a1f5f8724249e55a8d58155cebb57b1888f9db2489e7954b45e74b90ec4dd"
+    },
+    {
+      "path": "docs/visual-verification/house-v1/verification-summary.json",
+      "bytes": 2149,
+      "sha256": "0e29ebd6f1fad8b8cf99880cde6b8e0c26cc6f84572698c359f3ea9239140da0"
+    },
+    {
+      "path": "lib/house/config.ts",
+      "bytes": 4960,
+      "sha256": "8b92dd65e2946d14377a712d19decc8b0d01d99427986447dc32627da66fb38e"
+    },
+    {
+      "path": "lib/house/enquiries.ts",
+      "bytes": 6279,
+      "sha256": "5c12f6b84a5e0b5bc47c34bd6dcdeb069ac7b5f8483fb53ad64eb340d14ee0e0"
+    },
+    {
+      "path": "lib/house/portal.ts",
+      "bytes": 1636,
+      "sha256": "f6abc4b67611808039d251ce7b402f33e2f7b6224f586161dc6c7599bfc8e60a"
+    },
+    {
+      "path": "lib/house/preview.ts",
+      "bytes": 425,
+      "sha256": "5022e3aa252b83b46a60dd5c22c5a1c1aa639ceb605fc690fc747b449cb8926f"
+    },
+    {
+      "path": "lib/house/storage.ts",
+      "bytes": 1022,
+      "sha256": "53080e4b7a43db275a83a02fc0d9268c537b2b8791ce46ba1a95e0b91460d6d5"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 227875,
+      "sha256": "c0f5052997a27d7fc6d0d7375abac8039535d1c32e5207196a7cfe5f1984c055"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1215,
+      "sha256": "a4bdb6e60a9b5994b1e9316a3247118220df0d80bcc5f773949430e2f37eeddf"
+    },
+    {
+      "path": "playwright.config.ts",
+      "bytes": 490,
+      "sha256": "eddba4d29ea32e5aa38ceb644bcec6cb1747509b45281574cc5c900aca69a6e8"
+    },
+    {
+      "path": "production/house-v1/previous-homepage.tsx.txt",
+      "bytes": 2646,
+      "sha256": "36652a6456796e310e942fc954e0f4f5de4b2c9bdef231bad2a283978d07cece"
+    },
+    {
+      "path": "public/images/house-v1/contact-desktop.webp",
+      "bytes": 217136,
+      "sha256": "6cbc5f17aaaa76a6ee562066a70303cbbcdcd278a489a1f5828639241dd17836"
+    },
+    {
+      "path": "public/images/house-v1/contact-gallery.webp",
+      "bytes": 91600,
+      "sha256": "13ec4042f40af55fc9a7f9fca7ec39bffea916f8f6e2de9a7daa658a25c07d0e"
+    },
+    {
+      "path": "public/images/house-v1/contact-mobile.webp",
+      "bytes": 85420,
+      "sha256": "5951390e492be4b5c5fbdb73bae3ff95a4aafcc74bd0a0222d2a9332fc8d9a70"
+    },
+    {
+      "path": "public/images/house-v1/contact-thumb.webp",
+      "bytes": 26896,
+      "sha256": "db863ce740b15e4921f431de095d6f371085bb5420760c3885fda2c248525041"
+    },
+    {
+      "path": "public/images/house-v1/exterior-desktop.webp",
+      "bytes": 345838,
+      "sha256": "f86eeb492e8b1d788969ec2adb2e92cedd25554351612d7e0eb0a17ef15e1e1c"
+    },
+    {
+      "path": "public/images/house-v1/exterior-gallery.webp",
+      "bytes": 126302,
+      "sha256": "b841b5fd0a735955906e946f7bd52f6f0c234455e3371c5b542c7a98110c89c9"
+    },
+    {
+      "path": "public/images/house-v1/exterior-mobile.webp",
+      "bytes": 82046,
+      "sha256": "cc17aec4a811278765b6deb42dc95935ada56b3ea699aba08c7f4357841802a8"
+    },
+    {
+      "path": "public/images/house-v1/exterior-thumb.webp",
+      "bytes": 30794,
+      "sha256": "543e0b3d68b3c37cfbc24e6bbbe21b8fd995d313ada3ef355ca834c72175abf4"
+    },
+    {
+      "path": "public/images/house-v1/front-left-desktop.webp",
+      "bytes": 415434,
+      "sha256": "ce749a25423d53bdf4f6a50f671757a57457127ae2d7aa2708782d3b62873255"
+    },
+    {
+      "path": "public/images/house-v1/front-left-gallery.webp",
+      "bytes": 156854,
+      "sha256": "3aa80d4effc22e25b7954a87cded127808a4cb3d499e7b934e26cd24147bc2b5"
+    },
+    {
+      "path": "public/images/house-v1/front-left-mobile.webp",
+      "bytes": 147246,
+      "sha256": "2456b8be69ba49c4b96d244a10841db512142f48a4282c59bd02c7b5709bf368"
+    },
+    {
+      "path": "public/images/house-v1/front-left-thumb.webp",
+      "bytes": 38488,
+      "sha256": "86dfd09cdcc1510474fb7ab67f39b7630c2941dcf26892e22e336e8b99ad8cb8"
+    },
+    {
+      "path": "public/images/house-v1/front-right-desktop.webp",
+      "bytes": 397090,
+      "sha256": "22a28770b3f36df7bebd6ce9c0fed3cb71c9c155c844547dde345ec929235e2a"
+    },
+    {
+      "path": "public/images/house-v1/front-right-gallery.webp",
+      "bytes": 149700,
+      "sha256": "0ca2adb5e61aecfd85d9acefbdf6fb1a50a5020bdd7d2500fce192a47e2d4fdf"
+    },
+    {
+      "path": "public/images/house-v1/front-right-mobile.webp",
+      "bytes": 139578,
+      "sha256": "f1f53f9d23930e4605e40d757a0a7869b3c050c3452583617da05ba421652488"
+    },
+    {
+      "path": "public/images/house-v1/front-right-thumb.webp",
+      "bytes": 37724,
+      "sha256": "96009e4d488f3299b2c74b6d22b18cd05d770d130edba2727acb9499662ffe97"
+    },
+    {
+      "path": "public/images/house-v1/hallway-desktop.webp",
+      "bytes": 240190,
+      "sha256": "a2082f24e92b273d514c30a8147dde3ce3f785ed5498e76d04820fb9d7fb3ae2"
+    },
+    {
+      "path": "public/images/house-v1/hallway-gallery.webp",
+      "bytes": 91048,
+      "sha256": "0c3471c80704bd360fc1bb2623ba973383eadce93068cf1b45f81ed2b412d073"
+    },
+    {
+      "path": "public/images/house-v1/hallway-mobile.webp",
+      "bytes": 84790,
+      "sha256": "0a02738f7efbd4c70536210f3d851591a4468a19b1a435dd6f8d190e11bc8ca7"
+    },
+    {
+      "path": "public/images/house-v1/hallway-thumb.webp",
+      "bytes": 25090,
+      "sha256": "d5c2db3f286929ddd048bd2e318e1f1c79a22c2ed639d2c40bcec1d75f22a878"
+    },
+    {
+      "path": "public/images/house-v1/left-desktop.webp",
+      "bytes": 418784,
+      "sha256": "419f89adb005f19a31ffa4b89ca42829d60bc2bc1d5e738507ea3c4a7f9dab5b"
+    },
+    {
+      "path": "public/images/house-v1/left-gallery.webp",
+      "bytes": 160098,
+      "sha256": "a252d51154d7ca4961c249d868f6b93c311df67d0b11f633a0610124343e4b4a"
+    },
+    {
+      "path": "public/images/house-v1/left-mobile.webp",
+      "bytes": 150112,
+      "sha256": "43d8358d9d98a4e221482d905d8a86239286ac6494404ee788206630e265a771"
+    },
+    {
+      "path": "public/images/house-v1/left-thumb.webp",
+      "bytes": 39732,
+      "sha256": "218f0fabe16a940bc1278484c379d0ceb6ea102e7b0c3a265d7ff3f6fe844588"
+    },
+    {
+      "path": "public/images/house-v1/listings-desktop.webp",
+      "bytes": 246868,
+      "sha256": "f1d5fc6aed03516af4f5ab4e622612d35bd33b8e3e4d24d8cb83e66b8d5b7bca"
+    },
+    {
+      "path": "public/images/house-v1/listings-gallery.webp",
+      "bytes": 92626,
+      "sha256": "24d738b11bcf9331c73048f122128cfa3455c0c7112d7c4b89f039aa0f4680cb"
+    },
+    {
+      "path": "public/images/house-v1/listings-mobile.webp",
+      "bytes": 85858,
+      "sha256": "118438a6114430fc99b397c0a9753a57da99818a3e1edbc49de40d47047f43ad"
+    },
+    {
+      "path": "public/images/house-v1/listings-thumb.webp",
+      "bytes": 24482,
+      "sha256": "8cdd575fd4a5407d524e1523a7d0085cf701c630f73720f086b11d9bdba512ae"
+    },
+    {
+      "path": "public/images/house-v1/rear-desktop.webp",
+      "bytes": 407836,
+      "sha256": "19e018a5bcf1bb74c6c7ae73a8f03f6811b8213c971d685f01a84304e53bf2d3"
+    },
+    {
+      "path": "public/images/house-v1/rear-gallery.webp",
+      "bytes": 151622,
+      "sha256": "2f2e6aeff0a94fdba5f24620d65bd46e3802eedbeda20466d6d6341164ee4b8a"
+    },
+    {
+      "path": "public/images/house-v1/rear-mobile.webp",
+      "bytes": 141486,
+      "sha256": "8cdc006db70441a2623d4c72148ee5a61bb2b780989f3b383b10e39fdbde5dac"
+    },
+    {
+      "path": "public/images/house-v1/rear-thumb.webp",
+      "bytes": 38000,
+      "sha256": "61c5181f60ca2ee411e1f83efc18450273c3dade51af836b56bd3d654ac4ce83"
+    },
+    {
+      "path": "public/images/house-v1/right-desktop.webp",
+      "bytes": 426014,
+      "sha256": "1add336909a06aee308f687b2826d021d67aaae8222b3e73945f9fd0703286ab"
+    },
+    {
+      "path": "public/images/house-v1/right-gallery.webp",
+      "bytes": 163446,
+      "sha256": "eba02b159a481bce92bd4425c64f7e2f95c74c5b74d6f6e45650f209aef20710"
+    },
+    {
+      "path": "public/images/house-v1/right-mobile.webp",
+      "bytes": 153530,
+      "sha256": "b6d6b4547a31953d4cb1d014fe1ff91d726baf08cb6598823296826f878f3d04"
+    },
+    {
+      "path": "public/images/house-v1/right-thumb.webp",
+      "bytes": 40556,
+      "sha256": "b379de877d4749b893d45d7d57bdee4e240dfe1437347fc546bc1593b45d0a79"
+    },
+    {
+      "path": "public/images/house-v1/social.jpg",
+      "bytes": 232456,
+      "sha256": "87df10f63c364851a1be1a6d603cdec82558c95b51a851b0e99cabb2850eedc8"
+    },
+    {
+      "path": "public/images/house-v1/team-desktop.webp",
+      "bytes": 235960,
+      "sha256": "74f4defa09b6ec2a15d2862fadb021c1b37696695374392d9ec430c3a210ebac"
+    },
+    {
+      "path": "public/images/house-v1/team-gallery.webp",
+      "bytes": 95314,
+      "sha256": "936575bcfc087984765918e1dda6b4ccbbc544038aacc4f70daa7031cf2cb71f"
+    },
+    {
+      "path": "public/images/house-v1/team-mobile.webp",
+      "bytes": 88556,
+      "sha256": "06b74146db9b2e929c1c88bf6503a4ef487952f3c0d4344e2e99210eadef0213"
+    },
+    {
+      "path": "public/images/house-v1/team-thumb.webp",
+      "bytes": 26728,
+      "sha256": "0444f5d705a9a288fcb7c5eb47b703572d3b49822f95cb4c29d8166f1d9cd057"
+    },
+    {
+      "path": "scripts/house/package-source.py",
+      "bytes": 4366,
+      "sha256": "4f7d3f383f41d0fbb5d0925f63a7184b5eb455f10edd8114c30ee9ad5886020b"
+    },
+    {
+      "path": "scripts/house/prepare-assets.mjs",
+      "bytes": 2265,
+      "sha256": "ef3bf37758867b0c4c9b3eb7dba027e23e4187ec3e28c53837ad3aed09b692e6"
+    },
+    {
+      "path": "scripts/house/setup-storage.mjs",
+      "bytes": 1488,
+      "sha256": "bfd8bbd28d17ff1294582fcb2d06fa899a1ce6f2661a6280f58f4397eddf72e6"
+    },
+    {
+      "path": "tests/browser/house-complete.spec.ts",
+      "bytes": 12639,
+      "sha256": "9c42a5e8217880881866c96da9439bea6201f5686e82bb856e464d3eb4b7d05c"
+    },
+    {
+      "path": "tests/browser/house-homepage.spec.ts",
+      "bytes": 1926,
+      "sha256": "cc2300b904a9ec36ffb1812c486fa963c1bd89ade8a757a0d6b1626e1a3bba53"
+    },
+    {
+      "path": "tests/browser/house-live.spec.ts",
+      "bytes": 8945,
+      "sha256": "4e7f9987177dc0666342bac6f0851f76e7b790b111b842b228e621f46d9a207a"
+    },
+    {
+      "path": "tests/browser/house-performance.spec.ts",
+      "bytes": 4957,
+      "sha256": "f679982329976cddb363c5878bc813f32e95d0e2b771377d16d2fb4346956f1c"
+    },
+    {
+      "path": "tests/browser/house.spec.ts",
+      "bytes": 3775,
+      "sha256": "334d3d74eb27e989eb230ce09227d4ff6fc45f248d0f876f23e4295255195d23"
+    },
+    {
+      "path": "tests/unit/house.test.ts",
+      "bytes": 7546,
+      "sha256": "78c2d4bf3441e76cb6a13b23f5310b80e5763eef41354960c930dabbdad9b274"
+    }
+  ]
+}
