@@ -1,5 +1,7 @@
 # Ghana-wide launch audit — 16 October 2026
 
+Historical pre-change audit. For the deployed homepage, twelve private media candidates and migrations applied on 17 October, see [the current handoff](GHANA_LAUNCH_HANDOFF.md).
+
 Target: Sunday 18 October 2026. Repository: bfoh/strong. Production: https://strong-eta.vercel.app/.
 
 ## Current implementation

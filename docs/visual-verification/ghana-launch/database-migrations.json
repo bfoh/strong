@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-17T18:54:38.894Z",
+  "explicitApproval": true,
+  "tlsVerified": true,
+  "approvedSqlSha256": "ef8620dab7d7b46821901270842b639f4a9ff20b46330c91581e6cc2f0bf91b7",
+  "applied": [
+    {
+      "file": "20261016_ghana_launch.sql",
+      "sha256": "69e82d71725f8e9740b1824c3dfb9569b27fb488e03e5dd6e85853d244fe6f2c"
+    },
+    {
+      "file": "20261017_media_review_private.sql",
+      "sha256": "46cf389f2baa8d13a15ce33b6822b17eefc7b5e89d95c6b617b02f2745e139bf"
+    }
+  ],
+  "tests": [
+    "Existing drafts retain unapproved defaults and unknown availability.",
+    "Only the service role can execute the staff save RPC.",
+    "Service-role quota accepts five reservations and rejects the sixth.",
+    "Transactional draft creation saves the property, specifications and audit.",
+    "Incomplete publication is rejected by the database.",
+    "Invalid specifications roll back the entire save.",
+    "Approved discovery and both public-read policies verified only with a rolled-back fixture.",
+    "All QA records rolled back; existing inventory, gallery and audit snapshots unchanged.",
+    "Both private-storage restrictions exist."
+  ],
+  "committed": true,
+  "inventoryCount": 12,
+  "publishedCount": 0
+}

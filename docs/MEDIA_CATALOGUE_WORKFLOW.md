@@ -2,6 +2,8 @@
 
 The existing catalogue, navigation and homepage remain the application. Supplied source descriptions are **proposals** until checked. Importing never publishes a listing or copies proposed prices, bedroom counts, availability, rights or documentation into verified property fields.
 
+Production status, 17 October 2026: the owner-approved launch and private-review migrations are applied. Twelve candidates remain private and unapproved; none is published. See [the migration receipt](visual-verification/ghana-launch/database-migrations.json) and [current launch handoff](GHANA_LAUNCH_HANDOFF.md). The migration requirement below remains applicable to any new environment.
+
 ## Prepare a batch
 
 Keep the ZIP and extracted material outside the public repository (for example, the sibling `property-media` directory). Never put an unreviewed archive, manifest, contact sheet or video under `public/`. These directories are ignored if placed inside the repository.

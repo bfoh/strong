@@ -1,6 +1,6 @@
 # Strong Properties — Phase One launch handoff
 
-**Production configuration resolved — 17 October 2026:** the owner added the Vercel Production variables and redeployed. The live catalogue connects successfully, public enquiry forms are restored, and JavaScript/no-JavaScript submissions were verified through private persistence and the production staff inbox. There are still no properties available to publish; the additive migration, genuine inventory and business review remain outstanding.
+**Current status — 17 October 2026:** production configuration and the approved database migrations are complete. The live catalogue, enquiry forms, staff saves and private media review are connected. Twelve genuine media candidates are private drafts; none is approved or published. Their source claims, identity, current availability and publication permission still require business review. The dated audit and earlier verification sections below describe historical snapshots.
 
 Updated 17 October 2026. TV campaign target: Sunday 18 October 2026. Existing repository: https://github.com/bfoh/strong. This report supersedes the earlier house-homepage reports for the public `/` route.
 
@@ -8,7 +8,7 @@ Updated 17 October 2026. TV campaign target: Sunday 18 October 2026. Existing re
 
 See [the pre-change audit](GHANA_LAUNCH_AUDIT.md). The actual root rendered `HousePage → HouseExperience`, while the 451-frame `CinematicHero` was unused. Phones used tap transitions. The existing Next.js 15 / React 19 / Supabase application already supported catalogue/detail/gallery, staff authentication, private uploads, enquiries and viewing requests. Those business routes were retained.
 
-Read-only live inspection found zero properties and zero published listings. Both application storage buckets were private. The SQL quota RPC and Ghana listing fields were absent. No SQL connection or SQL Editor session was available. The owner explicitly requested prepared additive SQL and compatible fixes. The two contact numbers were supplied and authorized for display; no business email was supplied.
+The initial read-only inspection found zero properties and zero published listings, private application storage buckets, and missing quota/launch functions. SQL access was initially unavailable. Since then, genuine source media was imported into twelve private candidates, the owner supplied a database connection, and explicitly approved the additive migrations. The two contact numbers were supplied and authorized for display; no business email was supplied.
 
 ## 2. Files changed
 
@@ -35,18 +35,21 @@ Read-only live inspection found zero properties and zero published listings. Bot
 - Voluntary residence/contact/remote-viewing preferences and UTM context persist privately with enquiries. Property-specific context uses immutable sidecars in the verified private bucket; existing relational lead tables remain compatible. General conversations remain private Storage records and appear in the staff inbox.
 - Database quota RPC is preferred. If specifically absent, create-only private Storage reservations enforce the quota across instances; no non-atomic count fallback. Unknown backend failures fail closed. The private bucket must be verified before writes.
 - Strict bounded property inputs, safe media URLs, GHS prices, explicit square-metre areas, key features and documentation information. Existing byte validation, WebP optimization and private media authorization retained.
-- Draft and media preparation work on the current schema. New structured fields and publication remain visibly gated until migration. A validated browser-origin redirect fixes saving behind an internal hostname.
+- Draft/media preparation and structured location/review fields work on the migrated schema. Publication requires complete confirmed fields, approval, availability, permission and resolved imported-media identity. A validated browser-origin redirect fixes saving behind an internal hostname.
 - Staff-only sampled campaign report: actual enquiry/viewing/qualified counts and sources. Missing traffic, spend, sales and commission data are labelled unavailable.
 - Optional GA4/Google Ads tags load after opt-in; contact data and raw search text are excluded from application events. Configurable conversion measurement, revocation and admin exclusion were tested with intercepted Google requests. Production measurement is currently unconfigured.
 
 ## 4. Database migrations and maintenance
 
-**Needs attention — prepared, not applied or database-executed**
+**Applied and verified — 17 October 2026, 18:54 UTC**
 
-1. Existing `supabase/migrations/20261012_live_security.sql`: atomic lead quota and restrictive private property-media policy.
-2. New `supabase/migrations/20261016_ghana_launch.sql`: additive Ghana region/city/locality/type, availability, featured/review/authorization and approval audit fields; restrictive approved-property read and private-data/storage policies (features/media remain server-mediated); genuine public-location aggregation; transactional listing/specification/audit save RPC restricted to the service role and current authorized staff.
+1. `supabase/migrations/20261012_live_security.sql`: atomic lead quota and restrictive private property-media policy were already present; this migration was not rerun.
+2. `supabase/migrations/20261016_ghana_launch.sql`: applied additive Ghana region/city/locality/type, availability, featured/review/authorization and approval audit fields; restrictive approved-property read and private-data/storage policies; public-location aggregation; transactional listing/specification/audit save restricted to the service role and current authorized staff.
+3. `supabase/migrations/20261017_media_review_private.sql`: applied the restrictive private source-review bucket policy.
 
-Apply in that order through Supabase SQL Editor or an authorized migration connection. Keep the existing tables and records. Existing listings are **not automatically approved**. After application, verify schema/RPC visibility, anonymous RLS and staff saves before reviewing and publishing real supplied inventory. The new RPC and migration-dependent publication path have not been executed against PostgreSQL here; SQL access remains unavailable.
+The owner-approved SQL was applied over verified TLS in one transaction. Database checks covered service-only RPC access, quota limits, atomic saves, incomplete-publication rejection, feature-error rollback, discovery and anonymous/authenticated read restrictions. The approved publication/discovery fixture existed only inside the uncommitted transaction and was rolled back before commit. Existing twelve property drafts, gallery rows, specifications and audit records were unchanged. No migration-history record was fabricated. The sanitized receipt includes exact SQL hashes: [database-migrations.json](visual-verification/ghana-launch/database-migrations.json).
+
+Production staff-form checks then created, updated and removed one clearly labelled private QA draft, verifying structured data, specifications, audit history and rejection of incomplete publication. The original twelve drafts remain private. Unknown price/bed/bath values remain null. All three storage buckets remain private. No source identity or business permission was approved by these tests.
 
 Lead attribution does not depend on the new SQL: private Storage sidecars are the Phase One compatibility layer. A normalized CRM and commission ledger belong to Phase Two.
 
@@ -81,28 +84,28 @@ Cold lab results, three samples each (see `performance.json`):
 
 Startup includes six decoded neighbouring frames, never all 451. Mobile long tasks included a 434 ms cold-start outlier; desktop maximum observed was 108 ms. Seek timing includes automation/round-trip overhead and is not INP. JS heap at the startup sample was approximately 5.5 MB, excluding decoded-image and renderer memory. Dimension-derived retained bitmap estimates are 15.8 MiB mobile / 56.25 MiB desktop; transient decodes add up to 3.16 / 10.55 MiB, plus canvas and browser buffers. These are separate estimates, not total process memory. Performance was measured without other browser suites running. A subsequent CSS-only landscape Skip adjustment and blank-region admin safeguard do not change the player or assets.
 
-The final readiness recheck found properties/enquiries/appointments counts at zero after cleanup, both buckets private, and the launch columns/quota RPC still absent. Public published lead success is covered by unit mocks; no genuine inventory was available for a live published-property enquiry/viewing run.
+The initial readiness recheck found an empty catalogue and missing SQL functions. That historical state is superseded by the applied-migration receipt and twelve private candidates above. A genuine approved property-specific enquiry/viewing still needs an end-to-end production check once the business approves inventory.
 
 ## 6. Remaining issues and launch gates
 
 **Needs attention — overall campaign readiness**
 
-- Supply genuine property details/media and publication permission, apply migration, then review/publish. Currently there is no public inventory. No fake listings were substituted.
+- Review the twelve private candidates and unassigned source media. Confirm identity, exact location, factual details, current availability and publication permission before publishing. Currently there is no public inventory. No fake listings were substituted.
 - Business-approved controller identity, privacy/terms, retention schedule and supplier handling are outstanding. No regulatory registration, legal approval or ownership verification is claimed.
 - Configure optional analytics IDs only after reviewing the privacy policy and consent wording. Disable GA4 enhanced measurement/automatic form collection and automatic history page views in the data stream to avoid collecting fields outside the application event allowlist. Real Google collection/conversion delivery is not verified.
 - Test physical iOS Safari and Android Chrome, real mobile connections, and TV QR scanning. Chrome mobile emulation and lab timings do not establish field Core Web Vitals or accessibility certification.
 - Confirm the operating team monitors the private inbox; automated email notifications are not configured.
-- A real approved property detail → enquiry/viewing flow and new approval RPC need a post-migration end-to-end test. Existing schema paths have live private-fixture evidence; successful published lead API paths and quotas also have mocked unit coverage.
+- A real approved property detail → enquiry/viewing flow still needs an end-to-end test after business approval. The new save RPC and database publication/discovery checks passed; no real listing was approved merely to test them.
 
 **Resolved — production backend configuration:** after the owner configured Vercel and redeployed, the catalogue returned its genuine empty state, indexing was enabled, and two labelled production enquiries reached private storage and the production staff inbox. Both enquiries and their exact quota reservations were removed. See the configured production verification below.
 
-**Blocked — applying SQL:** no SQL Editor session or migration connection is available. The requested SQL is prepared; compatible Phase One flows work without it. No access or migration success is assumed.
+**Resolved — applying SQL:** the owner supplied a connection and explicitly approved execution. The two pending migrations are applied, with database and production staff-form verification.
 
 **After launch — Phase Two:** full assigned CRM pipeline, negotiation/won/lost workflows, private commission ledger, offline qualified/sale conversion import, email automation, advertising execution, saved properties/comparison and expanded content. No commission rate or eligibility is hardcoded or exposed publicly.
 
 ## 7. Environment
 
-Required existing server configuration: `NEXT_PUBLIC_SUPABASE_URL`, public anon/publishable key, `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY`. Both private storage buckets must remain private. Use the existing staff profile and auth setup.
+Required existing server configuration: `NEXT_PUBLIC_SUPABASE_URL`, public anon/publishable key, `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY`. All three application/review storage buckets must remain private. Use the existing staff profile and auth setup. Staff sign-in uses the staff account's email/password, never database credentials or API keys; existing passwords cannot be retrieved.
 
 The owner has added the Supabase variables to Vercel **strong** → **Production** and redeployed `main`. For future configuration changes, update the project environment and redeploy; current deployments do not inherit newly saved values automatically. Do not paste service keys into chat, GitHub source or a `NEXT_PUBLIC_` variable. The existing values remain in the original local `.env.local`; no credentials were duplicated into this repository.
 
@@ -120,11 +123,11 @@ Changing to a custom domain requires setting the canonical production URL and re
 
 ## 9. Final status
 
-**Ready:** deployed Ghana homepage/TV frontend, contacts, QR, catalogue connection, production enquiry persistence, attribution and private staff inbox/reporting. Draft/specification/media workflows have additional live evidence from the locally configured production build. Password login and the unpublished approval RPC are not marked verified.
+**Ready:** deployed Ghana homepage/TV frontend, contacts, QR, catalogue connection, production enquiry persistence, attribution, private staff inbox/reporting, migrated structured editor, transactional saves and private media review. Password login was not tested or changed.
 
-**Needs attention:** the TV sales launch as a whole, pending genuine approved inventory, migration execution, business policy and device checks.
+**Needs attention:** the TV sales launch as a whole, pending business approval of genuine inventory, business policy and device checks.
 
-**Blocked:** applying the prepared SQL migration still requires an authorized SQL connection or SQL Editor session. This no longer blocks general online enquiries, which are verified in production. Phase Two remains explicitly deferred.
+**No database-access blocker remains.** Phase Two remains explicitly deferred.
 
 ## Initial production verification — 17 October 2026, 03:16 UTC
 
@@ -141,7 +144,7 @@ Read-only verification against **https://strong-eta.vercel.app** at 03:16 UTC co
 - The deployed contact fallback is visible while backend configuration is incomplete. No production buyer/test lead was created by this verification.
 - Client-build and deployed-response scans found no server credential matches.
 
-That initial run intentionally exited **2** because `backendReady` was false. The owner subsequently added the Production configuration and redeployed; the current [`production.json`](visual-verification/ghana-launch/production.json) and the verification below supersede the original backend blocker. SQL application, real inventory approval and business policy/device checks remain open.
+That initial run intentionally exited **2** because `backendReady` was false. The owner subsequently added the Production configuration and redeployed; [`production.json`](visual-verification/ghana-launch/production.json) and the verification below supersede the original backend blocker. SQL application was subsequently completed as recorded above. Real inventory approval and business policy/device checks remain open.
 
 
 ## Configured production verification — 17 October 2026, 13:26–13:28 UTC
@@ -157,4 +160,16 @@ Vercel reported the owner’s successful redeployment of `c315cd27e0460f2fd2109f
 
 Evidence: [`production.json`](visual-verification/ghana-launch/production.json), [`production-enquiry.json`](visual-verification/ghana-launch/production-enquiry.json), and [`secret-boundary.json`](visual-verification/ghana-launch/secret-boundary.json). Run the production fixture suite only with deliberate `STRONG_PRODUCTION_QA=1` and the existing server environment; it requires authorized cleanup access before testing.
 
-**Current launch status: Needs attention.** Production backend configuration is resolved. The prepared migration remains unapplied, there are zero properties, and business policy/physical-device checks remain outstanding. A genuine approved property-specific enquiry/viewing still needs post-migration verification. No commission eligibility or rate is assumed.
+This 13:26–13:28 UTC snapshot preceded the private media import and migration application. See the current status above and the post-migration evidence below. No commission eligibility or rate is assumed.
+
+## Post-migration production verification — 17 October 2026
+
+The approved migrations committed at 18:54 UTC. The existing deployed application detected the new schema without a code change or environment update.
+
+- The staff editor enabled structured location, review and publication controls. Native form creation and update saved a private QA draft, specifications and two audit entries through the transactional RPC. Unknown price/bed/bath values stayed null. Anonymous reads and incomplete publication were rejected. Mobile editing and the imported-media review safeguard passed.
+- Production mobile JavaScript and native no-JavaScript TV enquiries reached private storage, the staff inbox and campaign reporting with attribution. Retry/conflict handling and anonymous read restrictions passed under the new storage policies. The two owned enquiries and their exact quota files were removed.
+- All 65 unique original-file hashes matched the private audit. The source report represented all 66 originals; all 48 assigned images decoded and all eleven original tours supported byte ranges and played. Previews requested no tour before playback. Anonymous access to every draft and managed asset was denied; private source review, mobile galleries and stale/cross-origin confirmation rejection passed. Public catalogue and sitemap responses contained no draft or provenance data.
+- The owned draft and its audit rows were removed. The original twelve candidates remain draft, unapproved, unauthorized for publication and availability unknown. No account was created, password changed, message sent or synthetic property published.
+- ESLint and whitespace checks passed for the verification/documentation update. The application source and assets were unchanged; earlier build, typecheck, unit and browser results above remain the application validation baseline.
+
+Evidence: [database receipt](visual-verification/ghana-launch/database-migrations.json), [staff-form receipt](visual-verification/ghana-launch/post-migration-production.json), [media verification](visual-verification/ghana-launch/post-migration-media.json), and [production enquiry receipt](visual-verification/ghana-launch/production-enquiry.json). `scripts/verify-launch-migration.mjs` requires deliberate `STRONG_MIGRATION_QA=1`, existing server environment and cleanup access; it creates only a private owned draft and removes it afterward. Private screenshots and original-source records remain outside the public repository.

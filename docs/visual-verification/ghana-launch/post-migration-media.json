@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-17T18:58:24.742Z",
+  "base": "https://strong-eta.vercel.app",
+  "checks": [
+    "Imported candidates remain drafts with unknown facts blank",
+    "All original bytes match the audited SHA-256 checksums",
+    "Anonymous database and private storage reads reveal no imported stock",
+    "Anonymous visitors cannot open reports, draft previews or any managed asset",
+    "Staff source review lists every original and desktop layout stays within the viewport",
+    "Every assigned photograph and tour still decodes through the authorized proxy",
+    "Mobile preview preserves image aspect ratios, gallery navigation and page width",
+    "Every property tour supports byte ranges and plays; previews download no video before play",
+    "Review mutation rejects missing evidence, cross-origin and stale gallery confirmations",
+    "Public catalogue contains no source filenames, proposed facts or private review metadata"
+  ],
+  "counts": {
+    "originals": 66,
+    "reviewGroups": 16,
+    "sourceFolders": 15,
+    "drafts": 12,
+    "publicImported": 0,
+    "propertyImages": 48,
+    "propertyVideos": 11
+  },
+  "passed": true
+}
