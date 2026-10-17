@@ -1,6 +1,6 @@
 # Strong Properties — Phase One launch handoff
 
-**Production finding:** the new homepage is deployed, but Vercel’s Supabase configuration is incomplete. Online catalogue/enquiry operation is blocked until the existing server variables are added and the project is redeployed. The code provides a clear telephone/WhatsApp fallback instead of collecting an enquiry it cannot save.
+**Production configuration resolved — 17 October 2026:** the owner added the Vercel Production variables and redeployed. The live catalogue connects successfully, public enquiry forms are restored, and JavaScript/no-JavaScript submissions were verified through private persistence and the production staff inbox. There are still no properties available to publish; the additive migration, genuine inventory and business review remain outstanding.
 
 Updated 17 October 2026. TV campaign target: Sunday 18 October 2026. Existing repository: https://github.com/bfoh/strong. This report supersedes the earlier house-homepage reports for the public `/` route.
 
@@ -94,7 +94,7 @@ The final readiness recheck found properties/enquiries/appointments counts at ze
 - Confirm the operating team monitors the private inbox; automated email notifications are not configured.
 - A real approved property detail → enquiry/viewing flow and new approval RPC need a post-migration end-to-end test. Existing schema paths have live private-fixture evidence; successful published lead API paths and quotas also have mocked unit coverage.
 
-**Blocked — production backend configuration:** direct production checks found an unavailable catalogue and `robots.txt` disallowing all indexing. Local live integration passes with the existing Supabase environment. No authenticated Vercel session or token is available in this workspace; the owner has been asked to add the existing variables or connect access.
+**Resolved — production backend configuration:** after the owner configured Vercel and redeployed, the catalogue returned its genuine empty state, indexing was enabled, and two labelled production enquiries reached private storage and the production staff inbox. Both enquiries and their exact quota reservations were removed. See the configured production verification below.
 
 **Blocked — applying SQL:** no SQL Editor session or migration connection is available. The requested SQL is prepared; compatible Phase One flows work without it. No access or migration success is assumed.
 
@@ -104,7 +104,7 @@ The final readiness recheck found properties/enquiries/appointments counts at ze
 
 Required existing server configuration: `NEXT_PUBLIC_SUPABASE_URL`, public anon/publishable key, `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY`. Both private storage buckets must remain private. Use the existing staff profile and auth setup.
 
-In the Vercel **strong** project → Settings → Environment Variables, add the existing Supabase URL, public key and private server key for **Production**, then redeploy `main`. Do not paste service keys into chat, GitHub source or a `NEXT_PUBLIC_` variable. The existing values remain in the original local `.env.local`; no credentials were duplicated into this repository.
+The owner has added the Supabase variables to Vercel **strong** → **Production** and redeployed `main`. For future configuration changes, update the project environment and redeploy; current deployments do not inherit newly saved values automatically. Do not paste service keys into chat, GitHub source or a `NEXT_PUBLIC_` variable. The existing values remain in the original local `.env.local`; no credentials were duplicated into this repository.
 
 Set `NEXT_PUBLIC_SITE_URL=https://strong-eta.vercel.app` (or the verified future custom origin). Vercel's `VERCEL_PROJECT_PRODUCTION_URL` is the validated fallback; arbitrary request Host is never a canonical source.
 
@@ -120,13 +120,13 @@ Changing to a custom domain requires setting the canonical production URL and re
 
 ## 9. Final status
 
-**Ready:** deployed Ghana homepage/TV frontend, contacts and QR; backend/enquiry/draft/media flows tested against real Supabase from a locally configured production build. This does not establish that production backend configuration is present.
+**Ready:** deployed Ghana homepage/TV frontend, contacts, QR, catalogue connection, production enquiry persistence, attribution and private staff inbox/reporting. Draft/specification/media workflows have additional live evidence from the locally configured production build. Password login and the unpublished approval RPC are not marked verified.
 
 **Needs attention:** the TV sales launch as a whole, pending genuine approved inventory, migration execution, business policy and device checks.
 
-**Blocked:** production catalogue and online enquiry operation pending Vercel Supabase settings; direct SQL application is also unavailable in this workspace. Phase Two remains explicitly deferred.
+**Blocked:** applying the prepared SQL migration still requires an authorized SQL connection or SQL Editor session. This no longer blocks general online enquiries, which are verified in production. Phase Two remains explicitly deferred.
 
-## Production verification — 17 October 2026
+## Initial production verification — 17 October 2026, 03:16 UTC
 
 Implementation commit `3d66f73f76d359b4dbe109ef7df884e71ce7763c` and production fallback commit `af7e4741a65d9205222bc11e776c813d1a397bd6` were pushed to GitHub `main`. Vercel reported successful deployment for both.
 
@@ -141,4 +141,20 @@ Read-only verification against **https://strong-eta.vercel.app** at 03:16 UTC co
 - The deployed contact fallback is visible while backend configuration is incomplete. No production buyer/test lead was created by this verification.
 - Client-build and deployed-response scans found no server credential matches.
 
-See [`production.json`](visual-verification/ghana-launch/production.json) and the production desktop/mobile screenshots. The verification script intentionally exits **2** because `backendReady` is false; it does **not** mark the whole release ready. Supabase settings must be added to Vercel Production and `main` redeployed, followed by a configured production enquiry check. SQL application, real inventory approval and business policy/device checks remain open as described above.
+That initial run intentionally exited **2** because `backendReady` was false. The owner subsequently added the Production configuration and redeployed; the current [`production.json`](visual-verification/ghana-launch/production.json) and the verification below supersede the original backend blocker. SQL application, real inventory approval and business policy/device checks remain open.
+
+
+## Configured production verification — 17 October 2026, 13:26–13:28 UTC
+
+Vercel reported the owner’s successful redeployment of `c315cd27e0460f2fd2109f2f91e86a56b659840b` at 13:24 UTC. Direct checks at **https://strong-eta.vercel.app** then confirmed:
+
+- All ten public route/asset checks returned 200; `backendReady` is now **true**, with no configuration issues. The catalogue shows zero genuine published properties rather than a service error. `robots.txt` allows public indexing and includes the production sitemap.
+- Desktop and emulated mobile frame playback, canonical URLs, TV attribution, private preview protection and report authorization passed again on the configured deployment.
+- The new opt-in `tests/browser/production-enquiry.spec.ts` passed against the actual production domain: mobile JavaScript submission and native no-JavaScript submission saved with TV attribution, optional residence/contact preferences and remote-viewing interest.
+- An identical retry returned an idempotent acknowledgement; an altered payload with the same identifier was rejected. Anonymous private-object reads and image-route bypass were denied.
+- Both enquiries were visible through the existing authorized staff session in the actual production inbox; attribution appeared in the private campaign report. No accounts were created and no email, phone or WhatsApp messages were sent. Password authentication was not tested.
+- The two exact owned enquiry records and their quota files were deleted, with record absence verified afterward. No property was invented or published and unrelated business records were preserved.
+
+Evidence: [`production.json`](visual-verification/ghana-launch/production.json), [`production-enquiry.json`](visual-verification/ghana-launch/production-enquiry.json), and [`secret-boundary.json`](visual-verification/ghana-launch/secret-boundary.json). Run the production fixture suite only with deliberate `STRONG_PRODUCTION_QA=1` and the existing server environment; it requires authorized cleanup access before testing.
+
+**Current launch status: Needs attention.** Production backend configuration is resolved. The prepared migration remains unapplied, there are zero properties, and business policy/physical-device checks remain outstanding. A genuine approved property-specific enquiry/viewing still needs post-migration verification. No commission eligibility or rate is assumed.

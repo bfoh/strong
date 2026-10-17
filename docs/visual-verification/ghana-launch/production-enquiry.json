@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-17T13:27:54.344Z",
+  "base": "https://strong-eta.vercel.app",
+  "production": true,
+  "notificationsSent": false,
+  "accountsCreated": false,
+  "passwordLoginTested": false,
+  "publicInventoryCreated": false,
+  "status": "passed",
+  "mobileJavaScriptEnquiryStored": true,
+  "campaignAndBuyerPreferencesStored": true,
+  "idempotentRetryAndConflictProtection": true,
+  "anonymousReadAndImageBypassDenied": true,
+  "noJavaScriptEnquiryStoredWithAttribution": true,
+  "productionStaffInboxAndAttribution": true,
+  "productionStaffCampaignReport": true,
+  "anonymousInboxDenied": true,
+  "ownedFixturesRemoved": true,
+  "testEnquiries": 2
+}

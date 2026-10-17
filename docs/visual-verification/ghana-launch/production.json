@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-10-17T03:16:23.657Z",
-  "commit": "af7e4741a65d9205222bc11e776c813d1a397bd6",
+  "checkedAt": "2026-10-17T13:26:36.036Z",
+  "commit": "c315cd27e0460f2fd2109f2f91e86a56b659840b",
   "base": "https://strong-eta.vercel.app",
   "routes": {
     "/": 200,
@@ -77,16 +77,12 @@
     }
   ],
   "mutations": false,
-  "backendReady": false,
-  "issues": [
-    "Production Supabase configuration is missing or unavailable.",
-    "Indexing remains disabled until production configuration is ready."
-  ],
-  "contactFallbackVisible": true,
+  "backendReady": true,
+  "issues": [],
   "invalidSubmissionRejected": true,
   "privatePreviewDenied": true,
   "adminReportingProtected": true,
   "deployedQrMatches": true,
   "frontendVerified": true,
-  "launchStatus": "Blocked: production Supabase configuration"
+  "launchStatus": "Needs attention: inventory, SQL and business review"
 }
