@@ -1,5 +1,7 @@
 # Strong Properties — Phase One launch handoff
 
+**Production finding:** the new homepage is deployed, but Vercel’s Supabase configuration is incomplete. Online catalogue/enquiry operation is blocked until the existing server variables are added and the project is redeployed. The code provides a clear telephone/WhatsApp fallback instead of collecting an enquiry it cannot save.
+
 Updated 17 October 2026. TV campaign target: Sunday 18 October 2026. Existing repository: https://github.com/bfoh/strong. This report supersedes the earlier house-homepage reports for the public `/` route.
 
 ## 1. Audit findings
@@ -92,6 +94,8 @@ The final readiness recheck found properties/enquiries/appointments counts at ze
 - Confirm the operating team monitors the private inbox; automated email notifications are not configured.
 - A real approved property detail → enquiry/viewing flow and new approval RPC need a post-migration end-to-end test. Existing schema paths have live private-fixture evidence; successful published lead API paths and quotas also have mocked unit coverage.
 
+**Blocked — production backend configuration:** direct production checks found an unavailable catalogue and `robots.txt` disallowing all indexing. Local live integration passes with the existing Supabase environment. No authenticated Vercel session or token is available in this workspace; the owner has been asked to add the existing variables or connect access.
+
 **Blocked — applying SQL:** no SQL Editor session or migration connection is available. The requested SQL is prepared; compatible Phase One flows work without it. No access or migration success is assumed.
 
 **After launch — Phase Two:** full assigned CRM pipeline, negotiation/won/lost workflows, private commission ledger, offline qualified/sale conversion import, email automation, advertising execution, saved properties/comparison and expanded content. No commission rate or eligibility is hardcoded or exposed publicly.
@@ -99,6 +103,8 @@ The final readiness recheck found properties/enquiries/appointments counts at ze
 ## 7. Environment
 
 Required existing server configuration: `NEXT_PUBLIC_SUPABASE_URL`, public anon/publishable key, `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY`. Both private storage buckets must remain private. Use the existing staff profile and auth setup.
+
+In the Vercel **strong** project → Settings → Environment Variables, add the existing Supabase URL, public key and private server key for **Production**, then redeploy `main`. Do not paste service keys into chat, GitHub source or a `NEXT_PUBLIC_` variable. The existing values remain in the original local `.env.local`; no credentials were duplicated into this repository.
 
 Set `NEXT_PUBLIC_SITE_URL=https://strong-eta.vercel.app` (or the verified future custom origin). Vercel's `VERCEL_PROJECT_PRODUCTION_URL` is the validated fallback; arbitrary request Host is never a canonical source.
 
@@ -114,8 +120,8 @@ Changing to a custom domain requires setting the canonical production URL and re
 
 ## 9. Final status
 
-**Ready:** tested Phase One website and compatible enquiry/draft/media flows, subject to the final deployment verification below.
+**Ready:** deployed Ghana homepage/TV frontend, contacts and QR; backend/enquiry/draft/media flows tested against real Supabase from a locally configured production build. This does not establish that production backend configuration is present.
 
 **Needs attention:** the TV sales launch as a whole, pending genuine approved inventory, migration execution, business policy and device checks.
 
-**Blocked:** direct SQL application in this workspace. Phase Two remains explicitly deferred.
+**Blocked:** production catalogue and online enquiry operation pending Vercel Supabase settings; direct SQL application is also unavailable in this workspace. Phase Two remains explicitly deferred.
