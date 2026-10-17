@@ -17,6 +17,7 @@ for(const route of ['/','/tv','/properties','/contact','/about','/book-viewing',
  if(route==='/sitemap.xml')check(body.includes(base+'/tv')&&!body.includes('/preview/house'),'Sitemap incorrect');
  if(route==='/campaign/tv-launch.svg')check(body===await readFile('public/campaign/tv-launch.svg','utf8'),'Deployed QR differs from the verified asset');
 }
+if(!report.backendReady)check(report.contactFallbackVisible,'Contact fallback is not deployed while the backend is unavailable');
 check((await fetch(base+'/preview/house')).status===404,'Private preview must return 404');
 const restricted=await fetch(base+'/admin/marketing',{redirect:'manual'});check([302,303,307,308].includes(restricted.status)&&restricted.headers.get('location')?.includes('/admin/login'),'Reporting authorization missing');
 const invalid=await fetch(base+'/api/house-enquiries',{method:'POST',headers:{origin:base,'content-type':'application/json','idempotency-key':randomUUID()},body:JSON.stringify({name:'',phone:''})});check(invalid.status===400,'Invalid submission was not rejected');

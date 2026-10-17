@@ -125,3 +125,20 @@ Changing to a custom domain requires setting the canonical production URL and re
 **Needs attention:** the TV sales launch as a whole, pending genuine approved inventory, migration execution, business policy and device checks.
 
 **Blocked:** production catalogue and online enquiry operation pending Vercel Supabase settings; direct SQL application is also unavailable in this workspace. Phase Two remains explicitly deferred.
+
+## Production verification — 17 October 2026
+
+Implementation commit `3d66f73f76d359b4dbe109ef7df884e71ce7763c` and production fallback commit `af7e4741a65d9205222bc11e776c813d1a397bd6` were pushed to GitHub `main`. Vercel reported successful deployment for both.
+
+Read-only verification against **https://strong-eta.vercel.app** at 03:16 UTC confirmed:
+
+- Root, TV, catalogue, contact, about, booking, privacy, sitemap, robots and QR asset return 200.
+- The new Ghana root is present; the old three-room homepage is not the public root.
+- Actual desktop and emulated phone playback painted frames 1 → 114 → 226 → 451 → 114. No browser page errors or horizontal overflow; canonical URL is the correct production origin.
+- `/tv` has no canvas and its Explore Properties action retains `tv / broadcast / launch_oct2026` attribution.
+- Both verified telephone links and WhatsApp destination are present. The deployed QR bytes match the locally decoded asset.
+- The private preview returns 404; marketing reporting redirects unauthenticated visitors to staff sign-in. Invalid submissions return 400 before storage.
+- The deployed contact fallback is visible while backend configuration is incomplete. No production buyer/test lead was created by this verification.
+- Client-build and deployed-response scans found no server credential matches.
+
+See [`production.json`](visual-verification/ghana-launch/production.json) and the production desktop/mobile screenshots. The verification script intentionally exits **2** because `backendReady` is false; it does **not** mark the whole release ready. Supabase settings must be added to Vercel Production and `main` redeployed, followed by a configured production enquiry check. SQL application, real inventory approval and business policy/device checks remain open as described above.

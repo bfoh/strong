@@ -1,0 +1,92 @@
+{
+  "checkedAt": "2026-10-17T03:16:23.657Z",
+  "commit": "af7e4741a65d9205222bc11e776c813d1a397bd6",
+  "base": "https://strong-eta.vercel.app",
+  "routes": {
+    "/": 200,
+    "/tv": 200,
+    "/properties": 200,
+    "/contact": 200,
+    "/about": 200,
+    "/book-viewing": 200,
+    "/privacy": 200,
+    "/sitemap.xml": 200,
+    "/robots.txt": 200,
+    "/campaign/tv-launch.svg": 200
+  },
+  "browser": [
+    {
+      "device": "desktop",
+      "samples": [
+        {
+          "progress": 0,
+          "painted": "1"
+        },
+        {
+          "progress": 0.25,
+          "painted": "114"
+        },
+        {
+          "progress": 0.5,
+          "painted": "226"
+        },
+        {
+          "progress": 1,
+          "painted": "451"
+        },
+        {
+          "progress": 0.25,
+          "painted": "114"
+        }
+      ],
+      "canonicalVerified": true,
+      "noOverflow": true,
+      "tvHasNoCanvas": true,
+      "tvAttributionVerified": true,
+      "pageErrors": []
+    },
+    {
+      "device": "emulated mobile",
+      "samples": [
+        {
+          "progress": 0,
+          "painted": "1"
+        },
+        {
+          "progress": 0.25,
+          "painted": "114"
+        },
+        {
+          "progress": 0.5,
+          "painted": "226"
+        },
+        {
+          "progress": 1,
+          "painted": "451"
+        },
+        {
+          "progress": 0.25,
+          "painted": "114"
+        }
+      ],
+      "canonicalVerified": true,
+      "noOverflow": true,
+      "tvHasNoCanvas": true,
+      "tvAttributionVerified": true,
+      "pageErrors": []
+    }
+  ],
+  "mutations": false,
+  "backendReady": false,
+  "issues": [
+    "Production Supabase configuration is missing or unavailable.",
+    "Indexing remains disabled until production configuration is ready."
+  ],
+  "contactFallbackVisible": true,
+  "invalidSubmissionRejected": true,
+  "privatePreviewDenied": true,
+  "adminReportingProtected": true,
+  "deployedQrMatches": true,
+  "frontendVerified": true,
+  "launchStatus": "Blocked: production Supabase configuration"
+}
