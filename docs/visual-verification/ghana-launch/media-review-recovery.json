@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-17T19:23:54.356Z",
+  "productionBeforeFix": {
+    "checked": 12,
+    "matching": 12,
+    "propertyMutations": false
+  },
+  "build": "passed",
+  "lint": "passed",
+  "typecheck": "passed",
+  "unitTests": 40,
+  "productionBuildBrowserTests": 4,
+  "browserCoverage": [
+    "Chrome desktop",
+    "Chrome mobile emulation",
+    "native forms without JavaScript"
+  ],
+  "checks": [
+    "Changed galleries are rejected before confirmation or audit writes.",
+    "Explanation remains in the form after a failed save and gallery reload.",
+    "Reloading a review clears the checkbox and updates the displayed gallery.",
+    "Fresh synthetic confirmations save once through the real application/API.",
+    "Native stale submissions get a readable recovery page; fresh native submissions save.",
+    "No real media identity was confirmed or property published by these tests."
+  ],
+  "positiveSaveBackend": "loopback-only synthetic Supabase substitute",
+  "passed": true
+}
