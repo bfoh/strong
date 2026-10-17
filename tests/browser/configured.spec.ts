@@ -26,10 +26,10 @@ test('published detail, fullscreen keyboard gallery, enquiry and requested viewi
   await page.getByRole('button', { name: 'Send enquiry', exact: true }).click();
   await expect(page.getByRole('status')).toContainText('Your enquiry has been received');
   const draft = await request.get(`${base}/properties/qa-private-draft`); expect(draft.status()).toBe(404);
-  const rejected = await request.post(`${base}/api/enquiries`, { data: { propertyId: '22222222-2222-4222-8222-222222222222', name: 'QA Draft', phone: `+233 000 ${suffix}3` } }); expect(rejected.status()).toBe(404);
+  const rejected = await request.post(`${base}/api/enquiries`, { headers: {origin:new URL(base!).origin}, data: { propertyId: '22222222-2222-4222-8222-222222222222', name: 'QA Draft', phone: `+233 000 ${suffix}3` } }); expect(rejected.status()).toBe(404);
   const log = await request.get('http://127.0.0.1:3002/_qa/requests'); const data = await log.json();
   expect(data.requests.some((r: { kind: string; status: string }) => r.kind === 'appointments' && r.status === 'requested')).toBe(true);
   expect(data.requests.some((r: { kind: string; status: string }) => r.kind === 'enquiries' && r.status === 'new')).toBe(true);
   expect(data.queries.every((q: { status: string }) => q.status === 'eq.published')).toBe(true);
-  await page.screenshot({ path: `docs/qa/configured-detail-${info.project.name}.png`, fullPage: true });
+  await page.screenshot({ path: info.outputPath('configured-detail.png'), fullPage: true });
 });

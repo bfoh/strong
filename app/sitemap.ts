@@ -1,3 +1,4 @@
+import {excludeUnreviewed} from '@/lib/media-review';
 import type { MetadataRoute } from 'next';
 import { db, launchSchemaAvailable, publishedDiscovery } from '@/lib/server';
 import {regionSlug} from '@/lib/ghana';
@@ -13,11 +14,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for(const region of regions)entries.push({url:base+'/locations/'+regionSlug(region),changeFrequency:'weekly'});
   // Only published rows, requested in bounded pages. Fixtures are never indexed.
   for (let offset = 0; ; offset += 1000) {
-    let query=client.from('properties').select('slug,updated_at').eq('status','published');
+    let query=client.from('properties').select('id,slug,updated_at').eq('status','published');
     if(launch)query=query.eq('review_status','approved').eq('publication_authorized',true).eq('availability','available');
     const {data,error}=await query.order('id').range(offset,offset+999);
     if (error) throw Error('Published sitemap data is temporarily unavailable.');
-    for (const p of data || []) entries.push({ url: `${base}/properties/${encodeURIComponent(p.slug)}`, lastModified: p.updated_at, changeFrequency: 'weekly' });
+    for (const p of await excludeUnreviewed(data || [])) entries.push({ url: `${base}/properties/${encodeURIComponent(p.slug)}`, lastModified: p.updated_at, changeFrequency: 'weekly' });
     if (!data || data.length < 1000) break;
   }
   return entries;

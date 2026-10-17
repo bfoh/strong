@@ -37,6 +37,7 @@ test('published-only queries, gallery filtering, pagination and requested appoin
       assert.equal(url.searchParams.get('status'), 'eq.published');
       return json(published ? [{ id, image: '', images: [] }] : [], 200, { 'content-range': '0-0/1' });
     }
+    if (url.pathname === '/storage/v1/bucket/strong-media-review') return json({message:'Bucket not found',statusCode:'404'},404);
     if (url.pathname.endsWith('/property_media')) { assert.match(url.searchParams.get('or') || '', /public/); return json([]); }
     if (url.pathname.endsWith('/property_features')) return json([]);
     if (url.pathname.endsWith('/consume_public_lead_quota')) return json(true);

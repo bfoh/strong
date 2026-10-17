@@ -14,7 +14,7 @@ export type PropertyFeatures = {
   tenure: string | null; documentation_status: string | null; amenities: unknown;
 };
 export type PropertyMedia = {
-  id: string; kind: 'image' | 'video' | 'tour' | 'document'; url: string; caption: string | null;
+  id: string; kind: 'image' | 'video' | 'tour' | 'document'; url: string; caption: string | null; poster?: string;
 };
 export type PropertyDetail = Property & { features?: PropertyFeatures; media: PropertyMedia[] };
 
@@ -26,7 +26,8 @@ export const demoProperties: Property[] = [
 ];
 export function formatPrice(p: Pick<Property, 'price' | 'currency' | 'preview'>) {
   if (p.preview) return 'Details awaiting verification';
-  if (p.price == null) return 'Price on enquiry';
+  if (p.price == null) return 'Price on Request';
+  if (p.currency === 'GHS') return `GH₵${Number(p.price).toLocaleString('en-GH', { maximumFractionDigits: 0 })}`;
   try { return new Intl.NumberFormat('en-GH', { style: 'currency', currency: p.currency, maximumFractionDigits: 0 }).format(p.price); }
   catch { return `${p.currency} ${Number(p.price).toLocaleString('en-GH')}`; }
 }

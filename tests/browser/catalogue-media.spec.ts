@@ -1,0 +1,37 @@
+import {test,expect} from '@playwright/test';
+const base=process.env.CONFIGURED_TEST_URL;
+test.skip(!base,'Local synthetic catalogue only; never publish fixtures to production.');
+test('catalogue preserves source aspect ratios, filters compose, and WhatsApp carries property context',async({page},info)=>{
+  await page.goto(`${base}/properties`);
+  await expect(page.locator('.property-card')).toHaveCount(1);
+  await expect(page.locator('.card-price')).toContainText('GH₵123,456');
+  await expect(page.locator('.card-status')).toHaveCount(0); // No invented availability or featured claims.
+  await expect(page.locator('video')).toHaveCount(0);
+  await expect(page.locator('.card-photo img')).toHaveCSS('object-fit','contain');
+  const filters=page.getByRole('form',{name:'Filter properties'});
+  await filters.getByLabel('SEARCH',{exact:true}).fill('QA Residence');
+  await filters.getByRole('combobox',{name:'LOCATION',exact:true}).selectOption('QA Location — Test Only');
+  await filters.getByRole('combobox',{name:'MIN. BEDROOMS',exact:true}).selectOption('3');
+  await filters.getByLabel('MIN. PRICE (GH₵)',{exact:true}).fill('100000');
+  await filters.getByLabel('MAX. PRICE (GH₵)',{exact:true}).fill('200000');
+  await filters.getByRole('button',{name:'Find your space'}).click();
+  await expect(page.locator('.property-card')).toHaveCount(1);
+  await expect(page).toHaveURL(/beds=3/);
+  await filters.getByRole('combobox',{name:'MIN. BEDROOMS',exact:true}).selectOption('10');
+  await filters.getByRole('button',{name:'Find your space'}).click();
+  await expect(page.locator('.property-card')).toHaveCount(0);
+  await expect(page.getByRole('heading',{name:'No published properties match this search.'})).toBeVisible();
+  await page.goto(`${base}/properties?q=NoSuchNeighbourhood`);
+  await expect(page.locator('.property-card')).toHaveCount(0);
+  await page.goto(`${base}/properties?max=100`);
+  await expect(page.locator('.property-card')).toHaveCount(0);
+  await page.goto(`${base}/properties?category=land`);
+  await expect(page.locator('.property-card')).toHaveCount(0);
+  await page.goto(`${base}/properties/qa-residence`);
+  const whatsapp=page.getByRole('link',{name:'Enquire on WhatsApp'});
+  const href=await whatsapp.getAttribute('href');
+  expect(new URL(href!).searchParams.get('text')).toContain('QA Residence — Test Only');
+  expect(new URL(href!).searchParams.get('text')).toContain('11111111-1111-4111-8111-111111111111');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  await page.screenshot({path:info.outputPath('synthetic-detail.png')});
+});

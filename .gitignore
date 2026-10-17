@@ -14,3 +14,8 @@ __pycache__/
 hero video/
 docs/video-reference/
 production/house-v1/*.zip
+
+# Private source archives, provenance and import reports stay outside public source.
+private-media/
+property-media/
+strong-properties-organized-media.zip

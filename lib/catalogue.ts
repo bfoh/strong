@@ -12,7 +12,7 @@ export function parseFilters(params: SearchParams): CatalogueFilters {
     category: categories.includes(category as Category) ? category as Category : '',
     location: first(params.location).trim().slice(0, 200),
     region: ghanaRegions.includes(first(params.region) as GhanaRegion) ? first(params.region) as GhanaRegion : '',
-    beds: /^[1-9]$/.test(first(params.beds)) ? first(params.beds) : '',
+    beds: /^(?:[1-9]|10)$/.test(first(params.beds)) ? first(params.beds) : '',
     min: price(first(params.min)), max: price(first(params.max)),
     sort: ['price-asc', 'price-desc', 'title'].includes(sort) ? sort as CatalogueFilters['sort'] : 'newest',
     page: Number.isInteger(page) && page > 0 ? Math.min(page, 10000) : 1,

@@ -1,4 +1,6 @@
 import 'server-only';
+import { excludeUnreviewed } from './media-review';
+import { videoPoster } from './media-posters';
 import { createClient } from '@supabase/supabase-js';
 import { cache } from 'react';
 import { supabaseConfig } from './supabase-config';
@@ -77,13 +79,13 @@ export const property = cache(async (slug: string): Promise<PropertyDetail | und
   const { data: row, error } = await query.maybeSingle();
   const data = row as unknown as Property | null;
   if (error) throw Error('This property could not be loaded. Please try again.');
-  if (!data) return undefined;
+  if (!data || !(await excludeUnreviewed([data])).length) return undefined;
   const [features, media] = await Promise.all([
     client.from('property_features').select('plot_size_sqm,building_size_sqm,tenure,documentation_status,amenities').eq('property_id', data.id).maybeSingle(),
     client.from('property_media').select('id,property_id,kind,url,caption,sort_order').eq('property_id', data.id).neq('kind', 'document').or(publicMediaFilter).order('sort_order').order('id'),
   ]);
   if (features.error || media.error) throw Error('Property details could not be loaded. Please try again.');
-  const publicMedia = ((media.data || []) as MediaRecord[]).flatMap(m => { const url = publicMediaUrl(m); return url ? [{ ...m, url }] : []; });
+  const publicMedia = (await Promise.all(((media.data || []) as MediaRecord[]).map(async m => { const url = publicMediaUrl(m); return url ? { id: m.id, kind: m.kind, caption: m.caption, url, ...(m.kind === 'video' ? { poster: await videoPoster(m.id, data.id) } : {}) } : undefined; }))).filter((m): m is NonNullable<typeof m> => Boolean(m));
   const gallery = publicMedia.filter(m => m.kind === 'image').map(m => m.url);
   return { ...data, image: gallery[0] || data.image, images: [...gallery, ...(data.images || []).filter((url: string) => !url.startsWith('/api/media/') && !url.startsWith('sp-storage:'))], features: features.data as PropertyFeatures | undefined, media: publicMedia } as PropertyDetail;
 });
@@ -97,6 +99,7 @@ export async function relatedProperties(item: Property) {
 }
 
 async function withGalleryImages(items: Property[]): Promise<Property[]> {
+  items = await excludeUnreviewed(items);
   const client = db(); if (!client || items.length === 0) return items;
   const { data, error } = await client.from('property_media').select('id,property_id,kind,url,caption,sort_order').in('property_id', items.map(p => p.id)).eq('kind', 'image').or(publicMediaFilter).order('sort_order').order('id').limit(500);
   if (error) throw Error('Property media could not be loaded.');
@@ -125,7 +128,7 @@ export async function viewingOptions(): Promise<ViewingOption[]> {
   if (await launchSchemaAvailable()) query = query.eq('review_status','approved').eq('publication_authorized',true).eq('availability','available');
   const { data, error } = await query.order('title').limit(300);
   if (error) throw Error('Published properties could not be loaded. Please try again.');
-  return (data || []) as ViewingOption[];
+  return excludeUnreviewed((data || []) as ViewingOption[]);
 }
 export async function publishedDiscovery(): Promise<{region:string;location:string;city:string;count:number}[]> {
   const client=db();if(!client||!await launchSchemaAvailable())return [];

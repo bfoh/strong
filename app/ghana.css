@@ -123,3 +123,51 @@
 .hero-bottom p {font-size:10px}
 /* Keep primary information and actions available from the first paint. */
 .ghana-hero .cine-actions,.ghana-hero .cine-eyebrow,.ghana-hero .cine-lede {animation:none}
+
+/* Original property photography stays uncropped, including portrait source material. */
+.property-card .card-photo {background:#eae5dc;border:1px solid #ded6c8;aspect-ratio:4/3}
+.property-card .card-photo img {object-fit:contain}
+.property-card:hover .card-photo img,.property-card:focus-visible .card-photo img {transform:none}
+.property-card .card-status {font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:9px 12px;box-shadow:0 2px 12px #19160f10}
+.property-card .card-info h3 {overflow-wrap:anywhere}
+.property-card .card-price {flex-wrap:wrap;font-size:13px}
+.property-card .card-price small {font-size:12px}
+.video-gallery video {display:block;width:100%;max-height:72vh;object-fit:contain;background:#171714}
+.video-gallery figcaption {font-size:12px;color:#6c655b;margin:12px 0 24px}
+.review-index {display:flex;flex-wrap:wrap;gap:10px;margin:28px 0}
+.review-index a {border:1px solid #d6cbb9;padding:9px 12px;font-size:12px}
+.review-group {scroll-margin-top:110px}
+.review-group-heading {display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:20px}
+.review-group h2 {font-size:32px;overflow-wrap:anywhere}
+.review-group>p,.review-group li {font-size:13px;line-height:1.8}
+.review-warnings {border-left:3px solid #b29458;padding:14px 16px 14px 32px;background:#f8f3e8;margin:18px 0}
+.review-assets {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:24px}
+.review-assets figure {min-width:0;margin:0;border:1px solid #e3dccf;background:#fff;padding:12px}
+.review-thumb {display:block;position:relative;height:220px;background:#ece7de}
+.review-thumb img,.review-frame img {object-fit:contain}
+.review-thumb>span {position:absolute;bottom:8px;left:8px;background:#faf8f0;padding:5px 8px;font-size:10px}
+.review-assets figcaption {display:grid;gap:8px;font-size:12px;padding-top:12px;overflow-wrap:anywhere}
+.review-assets figcaption strong {font-size:12px;font-family:inherit}
+.review-assets small {font-size:11px;line-height:1.7;color:#716959}
+.review-assets .review-warning {color:#7e462b}
+.review-assets details {font-size:12px;margin-top:12px}
+.review-assets summary {cursor:pointer;padding:8px 0}
+.review-frames {display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.review-frame {position:relative;display:block;height:140px;background:#ece7de}
+.review-preview-title {display:flex;justify-content:space-between;align-items:center;gap:25px;margin:35px 0}
+.review-preview-title h1 {font-size:clamp(34px,4vw,64px);overflow-wrap:anywhere}
+.review-preview-title>strong {font-family:var(--font-display);font-size:26px;font-weight:400}
+.admin-main .property-gallery {margin:30px 0}
+.admin-main .gallery-bar {padding:18px;flex-wrap:wrap}
+.admin-main .gallery-thumbnails {max-width:100%}
+.admin-main .property-gallery .gallery-stage {min-height:300px}
+.media-decision {margin-top:30px;padding:25px;border:1px solid #d8c9ac;background:#f9f5ec}
+.media-decision h2 {font-size:30px}
+.media-decision>p {font-size:13px;line-height:1.8}
+.media-decision .review-check {display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.6}
+.media-decision .review-check input {width:20px;min-width:20px;height:20px;margin-top:3px}
+@media(max-width:1100px){.review-assets{grid-template-columns:repeat(2,minmax(0,1fr))}.review-group-heading{flex-direction:column}}
+@media(max-width:700px){.review-assets{grid-template-columns:1fr}.review-thumb{height:280px}.review-preview-title{display:block}.review-preview-title>strong{display:block;margin-top:18px}.review-group h2{font-size:28px}.media-decision{padding:18px}.review-index a{font-size:11px}.property-card .card-price{font-size:13px}}
+/* Navigation may scroll inside its own row without widening the admin grid. */
+.admin-sidebar {min-width:0}
+@media(max-width:850px){.admin-layout{grid-template-columns:minmax(0,1fr)}.admin-sidebar nav{max-width:100%}}

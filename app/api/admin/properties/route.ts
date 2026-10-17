@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { propertyMediaReview } from '@/lib/media-review';
 import { randomUUID } from 'node:crypto';
 import { sameOrigin } from '@/lib/origin';
 import { staff, canEditProperties } from '@/lib/admin-auth';
@@ -17,6 +18,7 @@ export async function POST(req: Request) {
   const d=parsed.data,client=db()!,launch=await launchSchemaAvailable();
   if (!launch && (d.status==='published' || d.region || d.review_status || d.publication_authorized)) return NextResponse.json({error:'Apply the Ghana launch migration before publishing or saving structured fields. Drafts and media remain available.'},{status:409});
   const id=d.id || randomUUID();
+  if (d.status === 'published' && (await propertyMediaReview(id))?.needsReview) return NextResponse.json({error:'Resolve the private media review and confirm the property identity before publication.'},{status:409});
   const core={title:d.title,slug:d.slug,category:d.category,location:d.location,price:d.price===''?null:d.price,currency:'GHS',image:d.image,images:d.images.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),beds:d.beds===''?null:d.beds,baths:d.baths===''?null:d.baths,description:d.description,status:d.status,updated_at:new Date().toISOString()};
   const features={plot_size_sqm:d.plot_size_sqm===''?null:d.plot_size_sqm,building_size_sqm:d.building_size_sqm===''?null:d.building_size_sqm,tenure:d.tenure,documentation_status:d.documentation_status,amenities:d.amenities.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).slice(0,60)};
   if (launch) {

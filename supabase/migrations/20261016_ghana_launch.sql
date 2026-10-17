@@ -36,7 +36,7 @@ do $$ declare t text; begin
 end $$;
 -- The server mediates private files, including general enquiries and attribution sidecars.
 drop policy if exists launch_storage_private on storage.objects;
-create policy launch_storage_private on storage.objects as restrictive for all to anon,authenticated using(bucket_id not in ('strong-property-media','strong-homepage-private')) with check(bucket_id not in ('strong-property-media','strong-homepage-private'));
+create policy launch_storage_private on storage.objects as restrictive for all to anon,authenticated using(bucket_id not in ('strong-property-media','strong-homepage-private','strong-media-review')) with check(bucket_id not in ('strong-property-media','strong-homepage-private','strong-media-review'));
 
 create or replace function public.public_property_discovery()
 returns table(region text,city text,location text,property_count bigint)

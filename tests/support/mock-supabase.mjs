@@ -8,12 +8,21 @@ const requests = [], queries = [];
 function json(res, data, status = 200, count) { res.writeHead(status, { 'content-type': 'application/json', ...(count != null ? { 'content-range': `0-${Math.max(0, count - 1)}/${count}` } : {}) }); res.end(JSON.stringify(data)); }
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://127.0.0.1');
+  if (url.pathname === '/storage/v1/bucket/strong-homepage-private') return json(res,{id:'strong-homepage-private',name:'strong-homepage-private',public:false});
+  if (url.pathname.startsWith('/storage/v1/object/strong-homepage-private/lead-context/') && req.method === 'POST') return json(res,{Key:url.pathname},201);
+  if (['/rest/v1/enquiries','/rest/v1/appointments'].includes(url.pathname) && req.method === 'GET') return json(res,[]);
   if (url.pathname === '/_qa/requests') return json(res, { requests, queries });
+  if (url.pathname === '/rest/v1/rpc/consume_public_lead_quota') return json(res, true);
   if (url.pathname === '/rest/v1/rpc/public_property_locations') return json(res, [{ location: published.location }]);
   if (url.pathname === '/rest/v1/properties') {
     queries.push(Object.fromEntries(url.searchParams));
+    if (url.searchParams.get('limit') === '0') return json(res, {code:'42703',message:'Local legacy-schema fixture'},400);
     const rows = [published, draft].filter(p => [...url.searchParams].every(([key, value]) => {
       if (['status', 'id', 'slug', 'category', 'location'].includes(key)) return value.startsWith('eq.') ? p[key] === value.slice(3) : value.startsWith('neq.') ? p[key] !== value.slice(4) : true;
+      if (key === 'beds' && value.startsWith('gte.')) return p.beds >= Number(value.slice(4));
+      if (key === 'price' && value.startsWith('gte.')) return p.price != null && p.price >= Number(value.slice(4));
+      if (key === 'price' && value.startsWith('lte.')) return p.price != null && p.price <= Number(value.slice(4));
+      if (key === 'or') { const term = /title\.ilike\.%([^%]*)%/.exec(value)?.[1]; return !term || `${p.title} ${p.location}`.toLowerCase().includes(term.toLowerCase()); }
       return true;
     }));
     return json(res, rows, 200, rows.length);
