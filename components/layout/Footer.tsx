@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/marketing/TrackedLink';
 import { ArrowUpRight } from 'lucide-react';
 import Brand from './Brand';
 import { site } from '@/lib/config';
@@ -16,7 +16,7 @@ export default function Footer() {
     <div className="site-footer-top">
       <div className="site-footer-brand">
         <Brand/>
-        <p>Land, residential and commercial property opportunities in and around Kumasi, Ghana, presented with clarity and care.</p>
+        <p>Strong Properties connects local and international buyers with property opportunities across Ghana.</p>
       </div>
       <nav className="site-footer-col" aria-label="Explore properties">
         <p className="site-footer-label">Explore</p>
@@ -31,6 +31,7 @@ export default function Footer() {
         <address>
           <span>{site.address || site.location}</span>
           {site.phone && <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a>}
+          {site.internationalPhone && <a href={`tel:${site.internationalPhone.replace(/[^+\d]/g,'')}`}>International: {site.internationalPhone}</a>}
           {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
         </address>
         {!site.phone && !site.email && <Link href="/contact">Contact page</Link>}

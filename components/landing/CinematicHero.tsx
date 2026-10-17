@@ -1,122 +1,68 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { HERO_FRAME_COUNT, HeroFrameLoader, heroFrameForProgress, heroFrameUrl, heroVariants, warmOrder, type HeroVariant } from '@/lib/cinematic/heroFrames';
+import { ArrowDown, ArrowUpRight, Pause, Play } from 'lucide-react';
+import Link from '@/components/marketing/TrackedLink';
+import { HERO_FRAME_COUNT, HeroFrameLoader, heroFrameForProgress, heroFrameUrl, heroVariants, type HeroVariant } from '@/lib/cinematic/heroFrames';
 
-const chapters = [{ from: 0, name: 'Arrival' }, { from: .24, name: 'Living' }, { from: .48, name: 'Retreat' }, { from: .76, name: 'Return' }];
-// Portrait viewports use the centred 4:5 crop; everything wider uses the native 16:9 frames.
-const pickVariant = (): HeroVariant => innerWidth / innerHeight < .9 ? 'mobile' : 'desktop';
-
-export default function CinematicHero() {
-  const section = useRef<HTMLElement>(null), stage = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), chapter = useRef<HTMLSpanElement>(null);
-  const [variant, setVariant] = useState<HeroVariant | null>(null);
-
+export default function CinematicHero({ staticOnly = false }: { staticOnly?: boolean }) {
+  const section = useRef<HTMLElement>(null), stage = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null);
+  const [variant,setVariant] = useState<HeroVariant | null>(null), [motion,setMotion] = useState(true), [failed,setFailed] = useState(false), [posterFallback,setPosterFallback] = useState(false);
   useEffect(() => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    const choose = () => setVariant(reduced.matches ? null : pickVariant());
-    choose(); reduced.addEventListener('change', choose);
-    const resize = () => { if (!reduced.matches) setVariant(pickVariant()); };
-    addEventListener('resize', resize);
-    return () => { reduced.removeEventListener('change', choose); removeEventListener('resize', resize); };
-  }, []);
-
+    const network = (navigator as Navigator & { connection?: EventTarget & {saveData?:boolean}; deviceMemory?: number }).connection;
+    let optedOut=false;
+    const choose = () => setVariant(!motion || optedOut || staticOnly || reduced.matches || network?.saveData ? null : innerWidth / innerHeight < .9 ? 'mobile' : 'desktop');
+    try { const stored = localStorage.getItem('strong-hero-motion'); if (stored === 'off' || stored === null && localStorage.getItem('strong-house-motion') === 'off') {optedOut=true;setMotion(false);} } catch {}
+    choose();reduced.addEventListener('change',choose);network?.addEventListener('change',choose);addEventListener('resize',choose);
+    return () => {reduced.removeEventListener('change',choose);network?.removeEventListener('change',choose);removeEventListener('resize',choose);};
+  },[motion,staticOnly]);
   useEffect(() => {
-    const root = section.current, view = stage.current, element = canvas.current;
-    const context = element?.getContext('2d', { alpha: false });
-    if (!variant || !root || !view || !element || !context) return;
-    const device = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
-    const lite = Boolean(device.connection?.saveData || (device.deviceMemory && device.deviceMemory <= 2));
-    const stride = lite ? 3 : 1, source = heroVariants[variant];
-    let target = 0, current = 0, raf = 0, drawn = -1, requested = 0, chapterIndex = -1, warmed = false;
-
-    const loader = new HeroFrameLoader(i => heroFrameUrl(variant, i), HERO_FRAME_COUNT, {
-      capacity: lite ? 10 : variant === 'mobile' ? 18 : 24, concurrency: lite ? 2 : 4, stride,
-      onFrame: () => { if (!raf) raf = requestAnimationFrame(tick); },
+    const root=section.current,view=stage.current,element=canvas.current;
+    if (!variant || failed || !root || !view || !element) return;
+    const context=element.getContext('2d',{alpha:false});if(!context){setFailed(true);return;}
+    const source=heroVariants[variant], mobile=variant==='mobile';
+    let raf=0,target=0,requested=-1,painted=-1,errors=0,disposed=false;
+    const loader=new HeroFrameLoader(index=>heroFrameUrl(variant,index),HERO_FRAME_COUNT,{
+      capacity:mobile?10:16,concurrency:mobile?2:3,stride:1,
+      onFrame:()=>{if(!raf&&!disposed)raf=requestAnimationFrame(render);},
+      onFailure:index=>{if(!disposed && (index===0 || ++errors>=3))setFailed(true);},
     });
-    const draw = (frame: CanvasImageSource) => {
-      const scale = Math.max(element.width / source.width, element.height / source.height);
-      const w = source.width * scale, h = source.height * scale;
-      context.drawImage(frame, (element.width - w) / 2, (element.height - h) / 2, w, h);
-    };
-    const render = () => {
-      view.style.setProperty('--p', current.toFixed(4));
-      view.dataset.phase = current < .15 ? 'intro' : current > .97 ? 'end' : 'journey';
-      const index = heroFrameForProgress(current, HERO_FRAME_COUNT, stride);
-      if (index !== requested) { loader.request(index, index - requested); requested = index; }
-      const exact = loader.get(index), best = exact ? { index, frame: exact } : loader.nearest(index);
-      if (best && best.index !== drawn) {
-        draw(best.frame); drawn = best.index;
-        if (!view.dataset.ready) {
-          view.dataset.ready = 'true';
-          if (!warmed) { warmed = true; setTimeout(() => loader.warm(warmOrder(HERO_FRAME_COUNT, stride)), 900); }
-        }
+    function render(){
+      raf=0;if(disposed)return;
+      const distance=Math.max(1,root!.offsetHeight-view!.clientHeight);
+      target=Math.max(0,Math.min(1,-root!.getBoundingClientRect().top/distance));
+      const index=heroFrameForProgress(target);
+      if(index!==requested){const direction=index-requested;requested=index;loader.request(index,direction);}
+      const exact=loader.get(index),frame=exact?{index,frame:exact}:loader.nearest(index);
+      if(frame && frame.index!==painted){
+        const scale=Math.max(element!.width/source.width,element!.height/source.height),width=source.width*scale,height=source.height*scale;
+        context!.drawImage(frame.frame,(element!.width-width)/2,(element!.height-height)/2,width,height);
+        painted=frame.index;view!.dataset.ready='true';
       }
-      root.dataset.frame = String(drawn + 1);
-      const next = chapters.reduce((found, item, i) => current >= item.from ? i : found, 0);
-      if (next !== chapterIndex && chapter.current) { chapterIndex = next; chapter.current.textContent = chapters[next].name; }
-    };
-    function tick() {
-      raf = 0;
-      const diff = target - current;
-      current = Math.abs(diff) < .0005 ? target : current + diff * .2;
-      render();
-      if (current !== target) raf = requestAnimationFrame(tick);
+      root!.dataset.requested=String(index+1);root!.dataset.frame=String(painted+1);root!.dataset.progress=target.toFixed(4);
+      view!.style.setProperty('--p',String(target));
+      const stats=loader.stats();root!.dataset.decoded=String(stats.decoded);root!.dataset.inflight=String(stats.inflight);
     }
-    const measure = () => {
-      const bounds = root.getBoundingClientRect(), distance = root.offsetHeight - innerHeight;
-      target = distance > 0 ? Math.max(0, Math.min(1, -bounds.top / distance)) : 0;
-      if (!raf) raf = requestAnimationFrame(tick);
+    const schedule=()=>{if(!raf)raf=requestAnimationFrame(render);};
+    const size=()=>{
+      const bounds=view.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,mobile?1.25:1.5);
+      const width=Math.max(1,Math.round(bounds.width*dpr)),height=Math.max(1,Math.round(bounds.height*dpr));
+      if(element.width!==width||element.height!==height){element.width=width;element.height=height;painted=-1;}
+      context.imageSmoothingQuality='high';schedule();
     };
-    const size = () => {
-      const bounds = element.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
-      element.width = Math.max(1, Math.round(bounds.width * dpr)); element.height = Math.max(1, Math.round(bounds.height * dpr));
-      context.imageSmoothingQuality = 'high'; drawn = -1; measure();
-    };
-    const resizer = new ResizeObserver(size); resizer.observe(element);
-    // Stop fetching while the hero is far off-screen or the tab is hidden; resume where it left off.
-    let near = true;
-    const hidden = () => loader.setPaused(!near || document.hidden);
-    const visibility = new IntersectionObserver(([entry]) => { near = entry.isIntersecting; hidden(); }, { rootMargin: '100% 0px' });
-    visibility.observe(root);
-    addEventListener('scroll', measure, { passive: true }); document.addEventListener('visibilitychange', hidden);
-    measure(); current = target; loader.request(requested = heroFrameForProgress(target, HERO_FRAME_COUNT, stride), 1);
-    return () => {
-      cancelAnimationFrame(raf); resizer.disconnect(); visibility.disconnect();
-      removeEventListener('scroll', measure); document.removeEventListener('visibilitychange', hidden);
-      loader.dispose(); delete view.dataset.ready;
-    };
-  }, [variant]);
-
-  return <section ref={section} className="cine" data-hero data-motion={variant ? 'sequence' : undefined} aria-labelledby="hero-title">
-    <div ref={stage} className="cine-stage" data-phase="intro">
-      <picture className="cine-poster">
-        <source media="(max-aspect-ratio: 9/10)" srcSet={heroFrameUrl('mobile', 0)}/>
-        {/* The first supplied frame paints with the HTML; the canvas takes over once frames decode. */}
-        <img src={heroFrameUrl('desktop', 0)} alt="" width={1280} height={720} fetchPriority="high" decoding="async"/>
-      </picture>
-      <canvas ref={canvas} className="cine-canvas" aria-hidden="true"/>
-      <div className="cine-scrim" aria-hidden="true"/>
-      <div className="cine-intro">
-        <p className="cine-eyebrow"><span aria-hidden="true"/>KUMASI · GHANA</p>
-        <h1 id="hero-title"><span className="cine-line"><span>Spaces Worth</span></span>{' '}<span className="cine-line"><span><em>Living For.</em></span></span></h1>
-        <p className="cine-lede">Discover exceptional land, residences and investment opportunities with Strong Properties.</p>
-        <div className="cine-actions">
-          <Link className="btn btn-gold" href="/properties">Explore Properties <ArrowUpRight size={16} aria-hidden="true"/></Link>
-          <Link className="btn btn-ghost-light" href="/book-viewing">Book a Viewing</Link>
-        </div>
-      </div>
-      <div className="cine-captions" aria-hidden="true">
-        <p className="cine-caption cine-caption-a"><span>Living</span>Spaces shaped around<br/>the way you <em>live.</em></p>
-        <p className="cine-caption cine-caption-b"><span>Retreat</span>Every detail,<br/><em>considered.</em></p>
-        <p className="cine-caption cine-caption-c">Now, find the space<br/><em>that’s yours.</em></p>
-      </div>
-      <div className="cine-cue" aria-hidden="true"><span className="cine-cue-line"/>Scroll to enter</div>
-      <div className="cine-progress" aria-hidden="true">
-        <span ref={chapter} className="cine-chapter">Arrival</span>
-        <span className="cine-track"><span/></span>
-      </div>
-      <p className="cine-provenance">Conceptual architectural visualisation · Not a property listing</p>
-    </div>
-  </section>;
+    let near=true;
+    const visibility=()=>loader.setPaused(!near||document.hidden);
+    const intersection=new IntersectionObserver(([entry])=>{near=entry.isIntersecting;visibility();},{rootMargin:'50% 0px'});intersection.observe(root);
+    const observer=new ResizeObserver(size);observer.observe(view);
+    addEventListener('scroll',schedule,{passive:true});addEventListener('resize',size);document.addEventListener('visibilitychange',visibility);size();
+    return()=>{disposed=true;cancelAnimationFrame(raf);loader.dispose();observer.disconnect();intersection.disconnect();removeEventListener('scroll',schedule);removeEventListener('resize',size);document.removeEventListener('visibilitychange',visibility);delete view.dataset.ready;};
+  },[variant,failed]);
+  const enabled=Boolean(variant&&!failed);
+  function toggle(){const next=!motion;setMotion(next);setFailed(false);try{localStorage.setItem('strong-hero-motion',next?'on':'off');}catch{}}
+  return <section ref={section} className="cine ghana-hero" data-hero data-motion={enabled?'sequence':'static'} aria-labelledby="hero-title"><div ref={stage} className="cine-stage" data-phase="intro">
+    <picture className="cine-poster"><source media="(max-aspect-ratio: 9/10)" srcSet={posterFallback?'/images/house-v1/exterior-mobile.webp':heroFrameUrl('mobile',0)}/><img src={posterFallback?'/images/house-v1/exterior-desktop.webp':heroFrameUrl('desktop',0)} alt="" width={1280} height={720} fetchPriority="high" decoding="async" onError={()=>{setPosterFallback(true);setFailed(true);}}/></picture>
+    <canvas ref={canvas} className="cine-canvas" aria-hidden="true"/><div className="cine-scrim" aria-hidden="true"/>
+    <div className="cine-intro"><p className="cine-eyebrow"><span/>GHANA · AT HOME, AND ABROAD</p><h1 id="hero-title">Find Your Place <em>in Ghana.</em></h1><p className="cine-lede">Discover homes, land and investment opportunities across Ghana, wherever in the world you call home.</p><div className="cine-actions"><Link className="btn btn-gold" href="/properties">Explore Properties <ArrowUpRight size={16} aria-hidden="true"/></Link><Link className="btn btn-ghost-light" href="/contact#enquiry">Make an Enquiry</Link></div><a className="hero-skip" href="#property-search" onClick={event=>{event.preventDefault();document.getElementById('property-search')?.scrollIntoView({behavior:'instant'});document.getElementById('property-search-title')?.focus({preventScroll:true});history.replaceState(null,'','#property-search');}}>Skip to property search <ArrowDown size={14}/></a></div>
+    <div className="hero-bottom"><p>Concept architectural film · Illustrative, not a sale listing</p><span className="hero-scroll" aria-hidden="true">{enabled?'SCROLL TO EXPLORE':'YOUR NEXT CHAPTER STARTS HERE'}</span><button type="button" onClick={toggle} aria-pressed={enabled}>{enabled?<Pause size={13}/>:<Play size={13}/>} Motion {enabled?'on':'off'}</button></div>
+  </div></section>;
 }

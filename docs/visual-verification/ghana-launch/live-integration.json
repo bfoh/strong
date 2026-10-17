@@ -1,0 +1,21 @@
+{
+  "liveSupabase": true,
+  "notificationsSent": false,
+  "accountsCreated": false,
+  "passwordLoginTested": false,
+  "publicTestInventoryCreated": false,
+  "campaignGeneralEnquiryStored": true,
+  "retryIdempotent": true,
+  "generalEnquiryAnonymousReadDenied": true,
+  "noJavaScriptCampaignSubmissionStored": true,
+  "draftAndSquareMetreSpecificationsSaved": true,
+  "structuredFieldsAndPublishGated": true,
+  "draftAnonymousReadDenied": true,
+  "privateMediaUploadAndAuthorization": true,
+  "propertyLeadAnonymousReadDenied": true,
+  "draftPublicEnquiryRejected": true,
+  "staffInboxWithAttribution": true,
+  "actualCampaignReport": true,
+  "reportingRequiresStaff": true,
+  "ownedFixturesRemoved": true
+}

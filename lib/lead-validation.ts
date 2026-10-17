@@ -1,5 +1,7 @@
 import { z } from 'zod';
+import { buyerContextSchema } from './marketing';
 const fields = {
+  ...buyerContextSchema,
   propertyId: z.string().uuid(), name: z.string().trim().min(2).max(120),
   phone: z.string().trim().min(7).max(30).regex(/^[+\d\s().-]+$/).refine(value => { const digits = value.replace(/\D/g, ''); return digits.length >= 7 && digits.length <= 15; }),
   email: z.union([z.string().trim().email().max(254), z.literal('')]).optional(),

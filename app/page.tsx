@@ -1,4 +1,25 @@
-import HousePage, { houseMetadata } from '@/components/house/HousePage';
-export const dynamic = 'force-dynamic';
-export async function generateMetadata() { return houseMetadata(); }
-export default HousePage;
+import type { Metadata } from 'next';
+import { randomUUID } from 'node:crypto';
+import Image from 'next/image';
+import CinematicHero from '@/components/landing/CinematicHero';
+import CategoryShowcase from '@/components/landing/CategoryShowcase';
+import HomeSearch from '@/components/marketing/HomeSearch';
+import PublishedCollection from '@/components/marketing/PublishedCollection';
+import GhanaDiscovery from '@/components/marketing/GhanaDiscovery';
+import GeneralEnquiry from '@/components/marketing/GeneralEnquiry';
+import ContactActions from '@/components/marketing/ContactActions';
+import Link from '@/components/marketing/TrackedLink';
+import { featuredProperties, publishedDiscovery, launchSchemaAvailable } from '@/lib/server';
+import { databaseConfigured, siteUrl } from '@/lib/config';
+import {attributionFromSearch} from '@/lib/marketing';
+import type {SearchParams} from '@/lib/catalogue';
+import { brandAssets } from '@/lib/assets';
+export const dynamic='force-dynamic';
+const description='Discover homes, land and investment opportunities across Ghana, wherever in the world you call home.';
+export async function generateMetadata():Promise<Metadata>{const base=siteUrl();return {title:{absolute:'Strong Properties | Find Your Place in Ghana'},description,robots:{index:Boolean(base&&databaseConfigured()),follow:true},alternates:base?{canonical:base+'/'}:{canonical:null},openGraph:{title:'Find Your Place in Ghana. | Strong Properties',description,...(base?{images:[{url:base+'/cinematic/hero/og.jpg',width:1200,height:630,alt:'Concept architectural visualisation for Strong Properties'}]}:{})}};}
+export default async function Home({searchParams}:{searchParams:Promise<SearchParams>}){
+ const attribution=attributionFromSearch(await searchParams);
+ const [collection,locations,structured]=await Promise.all([featuredProperties(6).then(items=>({items,error:false})).catch(()=>({items:[],error:true})),publishedDiscovery().catch(()=>[]),launchSchemaAvailable().catch(()=>false)]);
+ const base=siteUrl();
+ return <main id="main-content" className="ghana-home"><CinematicHero staticOnly={process.env.NEXT_PUBLIC_HERO_STATIC==='1'}/><HomeSearch structured={structured} attribution={attribution}/><section className="ghana-introduction"><p className="kicker">At home, and abroad</p><h2>A place to belong.<br/>A future <em>to build.</em></h2><p>Strong Properties connects local and international buyers with property opportunities across Ghana. Explore clearly presented listings, ask the questions that matter and take your next step with the information you need.</p></section><PublishedCollection properties={collection.items} error={collection.error} attribution={attribution}/><CategoryShowcase/><GhanaDiscovery locations={locations}/><section className="diaspora-section"><figure><Image src={brandAssets.philosophy.src} alt="Conceptual ivory architecture and warm stone finishes" fill sizes="(max-width:800px) 90vw, 45vw"/><figcaption>Concept image · Brand illustration</figcaption></figure><div><p className="kicker">For buyers around the world</p><h2 className="display">Closer to Ghana.<br/><em>Wherever you are.</em></h2><p>Your search can begin from abroad. Share your plans, ask about a remote consultation, and discuss viewing or site-inspection assistance with the team.</p><ul><li>Review the listing’s available photographs and specifications.</li><li>Ask about current availability and documentation.</li><li>Arrange independent legal and professional advice before any commitment.</li></ul><Link className="link-arrow" href="/contact#enquiry">Plan your conversation ↗</Link></div></section><section className="launch-approach"><header><p className="kicker">Why Strong Properties</p><h2 className="display">Clarity at <em>every step.</em></h2><p>A considered property journey starts with useful information and a conversation.</p></header><ol>{[['Discover','Explore genuine published opportunities by location, property type and budget.'],['Ask','Discuss the specifications, current availability and documents with the team.'],['View','Request an in-person or remote viewing. Arrangements are confirmed separately.'],['Decide','Complete your own due diligence with independent advisers before any agreement.']].map(([title,text],index)=><li key={title}><span>0{index+1}</span><h3>{title}</h3><p>{text}</p></li>)}</ol></section><section className="launch-contact"><div><p className="kicker">Let’s talk about what’s next</p><h2 className="display">Your next chapter.<br/><em>A conversation away.</em></h2><p>Looking for a home, land or a commercial opportunity in Ghana? Share your preferred location, plans and questions.</p><ContactActions/><p className="launch-disclaimer">Prices, specifications, documentation and availability require confirmation. No ownership verification or investment return is guaranteed.</p></div><GeneralEnquiry requestId={randomUUID()} initialAttribution={attribution}/></section>{base&&<script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({'@context':'https://schema.org','@type':'Organization',name:'Strong Properties',url:base,description:'Strong Properties connects local and international buyers with property opportunities across Ghana.',areaServed:{'@type':'Country',name:'Ghana'}}).replace(/</g,'\\u003c')}}/>}</main>;
+}

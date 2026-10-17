@@ -1,6 +1,6 @@
 // Scroll-scrubbed playback of the supplied 451-frame villa visualisation.
 // Decoded bitmaps are bounded (LRU by distance); the full sequence only ever
-// lives in the HTTP cache as compressed WebP, warmed coarse-to-fine at low priority.
+// uses compressed WebP on demand. The homepage never calls the legacy warm() method.
 export const HERO_FRAME_COUNT = 451;
 export type HeroVariant = 'desktop' | 'mobile';
 export const heroVariants = { desktop: { width: 1280, height: 720 }, mobile: { width: 576, height: 720 } } as const;
@@ -23,7 +23,7 @@ export function warmOrder(count = HERO_FRAME_COUNT, stride = 1) {
 }
 
 type Frame = ImageBitmap | HTMLImageElement;
-type Options = { capacity: number; concurrency: number; stride: number; onFrame: (index: number) => void };
+type Options = { capacity: number; concurrency: number; stride: number; onFrame: (index: number) => void; onFailure?: (index: number) => void };
 
 export class HeroFrameLoader {
   private frames = new Map<number, Frame>();
@@ -34,6 +34,7 @@ export class HeroFrameLoader {
   private warming = 0;
   private paused = false;
   private abort = new AbortController();
+  private controllers = new Map<number, AbortController>();
   constructor(private url: (index: number) => string, private count: number, private options: Options) {}
 
   get(index: number) { return this.frames.get(index); }
@@ -51,6 +52,7 @@ export class HeroFrameLoader {
     for (let i = 1; i <= 5; i++) wanted.push(index + step * i);
     wanted.push(index - step, index - step * 2);
     this.queue = wanted.filter(i => i >= 0 && i < this.count && !this.frames.has(i) && !this.inflight.has(i));
+    for (const [pending,controller] of this.controllers) if (!wanted.includes(pending) && Math.abs(pending-index)>this.options.capacity) controller.abort();
     this.pump();
   }
   /** Prime the HTTP cache with the whole sequence without decoding it. */
@@ -75,16 +77,17 @@ export class HeroFrameLoader {
   }
   private async load(index: number) {
     this.inflight.add(index);
+    const controller = new AbortController();this.controllers.set(index,controller);
     try {
-      const response = await fetch(this.url(index), { signal: this.abort.signal });
-      if (!response.ok) return;
+      const response = await fetch(this.url(index), { signal: controller.signal });
+      if (!response.ok) throw Error('Frame unavailable.');
       const frame = await decode(await response.blob());
-      if (this.abort.signal.aborted) { release(frame); return; }
+      if (this.abort.signal.aborted || controller.signal.aborted) { release(frame); return; }
       this.frames.set(index, frame);
       this.evict();
       this.options.onFrame(index);
-    } catch { /* A missing frame falls back to its nearest decoded neighbour. */ }
-    finally { this.inflight.delete(index); this.pump(); }
+    } catch { if (!this.abort.signal.aborted && !controller.signal.aborted) this.options.onFailure?.(index); }
+    finally { this.controllers.delete(index);this.inflight.delete(index); if (controller.signal.aborted && !this.abort.signal.aborted && index===this.focus && !this.frames.has(index)) this.queue.unshift(index); this.pump(); }
   }
   private evict() {
     while (this.frames.size > this.options.capacity) {
@@ -95,13 +98,14 @@ export class HeroFrameLoader {
   }
   dispose() {
     this.abort.abort(); this.queue = []; this.warmQueue = [];
+    this.controllers.forEach(controller=>controller.abort());this.controllers.clear();
     for (const frame of this.frames.values()) release(frame);
     this.frames.clear();
   }
 }
 
 async function decode(blob: Blob): Promise<Frame> {
-  if (typeof createImageBitmap === 'function') return createImageBitmap(blob);
+  if (typeof createImageBitmap === 'function') { try { return await createImageBitmap(blob); } catch { /* Safari can use the image-element decoder. */ } }
   const url = URL.createObjectURL(blob), image = new Image();
   try { image.src = url; await image.decode(); return image; } finally { URL.revokeObjectURL(url); }
 }

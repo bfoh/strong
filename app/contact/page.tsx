@@ -1,8 +1,21 @@
 import type { Metadata } from 'next';
-import Button from '@/components/ui/Button';
+import { randomUUID } from 'node:crypto';
+import {attributionFromSearch} from '@/lib/marketing';
+import type {SearchParams} from '@/lib/catalogue';
 import { site, siteUrl } from '@/lib/config';
-export const metadata: Metadata = { title: 'Start a Conversation', description: 'Explore your next property chapter with Strong Properties in Kumasi. Send an enquiry or request a viewing from a published property page.', alternates: siteUrl() ? { canonical: '/contact' } : undefined };
-export default function Contact() {
-  const hasContact = site.email || site.phone;
-  return <main id="main-content"><section className="page-head"><span className="eyebrow">LET’S TALK ABOUT WHAT COMES NEXT</span><h1>Every strong future<br/>starts with <em>a conversation.</em></h1><p>Find a home. Shape a vision. Explore an opportunity.</p></section><section className="editorial-page"><div><span className="eyebrow">STRONG PROPERTIES / KUMASI, GHANA</span><h2>Your next step,<br/>considered together.</h2><p>For questions about a particular property, use the enquiry form on its page. To take a closer look, request your preferred viewing date and time.</p><p>Viewing requests are preferences. The team will follow up to discuss and confirm arrangements.</p>{hasContact ? <div className="contact-details">{site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}{site.phone && <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a>}{site.address && <p>{site.address}</p>}</div> : <p className="preview-note">Direct contact details are being confirmed. Enquiry and viewing forms are available on published property pages.</p>}</div><div><div className="contact-option"><h3>Find your next space.</h3><p>Browse by property type, location or published price.</p><Button href="/properties" variant="text">Explore the collection</Button></div><div className="contact-option"><h3>See it for yourself.</h3><p>Choose a published property and share a preferred viewing date and time.</p><Button href="/book-viewing" variant="text">Book a viewing</Button></div><div className="contact-option"><h3>A foundation to build on.</h3><p>Explore land for your next vision and discuss the relevant details with the team.</p><Button href="/properties?category=land" variant="text">Explore land</Button></div></div></section></main>;
+import GeneralEnquiry from '@/components/marketing/GeneralEnquiry';
+import ContactActions from '@/components/marketing/ContactActions';
+
+export const dynamic = 'force-dynamic';
+export const metadata: Metadata = {
+  title: 'Contact Strong Properties | Property enquiries across Ghana',
+  description: 'Speak to Strong Properties about homes, land, commercial property and remote viewings in Ghana.',
+  alternates: { canonical: siteUrl() ? `${siteUrl()}/contact` : '/contact' },
+};
+export default async function ContactPage({searchParams}:{searchParams:Promise<SearchParams>}) {
+  const attribution=attributionFromSearch(await searchParams);
+  return <main id="main-content"><section className="page-head"><p className="eyebrow">Ghana · At home and abroad</p><h1>Your next chapter<br/><em>starts with a conversation.</em></h1></section>
+    <section className="launch-contact contact-page"><div><p className="sp-kicker">Talk to Strong Properties</p><h2 className="sp-display">Let’s find your place.</h2><p>Tell us where you would like to buy, what you are looking for and how you prefer to hear from us. You can also request a remote consultation.</p>
+      <dl className="contact-details"><dt>Ghana</dt><dd><a href={`tel:${site.phone}`}>{site.phone}</a></dd><dt>International</dt><dd><a href={`tel:${site.internationalPhone}`}>{site.internationalPhone}</a></dd>{site.email && <><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></>}</dl><ContactActions/>
+      <p className="launch-note">Please do not include identity documents or payment information in this form. Property availability and documentation should be confirmed with the team before any commitment.</p></div><GeneralEnquiry requestId={randomUUID()} initialAttribution={attribution}/></section></main>;
 }

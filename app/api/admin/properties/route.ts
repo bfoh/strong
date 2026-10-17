@@ -1,10 +1,33 @@
-import {sameOrigin} from '@/lib/origin';
-import {NextResponse} from 'next/server';import {z} from 'zod';import {staff} from '@/lib/admin-auth';import {db} from '@/lib/server';
-const schema=z.object({id:z.union([z.string().uuid(),z.literal('')]),title:z.string().trim().min(3).max(160),slug:z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),category:z.enum(['land','residential','commercial']),location:z.string().trim().min(2).max(200),price:z.union([z.literal(''),z.coerce.number().nonnegative()]),image:z.string().max(1500),images:z.string().max(10000),beds:z.union([z.literal(''),z.coerce.number().int().nonnegative()]),baths:z.union([z.literal(''),z.coerce.number().int().nonnegative()]),description:z.string().min(10).max(10000),status:z.enum(['draft','published','under_offer','sold','archived'])}).strict();
-export async function POST(req:Request){if(!sameOrigin(req))return NextResponse.json({error:'Invalid origin'},{status:403});const person=await staff();if(!person||!['admin','manager','editor'].includes(person.role))return NextResponse.json({error:'Unauthorized'},{status:403});
- const form=await req.formData();const obj=Object.fromEntries([...form.entries()].map(([k,v])=>[k,String(v)]));const parsed=schema.safeParse(obj);if(!parsed.success)return NextResponse.json({error:'Invalid property data',details:parsed.error.flatten()},{status:400});const d=parsed.data;
- const payload={title:d.title,slug:d.slug,category:d.category,location:d.location,price:d.price===''?null:d.price,currency:'GHS',image:d.image,images:d.images.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),beds:d.beds===''?null:d.beds,baths:d.baths===''?null:d.baths,description:d.description,status:d.status,updated_at:new Date().toISOString()};
- const client=db()!;const result=d.id?await client.from('properties').update(payload).eq('id',d.id).select('id').single():await client.from('properties').insert(payload).select('id').single();if(result.error||!result.data)return NextResponse.json({error:'Could not save property. Check the slug is unique.'},{status:400});
- await client.from('audit_logs').insert({actor_id:person.id,entity_type:'property',entity_id:result.data.id,action:d.id?'update':'create',details:{status:d.status}});
- return NextResponse.redirect(new URL('/admin/properties',req.headers.get('origin')!),303);
+import { NextResponse } from 'next/server';
+import { randomUUID } from 'node:crypto';
+import { sameOrigin } from '@/lib/origin';
+import { staff, canEditProperties } from '@/lib/admin-auth';
+import { db, launchSchemaAvailable } from '@/lib/server';
+import { boundedBody, BodyTooLargeError } from '@/lib/request-body';
+import { propertyInputSchema } from '@/lib/property-validation';
+export async function POST(req: Request) {
+  if (!sameOrigin(req)) return NextResponse.json({error:'Invalid origin'},{status:403});
+  const person = await staff();
+  if (!person || !canEditProperties(person)) return NextResponse.json({error:'Unauthorized'},{status:403});
+  let form: FormData;
+  try { const bytes=await boundedBody(req,65536); form=await new Request(req.url,{method:'POST',headers:{'content-type':req.headers.get('content-type') || ''},body:bytes}).formData(); }
+  catch(e) { return NextResponse.json({error:e instanceof BodyTooLargeError ? 'Property details exceed 64 KB.' : 'Invalid form.'},{status:400}); }
+  const parsed=propertyInputSchema.safeParse(Object.fromEntries(form));
+  if (!parsed.success) return NextResponse.json({error:'Check the property fields.',details:parsed.error.flatten()},{status:400});
+  const d=parsed.data,client=db()!,launch=await launchSchemaAvailable();
+  if (!launch && (d.status==='published' || d.region || d.review_status || d.publication_authorized)) return NextResponse.json({error:'Apply the Ghana launch migration before publishing or saving structured fields. Drafts and media remain available.'},{status:409});
+  const id=d.id || randomUUID();
+  const core={title:d.title,slug:d.slug,category:d.category,location:d.location,price:d.price===''?null:d.price,currency:'GHS',image:d.image,images:d.images.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),beds:d.beds===''?null:d.beds,baths:d.baths===''?null:d.baths,description:d.description,status:d.status,updated_at:new Date().toISOString()};
+  const features={plot_size_sqm:d.plot_size_sqm===''?null:d.plot_size_sqm,building_size_sqm:d.building_size_sqm===''?null:d.building_size_sqm,tenure:d.tenure,documentation_status:d.documentation_status,amenities:d.amenities.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).slice(0,60)};
+  if (launch) {
+    const {data:savedId,error}=await client.rpc('save_property_launch',{actor:person.id,p:{...core,...features,id:d.id,region:d.region,city:d.city||'',locality:d.locality||'',approximate_address:d.approximate_address||'',property_type:d.property_type||'',availability:d.availability||'unknown',featured:d.featured==='on',review_status:d.review_status||'draft',publication_authorized:d.publication_authorized==='on'}});
+    if (error) return NextResponse.json({error:'Could not save this property. Check the unique slug and migration. Your changes were not committed.'},{status:400});
+    return NextResponse.redirect(new URL(`/admin/properties/${savedId}`,req.headers.get('origin')!),303);
+  }
+  const result=d.id ? await client.from('properties').update(core).eq('id',id).select('id').single() : await client.from('properties').insert({...core,id}).select('id').single();
+  if (result.error) return NextResponse.json({error:'Could not save property. Check that the slug is unique.'},{status:400});
+  const spec=await client.from('property_features').upsert({property_id:id,...features},{onConflict:'property_id'});
+  if(spec.error) return NextResponse.json({error:`Property saved as ${d.status}, but specifications could not be saved. Reopen the editor and retry.`,id},{status:503});
+  await client.from('audit_logs').insert({actor_id:person.id,entity_type:'property',entity_id:id,action:d.id?'update':'create',details:{status:d.status}});
+  return NextResponse.redirect(new URL(`/admin/properties/${id}`,req.headers.get('origin')!),303);
 }

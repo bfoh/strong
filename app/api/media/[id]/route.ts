@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { db } from '@/lib/server';
+import { db, launchSchemaAvailable } from '@/lib/server';
 import { staff, canEditProperties } from '@/lib/admin-auth';
 import { parseStorageReference, mimeForExtension } from '@/lib/media';
 export const runtime = 'nodejs';
@@ -14,7 +14,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const stored = parseStorageReference(media.url);
   if (!stored || stored.mediaId !== media.id || stored.propertyId !== media.property_id) return unavailable();
   const property = media.properties as unknown as { status: string } | null;
-  const isPublic = stored.visibility === 'public' && media.kind !== 'document' && property?.status === 'published';
+  let isPublic = stored.visibility === 'public' && media.kind !== 'document' && property?.status === 'published';
+  if (isPublic && await launchSchemaAvailable()) {
+    const approved = await client.from('properties').select('id').eq('id',media.property_id).eq('status','published').eq('review_status','approved').eq('publication_authorized',true).eq('availability','available').maybeSingle();
+    isPublic = !approved.error && Boolean(approved.data);
+  }
   if (!isPublic) { const person = await staff(); if (!person || !canEditProperties(person)) return unavailable(); }
   const range = req.headers.get('range');
   if (range && !/^bytes=\d*-\d*$/.test(range)) return new NextResponse(null, { status: 416 });

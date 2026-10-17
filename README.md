@@ -1,6 +1,14 @@
 # Strong Properties — Architectural Light
 
-The approved interactive house experience is the public `/` homepage. Vercel production URL: [strong-eta.vercel.app](https://strong-eta.vercel.app/). Its three rooms, property-angle viewer, editable dashboard controls and private enquiry storage are documented in the [House homepage handoff](docs/HOUSE_HOMEPAGE_HANDOFF.md). Run `npm run build` and `npm run start` for a normal production server; no local-preview flag is required for the homepage, its images or enquiry endpoint. `/preview/house` is a separate local-only preview, available with `STRONG_HOUSE_LOCAL_PREVIEW=1`. Source is maintained at [bfoh/strong](https://github.com/bfoh/strong). The previous homepage source is retained in `production/house-v1/previous-homepage.tsx.txt`; the sections below include historical homepage work.
+The public `/` homepage now serves Ghana-wide property discovery with the supplied 451-frame architectural film, real published inventory only, enquiry capture and a fast `/tv` campaign route. Production: [strong-eta.vercel.app](https://strong-eta.vercel.app/). Source: [bfoh/strong](https://github.com/bfoh/strong).
+
+Read the current [Phase One launch handoff](docs/GHANA_LAUNCH_HANDOFF.md) and [pre-change audit](docs/GHANA_LAUNCH_AUDIT.md) before using older reports. The legacy three-room house experience remains loopback-only at `/preview/house`; its dashboard editor applies only to that preview. Enable `STRONG_HOUSE_LOCAL_PREVIEW=1` on a local production server to inspect it. No preview flag is needed for `/`, `/tv`, the catalogue or enquiries.
+
+Run `npm run typecheck`, `npm run lint`, `npm test`, then `npm run build`. Start with `npm start`. Use the existing Supabase server configuration and a verified `NEXT_PUBLIC_SITE_URL`; never put a service key in a public variable. The additive launch migration must be applied before new structured fields and publication can be enabled. Until then, staff can prepare drafts, specifications and private media.
+
+Public acceptance: `npx playwright test tests/browser/ghana-launch.spec.ts tests/browser/public.spec.ts tests/browser/house-deployment.spec.ts`. The live owned-fixture suite is opt-in with `STRONG_LIVE_QA=1`; it reuses an existing staff account and removes its own private test records. Historical house suites need the local preview flag; configured catalogue suites need their test-only Supabase substitute. Do not run live write suites indiscriminately.
+
+The sections below document historical implementation stages; they do not describe the active homepage.
 
 The repository contains application code, required public assets, generated house sources and house verification evidence. Local credentials, build output, reference-video downloads and raw recordings are excluded. The compact integration ZIP is generated locally with `python3 scripts/house/package-source.py`; the GitHub repository itself contains the full application source.
 

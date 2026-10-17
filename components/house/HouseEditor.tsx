@@ -13,7 +13,7 @@ export default function HouseEditor({ initial }: { initial: HouseSettings }) {
     try {
       const response = await fetch('/api/admin/house-settings', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(value) });
       const result = await response.json(); if (!response.ok) throw Error(result.error);
-      setFeedback('Saved. Reload the homepage to see your changes.');
+      setFeedback('Saved. Reload the private house preview to see your changes.');
     } catch (error) { setFeedback(error instanceof Error ? error.message : 'Settings could not be saved.'); }
     finally { setBusy(false); }
   }
@@ -24,13 +24,13 @@ export default function HouseEditor({ initial }: { initial: HouseSettings }) {
       const response = await fetch('/api/admin/house-images', { method: 'POST', body });
       const result = await response.json(); if (!response.ok) throw Error(result.error);
       setValue(current => ({ ...current, images: { ...current.images, [key]: result.url } }));
-      setFeedback('Image uploaded. Save homepage settings to use it on the homepage.');
+      setFeedback('Image uploaded. Save preview settings to use it in the private house preview.');
     } catch (error) { setFeedback(error instanceof Error ? error.message : 'The image could not be uploaded.'); }
     finally { setBusy(false); }
   }
   return <details className="admin-panel house-editor" style={{ marginTop: 32 }}>
-    <summary style={{ cursor: 'pointer', fontSize: 22 }}>House homepage · content, images & motion</summary>
-    <p>Changes apply to the homepage. <a href={HOUSE_BASE} target="_blank" rel="noreferrer">Open homepage ↗</a></p>
+    <summary style={{ cursor: 'pointer', fontSize: 22 }}>Private house preview · content, images & motion</summary>
+    <p>These controls apply only to the legacy private house preview, not the Ghana homepage. <a href={HOUSE_BASE} target="_blank" rel="noreferrer">Open house preview ↗</a></p>
     <form onSubmit={save} aria-busy={busy}>
       <fieldset><legend>Editable content</legend>{text('headline', 'Exterior headline')}{text('introduction', 'Business introduction', true)}{text('listingTitle', 'Listings heading')}{text('teamTitle', 'Team heading')}{text('teamDescription', 'Team biography', true)}{text('contactTitle', 'Contact heading')}
         {(['listings', 'team', 'contact'] as const).map(key => <label key={key}>{names[key]} door label<input value={value.labels[key]} maxLength={30} onChange={event => setValue({ ...value, labels: { ...value.labels, [key]: event.target.value } })}/></label>)}

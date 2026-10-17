@@ -9,7 +9,7 @@ test('production homepage renders for a deployed host while the draft remains pr
   const home = await request.get('/', { headers });
   expect(home.status()).toBe(200);
   const html = await home.text();
-  for (const text of ['A place for what’s next.', 'Listings', 'Our Team', 'Contact Us', 'The Garden Residence']) expect(html).toContain(text);
+  for (const text of ['Find Your Place', 'in Ghana.', 'Discover homes, land', 'Explore Properties']) expect(html).toContain(text);
   expect(html).not.toMatch(/(?:property="og:image"|rel="canonical")[^>]*(?:127\.0\.0\.1|localhost|strong-properties\.example)/);
   const exterior = await request.get('/images/house-v1/exterior-desktop.webp', { headers });
   expect(exterior.status()).toBe(200);

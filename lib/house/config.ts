@@ -1,6 +1,6 @@
 import { z } from 'zod';
 export const HOUSE_VERSION = '1.0.2';
-export const HOUSE_BASE = '/';
+export const HOUSE_BASE = '/preview/house';
 export const ASSET_BASE = '/images/house-v1';
 export const imageOptions = ['exterior', 'hallway', 'listings', 'team', 'contact'] as const;
 const sceneImage = z.string().max(200).refine(value => imageOptions.includes(value as typeof imageOptions[number]) || /^\/api\/house-images\/[0-9a-f-]{36}$/.test(value), 'Choose a scene or upload a homepage image.');

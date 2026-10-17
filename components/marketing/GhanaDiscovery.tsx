@@ -1,0 +1,6 @@
+import { ghanaRegions, regionSlug } from '@/lib/ghana';
+import Link from './TrackedLink';
+export default function GhanaDiscovery({ locations }: { locations: {region:string;location:string;city:string;count:number}[] }) {
+  const available=ghanaRegions.filter(region=>locations.some(item=>item.region===region&&item.count>0));
+  return <section className="ghana-discovery"><div><p className="kicker">A whole country of possibility</p><h2 className="display">Ghana. <em>One search.</em></h2><p>From an urban home to land for a future project, start with the location that matters to you.</p><p>We serve buyers exploring Ghana. Regional links appear as genuine listings become available.</p><Link className="link-arrow" href="/properties">Search across Ghana ↗</Link></div><div className="discovery-regions">{available.length?available.map(region=><Link key={region} href={'/locations/'+regionSlug(region)}><span>{region}</span><span>Explore published properties ↗</span></Link>):<div className="discovery-note"><p className="kicker">Find your point of view</p><h3>Greater Accra.<br/>Ashanti. <em>And beyond.</em></h3><p>Choose a city or locality in the search. We’ll show available published listings, with their confirmed location details.</p><small>Locations describe our search coverage, not current inventory.</small></div>}</div></section>;
+}

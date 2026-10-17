@@ -7,7 +7,7 @@ import { databaseConfigured, siteUrl } from '@/lib/config';
 import type { SearchParams } from '@/lib/catalogue';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Book a Viewing', description: 'Request a viewing of a published Strong Properties listing in Kumasi. Share your preferred date and time and the team will confirm with you.', alternates: siteUrl() ? { canonical: '/book-viewing' } : undefined };
+export const metadata: Metadata = { title: 'Book a Viewing', description: 'Request a viewing of a published Strong Properties listing in Ghana. Share your preferred date and time and the team will confirm with you.', alternates: siteUrl() ? { canonical: '/book-viewing' } : undefined };
 
 export default async function BookViewing({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams, options = await viewingOptions();

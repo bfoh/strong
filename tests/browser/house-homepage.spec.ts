@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
 
-test('house homepage has one site shell and keeps direct and return navigation', async ({ page, request }, info) => {
-  await page.goto('/', { waitUntil: 'networkidle' });
+test('private house preview has one site shell and keeps direct and return navigation', async ({ page, request }, info) => {
+  await page.goto('/preview/house', { waitUntil: 'networkidle' });
   await expect(page.locator('.house-home')).toHaveAttribute('data-enhanced', 'true');
   await expect(page.locator('header')).toHaveCount(1);
   await expect(page.locator('footer')).toHaveCount(1);
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('h1')).toHaveText('A place for what’s next.');
   await page.locator('.house-actions a[href="#contact"]').click();
-  await expect(page).toHaveURL(/\/#contact$/);
+  await expect(page).toHaveURL(/\/preview\/house#contact$/);
   await expect(page.locator('#view-contact')).toBeFocused();
   await page.locator('#contact .house-back').click();
   await expect(page.locator('.house-home')).toHaveAttribute('data-view', 'hallway');
@@ -28,6 +28,6 @@ test('house homepage has one site shell and keeps direct and return navigation',
       form: { requestId: randomUUID(), name: '', phone: '' },
     });
     expect(acknowledgement.status()).toBe(400);
-    expect(await acknowledgement.text()).toContain('href="/#contact"');
+    expect(await acknowledgement.text()).toContain('href="/contact"');
   }
 });

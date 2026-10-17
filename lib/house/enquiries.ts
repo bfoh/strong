@@ -1,4 +1,5 @@
 import 'server-only';
+import {mapLimited} from '@/lib/lead-reporting';
 import { createHash } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -28,7 +29,7 @@ export async function houseEnquiryHandler(req: Request) {
   if (!uuid.safeParse(id).success) return NextResponse.json({ error: 'Please refresh the form and try again.' }, { status: 400 });
   if (data.requestType === 'viewing' && !data.propertyId) return NextResponse.json({ error: 'Choose a published property to request a viewing.' }, { status: 400 });
   if (data.propertyId) {
-    const payload = { name: data.name, phone: data.phone, email: data.email || '', message: data.message || data.interest || '', website: data.website || '', propertyId: data.propertyId };
+    const payload = { name: data.name, phone: data.phone, email: data.email || '', message: data.message || data.interest || '', website: data.website || '', propertyId: data.propertyId, ...Object.fromEntries(['countryOfResidence','preferredContact','remoteViewing','attribution'].filter(key => data[key as keyof typeof data] !== undefined).map(key => [key,data[key as keyof typeof data]])) };
     const viewing = data.requestType === 'viewing';
     return publicLeadHandler(viewing ? 'appointments' : 'enquiries')(new Request(req.url, { method: 'POST', headers: req.headers, body: JSON.stringify({ ...payload, ...(viewing ? { preferredDate: data.preferredDate, preferredTime: data.preferredTime } : {}) }) }));
   }
@@ -69,12 +70,12 @@ export async function generalEnquiries() {
   const storage = await privateHouseStorage();
   const listed = await storage.list('enquiries', { limit: 200, sortBy: { column: 'created_at', order: 'desc' } });
   if (listed.error) throw Error('General enquiries could not be loaded.');
-  return Promise.all((listed.data || []).filter(f => uuid.safeParse(f.name.replace('.json', '')).success).map(async f => {
+  return mapLimited((listed.data || []).filter(f => uuid.safeParse(f.name.replace('.json', '')).success),async f => {
     const { data, error } = await storage.download('enquiries/' + f.name);
     if (error || !data) throw Error('An enquiry could not be loaded.');
     const record = JSON.parse(await data.text());
     return { ...houseEnquirySchema.parse(recordWithoutInternal(record)), id: uuid.parse(record.id), createdAt: String(record.createdAt) };
-  }));
+  });
 }
 function recordWithoutInternal(record: GeneralEnquiry) {
   const { id, createdAt, signature, ...fields } = record;

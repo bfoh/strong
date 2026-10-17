@@ -3,9 +3,16 @@ import { createClient } from '@supabase/supabase-js';
 import { cache } from 'react';
 import { supabaseConfig } from './supabase-config';
 import { publicMediaUrl, type MediaRecord } from './media';
-import { demoProperties, type Property, type PropertyDetail, type PropertyFeatures } from './data';
-import { PAGE_SIZE, filterFixtures, type CatalogueFilters } from './catalogue';
+import { type Property, type PropertyDetail, type PropertyFeatures } from './data';
+import { PAGE_SIZE, type CatalogueFilters } from './catalogue';
 const fields = 'id,slug,title,category,location,price,currency,description,image,images,beds,baths,status';
+const launchFields = ',region,city,locality,approximate_address,property_type,availability,featured,review_status,publication_authorized,updated_at';
+export const launchSchemaAvailable = cache(async () => {
+  const client = db(); if (!client) return false;
+  const result = await client.from('properties').select('region,review_status,publication_authorized,availability,featured').eq('status','published').limit(0);
+  if(result.error && !['42703','PGRST204'].includes(result.error.code))throw Error('Publication controls could not be checked.');
+  return !result.error;
+});
 // Filter before awaiting the query: development RSC diagnostics can serialize query results.
 // Private documents and unpublished gallery assets must never enter a public render's data.
 const publicMediaFilter = 'url.not.like.sp-storage:*,url.like.sp-storage://strong-property-media/*/public/*';
@@ -15,21 +22,28 @@ export function db() {
 }
 export async function properties(limit = 6): Promise<Property[]> {
   const client = db();
-  if (!client) return demoProperties.slice(0, limit);
-  const { data, error } = await client.from('properties').select(fields).eq('status', 'published').order('created_at', { ascending: false }).limit(limit);
+  if (!client) return [];
+  const launch = await launchSchemaAvailable();
+  let query = client.from('properties').select(fields + (launch ? launchFields : '')).eq('status','published');
+  if (launch) query = query.eq('review_status','approved').eq('publication_authorized',true).eq('availability','available').order('featured',{ascending:false});
+  const {data,error} = await query.order('created_at',{ascending:false}).limit(limit);
   if (error) throw Error('The property collection could not be loaded. Please try again.');
-  return withGalleryImages((data || []) as Property[]);
+  return withGalleryImages((data || []) as unknown as Property[]);
 }
 export async function catalogue(filters: CatalogueFilters) {
   const client = db(), start = (filters.page - 1) * PAGE_SIZE;
   if (!client) {
-    const all = filterFixtures(demoProperties, filters);
-    return { items: all.slice(start, start + PAGE_SIZE), total: all.length, preview: true };
+    return { items: [] as Property[], total: 0, preview: false, unavailable: true };
   }
-  let query = client.from('properties').select(fields, { count: 'exact' }).eq('status', 'published');
+  const launch = await launchSchemaAvailable();
+  if (filters.region && !launch) return { items: [] as Property[], total: 0, preview: false, unavailable: false };
+  let query = client.from('properties').select(fields + (launch ? launchFields : ''), { count: 'exact' }).eq('status', 'published');
+  if (launch) query = query.eq('review_status','approved').eq('publication_authorized',true).eq('availability','available');
   if (filters.category) query = query.eq('category', filters.category);
   if (filters.location) query = query.eq('location', filters.location);
-  if (filters.q) query = query.or(`title.ilike.%${filters.q}%,location.ilike.%${filters.q}%`);
+  if (filters.region) query = query.eq('region',filters.region);
+  if (filters.beds) query = query.gte('beds',Number(filters.beds));
+  if (filters.q) query = query.or(`title.ilike.%${filters.q}%,location.ilike.%${filters.q}%${launch ? `,city.ilike.%${filters.q}%,locality.ilike.%${filters.q}%` : ''}`);
   if (filters.min) query = query.gte('price', Number(filters.min));
   if (filters.max) query = query.lte('price', Number(filters.max));
   if (filters.sort === 'title') query = query.order('title');
@@ -37,11 +51,15 @@ export async function catalogue(filters: CatalogueFilters) {
   else query = query.order('created_at', { ascending: false });
   const { data, error, count } = await query.order('id').range(start, start + PAGE_SIZE - 1);
   if (error) throw Error('The property collection could not be loaded. Please try again.');
-  return { items: await withGalleryImages((data || []) as Property[]), total: count || 0, preview: false };
+  return { items: await withGalleryImages((data || []) as unknown as Property[]), total: count || 0, preview: false, unavailable: false };
 }
 export const propertyLocations = cache(async (): Promise<string[]> => {
   const client = db();
   if (!client) return [];
+  if (await launchSchemaAvailable()) {
+    const {data,error} = await client.rpc('public_property_discovery');
+    return error ? [] : [...new Set((data || []).map((p: {location:string})=>p.location))].sort() as string[];
+  }
   const { data, error } = await client.rpc('public_property_locations');
   if (error) {
     const fallback = await client.from('properties').select('location').eq('status', 'published').limit(1000);
@@ -52,11 +70,12 @@ export const propertyLocations = cache(async (): Promise<string[]> => {
 });
 export const property = cache(async (slug: string): Promise<PropertyDetail | undefined> => {
   const client = db();
-  if (!client) {
-    const item = demoProperties.find(p => p.slug === slug);
-    return item ? { ...item, media: [] } : undefined;
-  }
-  const { data, error } = await client.from('properties').select(fields).eq('status', 'published').eq('slug', slug).maybeSingle();
+  if (!client) return undefined;
+  const launch = await launchSchemaAvailable();
+  let query = client.from('properties').select(fields + (launch ? launchFields : '')).eq('status','published').eq('slug',slug);
+  if (launch) query = query.eq('review_status','approved').eq('publication_authorized',true).eq('availability','available');
+  const { data: row, error } = await query.maybeSingle();
+  const data = row as unknown as Property | null;
   if (error) throw Error('This property could not be loaded. Please try again.');
   if (!data) return undefined;
   const [features, media] = await Promise.all([
@@ -70,9 +89,11 @@ export const property = cache(async (slug: string): Promise<PropertyDetail | und
 });
 export async function relatedProperties(item: Property) {
   const client = db();
-  if (!client) return demoProperties.filter(p => p.id !== item.id).slice(0, 2);
-  const { data, error } = await client.from('properties').select(fields).eq('status', 'published').eq('category', item.category).neq('id', item.id).order('created_at', { ascending: false }).limit(3);
-  return error ? [] : withGalleryImages((data || []) as Property[]);
+  if (!client) return [];
+  let query = client.from('properties').select(fields).eq('status','published').eq('category',item.category).neq('id',item.id);
+  if (await launchSchemaAvailable()) query = query.eq('review_status','approved').eq('publication_authorized',true).eq('availability','available');
+  const {data,error}=await query.order('created_at',{ascending:false}).limit(3);
+  return error ? [] : withGalleryImages((data || []) as unknown as Property[]);
 }
 
 async function withGalleryImages(items: Property[]): Promise<Property[]> {
@@ -86,7 +107,7 @@ async function withGalleryImages(items: Property[]): Promise<Property[]> {
 }
 
 export type FeaturedProperty = Property & { plotSize: number | null; buildingSize: number | null };
-// The schema has no editorial "featured" flag, so the homepage presents the most recently published listings.
+// Approved inventory is ordered by featured status when the launch schema is installed.
 export async function featuredProperties(limit = 5): Promise<FeaturedProperty[]> {
   const items = await properties(limit), client = db();
   if (!client || items.length === 0) return items.map(p => ({ ...p, plotSize: null, buildingSize: null }));
@@ -100,7 +121,14 @@ export type ViewingOption = Pick<Property, 'id' | 'slug' | 'title' | 'location' 
 export async function viewingOptions(): Promise<ViewingOption[]> {
   const client = db();
   if (!client) return [];
-  const { data, error } = await client.from('properties').select('id,slug,title,location,category').eq('status', 'published').order('title').limit(300);
+  let query = client.from('properties').select('id,slug,title,location,category').eq('status','published');
+  if (await launchSchemaAvailable()) query = query.eq('review_status','approved').eq('publication_authorized',true).eq('availability','available');
+  const { data, error } = await query.order('title').limit(300);
   if (error) throw Error('Published properties could not be loaded. Please try again.');
   return (data || []) as ViewingOption[];
+}
+export async function publishedDiscovery(): Promise<{region:string;location:string;city:string;count:number}[]> {
+  const client=db();if(!client||!await launchSchemaAvailable())return [];
+  const {data,error}=await client.rpc('public_property_discovery');
+  return error?[]:(data||[]).map((p:{region:string;location:string;city:string;property_count:number})=>({...p,count:Number(p.property_count)}));
 }

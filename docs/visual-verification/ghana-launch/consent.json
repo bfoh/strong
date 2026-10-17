@@ -1,0 +1,12 @@
+{
+  "localTestIds": true,
+  "googleScriptStubbed": true,
+  "externalMeasurementRequestsSent": false,
+  "noTagBeforeConsent": true,
+  "essentialOnlyNoTag": true,
+  "analyticsEventsAfterOptIn": true,
+  "adConversionRequiresAdConsent": true,
+  "contactDataAndSearchTextExcluded": true,
+  "revocationStopsEvents": true,
+  "adminHasNoTag": true
+}

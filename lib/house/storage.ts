@@ -13,6 +13,6 @@ export const houseSettings = cache(async (): Promise<HouseSettings> => {
 export async function privateHouseStorage() {
   const client = db(); if (!client) throw Error('Storage is unavailable.');
   const { data, error } = await client.storage.getBucket(HOUSE_BUCKET);
-  if (error || !data || data.public) throw Error('Private enquiry storage is unavailable.');
+  if (error || !data || data.public !== false) throw Error('Private enquiry storage is unavailable.');
   return client.storage.from(HOUSE_BUCKET);
 }

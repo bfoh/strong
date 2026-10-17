@@ -1,0 +1,86 @@
+{
+  "samples": [
+    {
+      "progress": 0,
+      "frame": "1",
+      "requested": "1",
+      "cache": 6,
+      "inflight": 0,
+      "top": 0,
+      "hash": "-854237262"
+    },
+    {
+      "progress": 0.25,
+      "frame": "114",
+      "requested": "114",
+      "cache": 14,
+      "inflight": 0,
+      "top": 0,
+      "hash": "1066578026"
+    },
+    {
+      "progress": 0.5,
+      "frame": "226",
+      "requested": "226",
+      "cache": 16,
+      "inflight": 0,
+      "top": 0,
+      "hash": "-816698570"
+    },
+    {
+      "progress": 0.75,
+      "frame": "339",
+      "requested": "339",
+      "cache": 16,
+      "inflight": 2,
+      "top": 0,
+      "hash": "944319965"
+    },
+    {
+      "progress": 1,
+      "frame": "451",
+      "requested": "451",
+      "cache": 16,
+      "inflight": 0,
+      "top": 0,
+      "hash": "1193090536"
+    },
+    {
+      "progress": 0.75,
+      "frame": "339",
+      "requested": "339",
+      "cache": 16,
+      "inflight": 0,
+      "top": 0,
+      "hash": "944319965"
+    },
+    {
+      "progress": 0.5,
+      "frame": "226",
+      "requested": "226",
+      "cache": 16,
+      "inflight": 0,
+      "top": 0,
+      "hash": "-816698570"
+    },
+    {
+      "progress": 0.25,
+      "frame": "114",
+      "requested": "114",
+      "cache": 16,
+      "inflight": 0,
+      "top": 0,
+      "hash": "1066578026"
+    },
+    {
+      "progress": 0,
+      "frame": "1",
+      "requested": "1",
+      "cache": 16,
+      "inflight": 0,
+      "top": 0,
+      "hash": "-854237262"
+    }
+  ],
+  "requestedFrameFiles": 65
+}

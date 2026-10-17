@@ -1,0 +1,299 @@
+{
+  "conditions": {
+    "browser": "installed Chrome",
+    "server": "local production build",
+    "mobile": "390x844, DPR 2, 150ms RTT, 3Mbps down / 750Kbps up, CPU 4x slowdown",
+    "desktop": "1440x900, DPR 1, unthrottled",
+    "samples": 3,
+    "fieldData": false,
+    "physicalIOS": false
+  },
+  "samples": [
+    {
+      "device": "mobile",
+      "sample": 1,
+      "startup": {
+        "lcp": 1132,
+        "cls": 0,
+        "longTasks": [
+          434,
+          197,
+          55,
+          66,
+          50
+        ],
+        "imageBytes": 264998,
+        "totalEncodedBytes": 549123,
+        "frameFiles": 7,
+        "decoded": 6,
+        "jsHeapUsed": 5554199
+      },
+      "seeks": [
+        {
+          "progress": 0.25,
+          "settleMs": 339
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 300
+        },
+        {
+          "progress": 0.75,
+          "settleMs": 298
+        },
+        {
+          "progress": 1,
+          "settleMs": 451
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 71
+        },
+        {
+          "progress": 0,
+          "settleMs": 495
+        }
+      ],
+      "cache": {
+        "decoded": 10,
+        "inflight": 1
+      }
+    },
+    {
+      "device": "mobile",
+      "sample": 2,
+      "startup": {
+        "lcp": 1068,
+        "cls": 0,
+        "longTasks": [
+          200,
+          66
+        ],
+        "imageBytes": 264998,
+        "totalEncodedBytes": 549123,
+        "frameFiles": 7,
+        "decoded": 6,
+        "jsHeapUsed": 5539467
+      },
+      "seeks": [
+        {
+          "progress": 0.25,
+          "settleMs": 335
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 350
+        },
+        {
+          "progress": 0.75,
+          "settleMs": 288
+        },
+        {
+          "progress": 1,
+          "settleMs": 455
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 69
+        },
+        {
+          "progress": 0,
+          "settleMs": 493
+        }
+      ],
+      "cache": {
+        "decoded": 10,
+        "inflight": 1
+      }
+    },
+    {
+      "device": "mobile",
+      "sample": 3,
+      "startup": {
+        "lcp": 1052,
+        "cls": 0,
+        "longTasks": [
+          196,
+          54,
+          64,
+          54
+        ],
+        "imageBytes": 264998,
+        "totalEncodedBytes": 549123,
+        "frameFiles": 7,
+        "decoded": 6,
+        "jsHeapUsed": 5561891
+      },
+      "seeks": [
+        {
+          "progress": 0.25,
+          "settleMs": 328
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 303
+        },
+        {
+          "progress": 0.75,
+          "settleMs": 297
+        },
+        {
+          "progress": 1,
+          "settleMs": 452
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 71
+        },
+        {
+          "progress": 0,
+          "settleMs": 493
+        }
+      ],
+      "cache": {
+        "decoded": 10,
+        "inflight": 1
+      }
+    },
+    {
+      "device": "desktop",
+      "sample": 1,
+      "startup": {
+        "lcp": 444,
+        "cls": 0.00007182891803840878,
+        "longTasks": [
+          108
+        ],
+        "imageBytes": 750558,
+        "totalEncodedBytes": 1053065,
+        "frameFiles": 7,
+        "decoded": 6,
+        "jsHeapUsed": 5558510
+      },
+      "seeks": [
+        {
+          "progress": 0.25,
+          "settleMs": 108
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 109
+        },
+        {
+          "progress": 0.75,
+          "settleMs": 82
+        },
+        {
+          "progress": 1,
+          "settleMs": 128
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 103
+        },
+        {
+          "progress": 0,
+          "settleMs": 125
+        }
+      ],
+      "cache": {
+        "decoded": 16,
+        "inflight": 0
+      }
+    },
+    {
+      "device": "desktop",
+      "sample": 2,
+      "startup": {
+        "lcp": 352,
+        "cls": 0.00007182891803840878,
+        "longTasks": [
+          105,
+          50
+        ],
+        "imageBytes": 750558,
+        "totalEncodedBytes": 1053065,
+        "frameFiles": 7,
+        "decoded": 6,
+        "jsHeapUsed": 5547402
+      },
+      "seeks": [
+        {
+          "progress": 0.25,
+          "settleMs": 96
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 100
+        },
+        {
+          "progress": 0.75,
+          "settleMs": 101
+        },
+        {
+          "progress": 1,
+          "settleMs": 102
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 61
+        },
+        {
+          "progress": 0,
+          "settleMs": 120
+        }
+      ],
+      "cache": {
+        "decoded": 16,
+        "inflight": 0
+      }
+    },
+    {
+      "device": "desktop",
+      "sample": 3,
+      "startup": {
+        "lcp": 340,
+        "cls": 0.00007182891803840878,
+        "longTasks": [
+          108,
+          51
+        ],
+        "imageBytes": 750558,
+        "totalEncodedBytes": 1053065,
+        "frameFiles": 7,
+        "decoded": 6,
+        "jsHeapUsed": 5591506
+      },
+      "seeks": [
+        {
+          "progress": 0.25,
+          "settleMs": 106
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 117
+        },
+        {
+          "progress": 0.75,
+          "settleMs": 83
+        },
+        {
+          "progress": 1,
+          "settleMs": 134
+        },
+        {
+          "progress": 0.5,
+          "settleMs": 97
+        },
+        {
+          "progress": 0,
+          "settleMs": 104
+        }
+      ],
+      "cache": {
+        "decoded": 16,
+        "inflight": 0
+      }
+    }
+  ]
+}

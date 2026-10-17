@@ -5,6 +5,9 @@ export type Property = {
   price: number | null; currency: string; description: string; image: string;
   images: string[]; beds: number | null; baths: number | null; status: string;
   preview?: boolean;
+  region?: string | null; city?: string | null; locality?: string | null; approximate_address?: string | null;
+  property_type?: string | null; availability?: string; featured?: boolean; review_status?: string;
+  publication_authorized?: boolean; updated_at?: string;
 };
 export type PropertyFeatures = {
   plot_size_sqm: number | null; building_size_sqm: number | null;

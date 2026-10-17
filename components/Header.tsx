@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import Link from '@/components/marketing/TrackedLink';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
@@ -8,6 +8,7 @@ import Brand from './layout/Brand';
 const links = [
   { href: '/properties', label: 'Properties' },
   { href: '/properties?category=land', label: 'Buy Land' },
+  { href: '/properties?category=residential', label: 'Residential' },
   { href: '/properties?category=commercial', label: 'Commercial' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
@@ -46,7 +47,7 @@ export default function Header() {
         {links.map(link => <Link key={link.href} href={link.href} onClick={() => dialog.current?.close()}>{link.label}<ArrowUpRight size={20} strokeWidth={1.4} aria-hidden="true"/></Link>)}
       </nav>
       <Link className="btn btn-gold site-menu-cta" href="/book-viewing" onClick={() => dialog.current?.close()}>Book a Viewing <ArrowUpRight size={16} aria-hidden="true"/></Link>
-      <p className="site-menu-foot">Kumasi · Ghana</p>
+      <p className="site-menu-foot">Ghana · At home, and abroad</p>
     </dialog>
   </>;
 }
