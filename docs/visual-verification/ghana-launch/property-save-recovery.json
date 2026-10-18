@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-18T01:00:46.081Z",
+  "build": "passed",
+  "lint": "passed",
+  "typecheck": "passed",
+  "unitTests": 43,
+  "productionBuildBrowserTests": 12,
+  "propertyEditorBrowserCases": 8,
+  "mediaReviewRegressionCases": 4,
+  "checks": [
+    "All six missing publication requirements are reported on their own fields.",
+    "Client validation retains entries, focuses the error summary and links to each field.",
+    "Draft creation and updates save unknown facts as null.",
+    "Server-side field validation, unique-slug conflict recovery and native error pages work.",
+    "Complete synthetic publication still requires media identity confirmation.",
+    "Existing stale-media recovery remains functional."
+  ],
+  "positivePublicationBackend": "loopback-only synthetic Supabase substitute",
+  "realPropertiesPublished": 0,
+  "productionVerification": {
+    "verified": false,
+    "reason": "Awaiting deployment and scoped private-draft verification."
+  },
+  "passed": true
+}

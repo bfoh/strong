@@ -25,6 +25,10 @@ When new evidence identifies an original from an unassigned group, use `scripts/
 
 ## Review and publication
 
+In **Properties → Edit**, keep **Publication status → Draft** while details are still being confirmed. Drafts can retain blank prices, bedrooms, bathrooms and incomplete location/review fields. To publish, supply the confirmed **Ghana region**, **City / town** and **Property type**, set **Availability → Available**, choose **Review status → Approved by authorized staff**, confirm permission to publish, and complete the imported-media identity review. Only confirm facts and permission that have actually been checked.
+
+The property editor lists each missing publishing requirement beside its field and in a linked error summary. Saving errors keep entered details in the form. Choose **Draft** to save unfinished information. A duplicate URL slug or unresolved media review gets a specific message; API validation and the database publication gates still apply. Native forms without JavaScript show a readable error page; use the browser's Back button to return to entered details.
+
 - Editors, managers and administrators can open `/admin/media-review`. Agents and anonymous visitors cannot access the report, originals, thumbnails or frames.
 - The report preserves the supplied confidence, group, filename, matching notes, duplicate links, missing descriptions, proposed source details and later visual exceptions. These never enter public property props or pages.
 - Each supported candidate gets a **draft**, with unknown verified facts left null. Unsupported groups remain unassigned rather than becoming speculative listings.
@@ -43,6 +47,8 @@ Run `npm run lint`, `npm run typecheck`, `npm test` and `npm run build`. The uni
 Public catalogue layout, gallery, WhatsApp URLs and filter behaviour are tested locally with explicitly labelled synthetic fixtures, never by publishing fake stock to production.
 
 For the review form's save/recovery regression, start `node tests/support/mock-media-review.mjs` (loopback port 3004), then run the application on loopback port 3003 with dummy Supabase URL/key variables pointing to that mock and `NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3003`. Run `MEDIA_REVIEW_TEST_URL=http://127.0.0.1:3003 npx playwright test tests/browser/media-review-save.spec.ts`. The four desktop/mobile cases exercise the real app/API against synthetic data: stale rejection, preserved explanation, refreshed gallery/checkbox, successful confirmation and native no-JavaScript recovery. These tests never use or approve real property inventory.
+
+Run `tests/browser/property-save.spec.ts` against the same loopback setup to check the property editor: all six publication errors, preserved entries, draft saves, duplicate-slug recovery, new-draft redirection, server-side validation, native errors and the mandatory media identity gate. Successful synthetic publication is confined to the local mock. `STRONG_MIGRATION_QA=1 node --env-file=/secure/path/production.env scripts/verify-launch-migration.mjs` is a separate production check: it creates, updates and removes one owned private draft, checks publication rejection, and compares real inventory metadata before/after. It never approves or publishes real inventory.
 
 The 17 October recovery fix passed the optimized production build, lint, typecheck, 40 unit tests and all four browser cases. Before the fix, fresh production editor signatures matched all twelve current galleries; the reported error was consistent with an older review page. No signature validation was bypassed. See [the verification receipt](visual-verification/ghana-launch/media-review-recovery.json).
 
