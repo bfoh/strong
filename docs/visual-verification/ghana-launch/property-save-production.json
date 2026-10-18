@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-18T01:01:53.471Z",
+  "base": "https://strong-eta.vercel.app",
+  "checks": [
+    "Deployed structured-location controls and enhanced editor are available",
+    "Production staff form creates a private draft through the transactional save RPC",
+    "Production staff update retains structure and saves audit history",
+    "Incomplete publication stays in the editor with specific errors and retained entries",
+    "Anonymous reads and incomplete publication remain blocked",
+    "Native errors are readable and existing imported review remains available"
+  ],
+  "publishedFixtures": false,
+  "notificationsSent": false,
+  "cleanup": {
+    "ownedDraftAndAuditRemoved": true,
+    "realPropertiesPreserved": 12,
+    "publishedProperties": 0
+  },
+  "passed": true
+}

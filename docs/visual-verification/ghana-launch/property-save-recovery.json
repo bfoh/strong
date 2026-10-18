@@ -18,8 +18,25 @@
   "positivePublicationBackend": "loopback-only synthetic Supabase substitute",
   "realPropertiesPublished": 0,
   "productionVerification": {
-    "verified": false,
-    "reason": "Awaiting deployment and scoped private-draft verification."
+    "checkedAt": "2026-10-18T01:01:53.471Z",
+    "verified": true,
+    "deployedSourceCommit": "00cea85c5fbd99d316f08679e6fce66eb6874dfd",
+    "deploymentId": 7148102635,
+    "checks": [
+      "Deployed structured-location controls and enhanced editor are available",
+      "Production staff form creates a private draft through the transactional save RPC",
+      "Production staff update retains structure and saves audit history",
+      "Incomplete publication stays in the editor with specific errors and retained entries",
+      "Anonymous reads and incomplete publication remain blocked",
+      "Native errors are readable and existing imported review remains available"
+    ],
+    "cleanup": {
+      "ownedDraftAndAuditRemoved": true,
+      "realPropertiesPreserved": 12,
+      "publishedProperties": 0
+    },
+    "propertiesPublishedByTest": 0,
+    "notificationsSent": false
   },
   "passed": true
 }
