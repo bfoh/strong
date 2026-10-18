@@ -24,5 +24,14 @@
     "No real media identity was confirmed or property published by these tests."
   ],
   "positiveSaveBackend": "loopback-only synthetic Supabase substitute",
-  "passed": true
+  "passed": true,
+  "productionRollout": {
+    "checkedAt": "2026-10-18T00:41:44.431Z",
+    "fixCommit": "674837d5073d6344b510b87fc2e5f3d731d51a3a",
+    "observedDeploymentCommit": "1f699d0940bdd6b28483d00c91880c31413e5e0b",
+    "verified": false,
+    "reason": "New form has not deployed",
+    "identityConfirmationsSaved": 0,
+    "propertiesPublished": 0
+  }
 }
