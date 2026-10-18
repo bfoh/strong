@@ -26,12 +26,20 @@
   "positiveSaveBackend": "loopback-only synthetic Supabase substitute",
   "passed": true,
   "productionRollout": {
-    "checkedAt": "2026-10-18T00:41:44.431Z",
+    "checkedAt": "2026-10-18T00:45:43.697Z",
     "fixCommit": "674837d5073d6344b510b87fc2e5f3d731d51a3a",
-    "observedDeploymentCommit": "1f699d0940bdd6b28483d00c91880c31413e5e0b",
-    "verified": false,
-    "reason": "New form has not deployed",
+    "observedDeploymentCommit": "ffb8b2d1ed5cf129336a0a95cbbbeba66b605446",
+    "deploymentId": 7147951885,
+    "verified": true,
+    "checks": [
+      "Updated production form is present with a current gallery snapshot",
+      "Stale submissions stay in the editor and preserve the explanation",
+      "Reload retains the explanation and requires the checkbox again",
+      "Native stale requests receive a readable recovery page",
+      "No production identity receipt or review audit was changed"
+    ],
     "identityConfirmationsSaved": 0,
-    "propertiesPublished": 0
+    "propertiesPublished": 0,
+    "notificationsSent": false
   }
 }
